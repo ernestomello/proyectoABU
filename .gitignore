@@ -43,3 +43,7 @@
 # System Files
 /front-gestionABU/.DS_Store
 /front-gestionABU/Thumbs.db
+
+# personalizado 
+/venvABU
+/venvDanilo
