@@ -1,0 +1,49 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/front-gestionABU/dist
+/front-gestionABU/tmp
+/front-gestionABU/out-tsc
+# Only exists if Bazel was run
+/front-gestionABU/bazel-out
+
+# dependencies
+/front-gestionABU/node_modules
+
+# profiling files
+/front-gestionABU/chrome-profiler-events*.json
+
+# IDEs and editors
+/front-gestionABU/.idea
+/front-gestionABU/.project
+/front-gestionABU/.classpath
+/front-gestionABU/.c9/
+/front-gestionABU/*.launch
+/front-gestionABU/.settings/
+/front-gestionABU/*.sublime-workspace
+
+# IDE - VSCode
+/front-gestionABU/.vscode/*
+/front-gestionABU/!.vscode/settings.json
+/front-gestionABU/!.vscode/tasks.json
+/front-gestionABU/!.vscode/launch.json
+/front-gestionABU/!.vscode/extensions.json
+/front-gestionABU/.history/*
+
+# misc
+/front-gestionABU/.sass-cache
+/front-gestionABU/connect.lock
+/front-gestionABU/coverage
+/front-gestionABU/libpeerconnection.log
+/front-gestionABU/npm-debug.log
+/front-gestionABU/yarn-error.log
+/front-gestionABU/testem.log
+/front-gestionABU/typings
+
+# System Files
+/front-gestionABU/.DS_Store
+/front-gestionABU/Thumbs.db
+
+# personalizado 
+/venvABU
+/venvDanilo
