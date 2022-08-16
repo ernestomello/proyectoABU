@@ -1,3 +1,4 @@
+from calendar import month, month_name
 from unittest.mock import DEFAULT
 from django.db import models
 
@@ -42,3 +43,18 @@ class Socio(models.Model):
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.CASCADE, verbose_name="Categoria Socio")
     def __str__(self):
         return "{}".format(self.id_persona)
+
+class Cuota(models.Model):
+    ESTADO_CUOTA = [
+        ('P','PAGA'),
+        ('N','NO PAGA')
+    ]
+    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
+    estado = models.CharField(max_length=1,choices=ESTADO_CUOTA,default='N')
+    mes_anio = models.DateField(verbose_name="Mes-Año",)
+    fecha_generada = models.DateField(auto_now_add=True)
+    fecha_vencimiento  = models.DateField()
+
+    def anio_mes(self):
+        return "{}/{}".format(self.mes_anio.month,self.mes_anio.year)
+
