@@ -1,0 +1,38 @@
+<mat-card [class.mat-elevation-z8]=true>
+  <mat-card-title>Inicio de sesión</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="datosLogin" (submit)="enviar()">
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Escriba su correo</mat-label>
+          <input matInput placeholder="ejemplo@ejemplo.com" formControlName="email">
+          <mat-error *ngIf="datosLogin.controls.email.touched && datosLogin.controls.email.invalid">
+            <span *ngIf="datosLogin.controls.email.touched && datosLogin.controls.email.errors">Debe ingresar su email.</span>
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="datosLogin.controls.password.touched && datosLogin.controls.password.invalid">
+            <span *ngIf="datosLogin.controls.password.touched && datosLogin.controls.password.errors">Debe ingresar su contraseña.</span>
+          </mat-error>
+        </mat-form-field>
+      </p>
+
+      <p *ngIf="error" class="error">
+        {{ error }}
+      </p>
+
+      <div class="button">
+        <button type="submit" mat-button matRipple>Ingresar</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
