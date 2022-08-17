@@ -1,6 +1,6 @@
 from atexit import register
 from django.contrib import admin
-from socios.models import Cuota, Persona, Socio, Categoria_socio,Cuota
+from socios.models import Cuota, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
 
 # Register your models here.
 class PersonaAdmin(admin.ModelAdmin):
@@ -21,3 +21,26 @@ class CuotaAdmin(admin.ModelAdmin):
     list_filter = ('estado',)
 
 admin.site.register(Cuota,CuotaAdmin)
+
+admin.site.register(MetodoPago)
+
+class PagoCuotaAdmin(admin.ModelAdmin):
+    #list_display = ('id_socio__nombre',)
+    pass
+
+admin.site.register(PagoCuota,PagoCuotaAdmin)
+
+class ActaDescriptorInline(admin.TabularInline):
+    model = ActaDescriptor
+    extra = 0
+class ActaSocioInline(admin.StackedInline):
+    model =ActaSocio
+    extra = 0
+
+class ActaAdmin(admin.ModelAdmin):
+    inlines = ( ActaDescriptorInline,ActaSocioInline,)
+    list_display =('fecha','asunto',)
+    #list_filter = ('')
+
+admin.site.register(Acta,ActaAdmin)
+admin.site.register(Descriptor)

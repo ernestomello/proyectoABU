@@ -1,6 +1,8 @@
 from calendar import month, month_name
+from tkinter import Widget
 from unittest.mock import DEFAULT
 from django.db import models
+from django import forms
 
 # Create your models here.
 
@@ -57,4 +59,36 @@ class Cuota(models.Model):
 
     def anio_mes(self):
         return "{}/{}".format(self.mes_anio.month,self.mes_anio.year)
+    def __str__(self):
+        return "{}, {}-{}".format(self.id_socio.id_persona.nombre,self.id_socio.id_persona.apellido_paterno,self.anio_mes())
+    
+class MetodoPago(models.Model):
+    descripcion = models.CharField(max_length=50)
+    def __str__(self):
+        return "{}".format(self.descripcion)
 
+class PagoCuota(models.Model):
+    id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
+    metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
+    referencia = models.CharField(max_length=200)
+
+class Descriptor(models.Model):
+    palabra_clave = models.CharField(max_length=50)
+    def __str__(self):
+        return "{}".format(self.palabra_clave)
+
+class Acta(models.Model):
+    fecha = models.DateField()
+    asunto = models.CharField(max_length=50,default="")
+    contenido = models.TextField(max_length=5000)
+
+    def __str__(self):
+        return "{}".format(self.asunto)
+
+class ActaDescriptor(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
+    descriptor = models.ForeignKey(Descriptor, on_delete=models.RESTRICT)
+
+class ActaSocio(models.Model):
+    id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
+    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
