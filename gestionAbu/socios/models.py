@@ -18,8 +18,11 @@ class Persona(models.Model):
     celular = models.CharField(max_length=50)
     correo_electronico = models.EmailField()
 
+    def descripcion(self):
+        return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
+
     def __str__(self):
-        return "{}, {}".format(self.nombre,self.apellido_paterno)
+        return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
 
 
 class Categoria_socio(models.Model):
