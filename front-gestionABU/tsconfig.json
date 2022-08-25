@@ -10,6 +10,7 @@
       "@pages/*":["src/app/pages/*"],
       "@auth/*":["src/app/pages/auth/*"],
       "@env/*":["src/environments/*"],
+      "@profile/*":["src/app/pages/profile/*"],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

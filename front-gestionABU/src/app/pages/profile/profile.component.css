@@ -1,0 +1,15 @@
+.card{
+  background-color: blue;
+  max-width: 400px;
+  padding: 1em;
+}
+
+.perfil{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-end;
+  padding: 1em;
+}

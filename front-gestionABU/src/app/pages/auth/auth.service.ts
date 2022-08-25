@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -18,7 +19,7 @@ export class AuthService {
 
   private loggeIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _router: Router) {
     this.checkToken();
    }
 
@@ -26,6 +27,7 @@ export class AuthService {
     return this.loggeIn.asObservable();
    }
 
+   //LLamado a la API para logearse
   login(authData:Socio): Observable<SocioResponse | void>{
     return this._http
     .post<SocioResponse>(`${environment.API_URL}/socio/login`, authData)
@@ -41,7 +43,8 @@ export class AuthService {
 
   logout():void{
     sessionStorage.removeItem('token');
-        this.loggeIn.next(false);
+    this.loggeIn.next(false);
+    this._router.navigate(['/login']);
   }
 
   private checkToken():void {

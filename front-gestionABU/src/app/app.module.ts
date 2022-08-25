@@ -18,6 +18,7 @@ import { HomeComponent } from './shared/components/home/home.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
+
   ],
   imports: [
     BrowserModule,

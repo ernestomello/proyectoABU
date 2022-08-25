@@ -9,5 +9,6 @@ export interface Socio{
 export interface SocioResponse{
   message: string;
   token: string;
+  name:string;
   rol: Roles;
 }
