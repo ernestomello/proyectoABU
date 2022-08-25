@@ -1,4 +1,4 @@
-from socios.models import Socio,Persona,User
+from socios.models import Socio,Persona
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from rest_framework import routers,serializers,viewsets
