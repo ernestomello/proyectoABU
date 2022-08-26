@@ -7,6 +7,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSidenavModule} from '@angular/material/sidenav'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 const modules = [
@@ -18,7 +19,8 @@ const modules = [
   MatToolbarModule,
   MatSidenavModule,
   ReactiveFormsModule,
-  FormsModule
+  FormsModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
