@@ -1,3 +1,5 @@
+from datetime import datetime
+from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,12 +9,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from socios.models import Cuota, Persona, Socio
 from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer
+from datetime import date
 
 @csrf_exempt
 @api_view(['GET',])
 def socio_list(request):
     """
-    Lista todos los socios o crea un nuevo socio.
+    Lista todos los socios 
     """
     if request.method == 'GET':
         socios = Socio.objects.all()
@@ -23,7 +26,7 @@ def socio_list(request):
 @api_view(['GET',])
 def persona_list(request):
     """
-    Lista todos los socios o crea un nuevo socio.
+    Lista todos las personas
     """
     if request.method == 'GET':
         personas = Persona.objects.all()
@@ -33,7 +36,7 @@ def persona_list(request):
 @csrf_exempt
 def socio_detail(request,pk):
     """
-    Devuelve un socio 
+    Devuelve un socio por su id
     """
     try:
         socio = Socio.objects.get(pk = pk)
@@ -47,7 +50,7 @@ def socio_detail(request,pk):
 @csrf_exempt
 def persona_detail(request,pk):
     """
-    Devuelve un socio 
+    Devuelve un persona por su id
     """
     try:
         socio = Persona.objects.get(pk = pk)
@@ -60,7 +63,7 @@ def persona_detail(request,pk):
 @csrf_exempt
 def cuota_detail(request,id):
     """
-    Devuelve las cuotas de un  socio 
+    Devuelve las cuotas de un  socio por el id_socio
     """
     try:
         cuota = Cuota.objects.filter(id_socio = id)
@@ -76,12 +79,33 @@ def cuota_detail(request,id):
 @api_view(['GET',])
 def cuota_list(request):
     """
-    Lista todos los socios o crea un nuevo socio.
+    Lista todas las Cuotas 
     """
     if request.method == 'GET':
         socios = Cuota.objects.all()
         serializer = CuotaSerializer(socios, many =True)
         return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['GET',])
+def genera_cuotas(request):
+    """
+    Genera las cuotas de un mes para todos los socios de Alta
+    """
+    if request.method == 'GET':
+        socios_alta = Socio.objects.filter(estado='A')
+        if socios_alta:
+            for socio in socios_alta:
+                cuota = Cuota(
+                    id_socio= socio,
+                    mes_anio=date.today(),
+                    fecha_vencimiento=date.today(),
+                    importe=socio.importe_cuota()
+                )
+                cuota.save()
+    content ={'Respuesta':'Generadas las Cuotas'}
+    return Response(content,status=status.HTTP_201_CREATED)
+    
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
