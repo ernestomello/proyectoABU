@@ -1,8 +1,10 @@
+import { CuotaInterface } from './../../shared/models/cuota.interface';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PersonalResponse } from '@app/shared/models/persona.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,13 @@ export class ProfileService {
 
   getPersonalData (idSocio: number){
     return this._http
-    .get(`${environment.API_URL}/persona/${idSocio}`)
+    .get<PersonalResponse>(`${environment.API_URL}/personas/${idSocio}`)
+    .pipe(catchError(this.handleError));
+  }
+
+  getCuotas (idSocio: number){
+    return this._http
+    .get<CuotaInterface>(`${environment.API_URL}/cuotas/${idSocio}`)
     .pipe(catchError(this.handleError));
   }
 

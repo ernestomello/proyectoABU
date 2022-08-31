@@ -11,9 +11,7 @@ describe('CuotaComponent', () => {
       declarations: [ CuotaComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CuotaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

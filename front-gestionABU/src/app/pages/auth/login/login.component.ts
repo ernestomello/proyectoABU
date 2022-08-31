@@ -1,7 +1,7 @@
 import { Socio } from '@shared/models/socio.interface';
 import { AuthService } from '@auth/auth.service';
 import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
 
   private _subscription: Subscription = new Subscription();
-  public datosLogin: FormGroup;
+  public datosLogin: UntypedFormGroup;
   hide = true;
 
   @Input() error: string | null;
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   @Output() submitEM = new EventEmitter();
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _snackBar: MatSnackBar,
     private _authSvc: AuthService,
     private _router:Router
@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     // inizialiso las variables
     this.error = '';
     this.datosLogin = this._fb.group({
-      email : new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      email : new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', [Validators.required]),
     });
   }
 

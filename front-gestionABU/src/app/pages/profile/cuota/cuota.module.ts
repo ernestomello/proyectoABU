@@ -1,9 +1,9 @@
-import { CuotaComponent } from './cuota.component';
+import { CuotaRoutesModule } from './cuota.routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CuotaComponent } from './cuota.component';
 
-import {MatListModule} from '@angular/material/list';
-import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -11,11 +11,7 @@ import {MatCardModule} from '@angular/material/card';
   ],
   imports: [
     CommonModule,
-    MatListModule,
-    MatCardModule
-  ],
-  exports:[
-    CuotaComponent
+    CuotaRoutesModule
   ]
 })
 export class CuotaModule { }
