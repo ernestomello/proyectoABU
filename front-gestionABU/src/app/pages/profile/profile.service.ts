@@ -13,7 +13,7 @@ export class ProfileService {
 
   getPersonalData (idSocio: number){
     return this._http
-    .get(`${environment.API_URL}/persona/${idSocio}`)
+    .get(`${environment.API_URL}/personas/${idSocio}`)
     .pipe(catchError(this.handleError));
   }
 
