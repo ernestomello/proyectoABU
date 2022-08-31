@@ -6,14 +6,10 @@
     <mat-card-content>
       <mat-list>
         <!-- aca va in for donde se muestren todas las cuotas -->
-        <mat-list-item>Nombre: </mat-list-item>
-        <mat-list-item>Apellido paterno:</mat-list-item>
-        <mat-list-item>Apellido materno: </mat-list-item>
-        <mat-list-item>Fecha de nacimiento: </mat-list-item>
-        <mat-list-item>Dirección:</mat-list-item>
-        <mat-list-item>Teléfono: </mat-list-item>
-        <mat-list-item>Celular: </mat-list-item>
-        <mat-list-item>Correo electrónico:</mat-list-item>
+        <mat-list-item>Nombre: {{cuota.estado}} </mat-list-item>
+        <mat-list-item>Apellido paterno: {{cuota.importe}}</mat-list-item>
+        <mat-list-item>Apellido materno: {{cuota.mes_anio}}</mat-list-item>
+        <mat-list-item>Fecha de nacimiento: {{cuota.metodo_pago}}</mat-list-item>
       </mat-list>
     </mat-card-content>
 
