@@ -10,7 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
-import {LayoutModule} from '@angular/cdk/layout';
+import { FlexLayoutModule } from "@angular/flex-layout";
+
 
 
 const modules = [
@@ -26,7 +27,7 @@ const modules = [
   MatProgressSpinnerModule,
   MatMenuModule,
   MatListModule,
-  LayoutModule
+  FlexLayoutModule
 
 ];
 
