@@ -1,6 +1,6 @@
-import { CuotaComponent } from './cuota/cuota.component';
+import { CuotaComponent } from './cuotas/cuotas.component';
 import { PersonalDataComponent } from '@profile/personal-data/personal-data.component';
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-profile',

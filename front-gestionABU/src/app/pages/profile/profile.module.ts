@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from "./profile.routing.module";
 
 import { ProfileComponent } from "./profile.component";
-import { CuotaModule } from './cuota/cuota.module';
+import { CuotaModule } from './cuotas/cuotas.module';
 import { AcademicDataModule } from './academic-data/academic-data.module';
 import { PersonalDataModule } from './personal-data/personal-data.module';
 

@@ -1,4 +1,4 @@
-import { CuotaComponent } from './cuota.component';
+import { CuotaComponent } from './cuotas.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

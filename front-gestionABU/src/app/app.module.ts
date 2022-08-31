@@ -1,4 +1,3 @@
-import { SpinnerInterceptor } from './shared/spinner/spinner.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,6 +12,7 @@ import { MaterialModule } from './material.module';
 
 import { HomeComponent } from './shared/components/home/home.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { SpinnerInterceptor } from './shared/spinner/spinner.interceptor';
 
 @NgModule({
   declarations: [

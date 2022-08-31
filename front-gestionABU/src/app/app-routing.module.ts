@@ -5,9 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
 
   { path: 'admin', loadChildren: () => import('@admin/admin.module').then(m => m.AdminModule) },
-  { path: 'cuotas', loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
+  { path: 'cuotas', loadChildren: () => import('@app/pages/profile/cuotas/cuotas.module').then(m => m.CuotaModule) },
   { path: 'socios', loadChildren: () => import('@profile/personal-data/personal-data.module').then(m => m.PersonalDataModule) },
-  { path: 'generar-cuotas', loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
+  // { path: 'generar-cuotas', loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
   // { path: 'login', loadChildren: () => import('@auth/login/login.module').then(m => m.LoginModule), canActivate: [CheckLoginGuard] },
   { path: 'login', loadChildren: () => import('@auth/login/login.module').then(m => m.LoginModule)},
   { path: 'perfil', loadChildren: () => import('@profile/profile.module').then(m => m.ProfileModule) },
