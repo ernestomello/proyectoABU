@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CuotaComponent } from './cuotas.component';
+import { CuotaComponent } from './cuota.component';
 
 describe('CuotaComponent', () => {
   let component: CuotaComponent;
@@ -11,9 +11,7 @@ describe('CuotaComponent', () => {
       declarations: [ CuotaComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CuotaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
