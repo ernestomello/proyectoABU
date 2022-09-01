@@ -1,4 +1,4 @@
-from socios.models import Socio,Persona,Cuota,Categoria_socio
+from socios.models import MetodoPago, Socio,Persona,Cuota,Categoria_socio
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from rest_framework import routers,serializers,viewsets
@@ -10,6 +10,10 @@ class Categoria_socioSerializer(serializers.ModelSerializer):
         model = Categoria_socio
         fields = ['descripcion']
 
+class MetodoPagoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetodoPago
+        fields = ['descripcion']
 
 class PersonaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,28 +39,38 @@ class SocioSerializer(serializers.ModelSerializer):
     def get_estado(self, obj):
         return obj.get_estado_display()
 
+class SocioNombreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Socio
+        fields = ['id_persona']
+    def get_id_persona(self,obj):
+        return obj.get_id_persona_display()
+
 class CuotaSerializer(serializers.ModelSerializer):
 
-    id_socio = SocioSerializer(
+    estado = serializers.SerializerMethodField()
+    metodo_pago = MetodoPagoSerializer(
         many=False,
         read_only=True
     )
-    estado = serializers.SerializerMethodField()
     class Meta:
         model = Cuota
         fields = '__all__'
     
     def get_estado(self, obj):
         return obj.get_estado_display()
+    
 
 class CuotaSolaSerializer(serializers.ModelSerializer):
-    
+
     estado = serializers.SerializerMethodField()
     class Meta:
         model = Cuota
         fields ='__all__'
     def get_estado(self, obj):
         return obj.get_estado_display()
+      
+
         
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):

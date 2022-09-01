@@ -57,6 +57,7 @@ class Socio(models.Model):
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.CASCADE, verbose_name="Categoria Socio")
     def __str__(self):
+        #return "{}, {}".format(self.id_persona.nombre,self.id_persona.apellido_paterno)
         return "{}".format(self.id_persona)
     
     def importe_cuota(self):
