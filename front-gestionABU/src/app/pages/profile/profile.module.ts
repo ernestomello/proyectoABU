@@ -1,3 +1,4 @@
+import { CuotaModule } from './cuota/cuota.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,6 +17,7 @@ import { PersonalDataModule } from './personal-data/personal-data.module';
     ProfileRoutingModule,
     PersonalDataModule,
     AcademicDataModule,
+    CuotaModule
   ],
   exports: [
   ]

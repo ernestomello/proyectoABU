@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CuotaComponent } from './cuota.component';
 
+import { MaterialModule } from '@app/material.module';
+
 
 
 @NgModule({
@@ -11,7 +13,11 @@ import { CuotaComponent } from './cuota.component';
   ],
   imports: [
     CommonModule,
-    CuotaRoutesModule
+    CuotaRoutesModule,
+    MaterialModule
+  ],
+  exports:[
+    CuotaComponent
   ]
 })
 export class CuotaModule { }

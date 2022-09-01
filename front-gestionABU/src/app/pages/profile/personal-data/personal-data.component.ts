@@ -10,10 +10,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PersonalDataComponent implements OnInit {
 
   public person: PersonalResponse = {} as PersonalResponse;
+  @Input() idSocio: number = 0;
 
   constructor(private _profileService: ProfileService) { }
-
-  @Input() idSocio: number = 0;
 
   ngOnInit(): void {
     this._profileService.getPersonalData(this.idSocio).subscribe((response) => {

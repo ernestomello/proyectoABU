@@ -19,7 +19,13 @@ export class ProfileService {
     .pipe(catchError(this.handleError));
   }
 
-  getCuotas (idSocio: number){
+  getCuotas (){
+    return this._http
+    .get<CuotaInterface>(`${environment.API_URL}/cuotas`)
+    .pipe(catchError(this.handleError));
+  }
+
+  getCuotasSocio (idSocio: number){
     return this._http
     .get<CuotaInterface>(`${environment.API_URL}/cuotas/${idSocio}`)
     .pipe(catchError(this.handleError));

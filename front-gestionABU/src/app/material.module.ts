@@ -11,7 +11,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from "@angular/flex-layout";
-
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 const modules = [
@@ -27,7 +31,12 @@ const modules = [
   MatProgressSpinnerModule,
   MatMenuModule,
   MatListModule,
-  FlexLayoutModule
+  FlexLayoutModule,
+  MatExpansionModule,
+  MatDatepickerModule,
+  MatSelectModule,
+  MatCheckboxModule,
+  MatRadioModule
 
 ];
 

@@ -1,1 +1,39 @@
-<p>cuota works!</p>
+<H1>ÚLTIMAS CUOTAS GENERADAS</H1>
+
+<mat-accordion class="cuota" multi *ngFor="let cuota of cuotas">
+
+  <mat-expansion-panel disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{cuota.id}}
+      </mat-panel-title>
+      <mat-panel-description>
+        Estado: {{cuota.estado}}
+      </mat-panel-description>
+      <mat-panel-description>
+        Cuota del: {{cuota.mes_anio}}
+      </mat-panel-description>
+      <mat-panel-description>
+        Importe: {{cuota.importe | currency}}
+      </mat-panel-description>
+      <mat-icon>account_circle</mat-icon>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Metodo de pago</mat-label>
+      <mat-select>
+        <mat-option value="efectivo">Efectivo</mat-option>
+        <mat-option value="credito">Tarjeta credito</mat-option>
+        <mat-option value="debito">Tarjeta debito</mat-option>
+        <mat-option value="deposito">Deposito</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Referencia de pago</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+  </mat-expansion-panel>
+
+</mat-accordion>
