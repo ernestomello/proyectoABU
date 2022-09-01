@@ -48,8 +48,3 @@
 /venvABU
 /venvDanilo
 /venv
-
-# problema .angular
-/front-gestionABU/.angular/cache
-.angular/cache
-front-gestionABU/.angular

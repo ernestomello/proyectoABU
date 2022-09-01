@@ -7,8 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import status
-from socios.models import Cuota, Persona, Socio
-from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer
+from socios.models import Cuota, MetodoPago, Persona, Socio
+from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
 from datetime import date
 
 @csrf_exempt
@@ -71,7 +71,7 @@ def cuota_detail(request,id):
         return  HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = CuotaSolaSerializer(cuota, many =True)
+        serializer = CuotaSerializer(cuota, many =True)
         return JsonResponse(serializer.data, safe=False)
 
 
@@ -84,6 +84,16 @@ def cuota_list(request):
     if request.method == 'GET':
         socios = Cuota.objects.all()
         serializer = CuotaSerializer(socios, many =True)
+        return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET',])
+def metodo_pago_list(request):
+    """
+    Lista todas los metodos de pago
+    """
+    if request.method == 'GET':
+        metodos = MetodoPago.objects.all()
+        serializer = MetodoPagoSerializer(metodos, many =True)
         return JsonResponse(serializer.data, safe=False)
 
 
