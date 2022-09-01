@@ -16,6 +16,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 const modules = [
@@ -36,8 +37,8 @@ const modules = [
   MatDatepickerModule,
   MatSelectModule,
   MatCheckboxModule,
-  MatRadioModule
-
+  MatRadioModule,
+  MatTooltipModule
 ];
 
 @NgModule({
