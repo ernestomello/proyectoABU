@@ -1,0 +1,48 @@
+.example-container {
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+.menu{
+  height: 80vh;
+}
+
+.menu__barra{
+  background-color: rgb(24, 153, 0);
+  height: 160px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu__lista {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.menu__logo{
+  margin-right: 1em;
+  max-height: 5em;
+  padding: 1em;
+}
+
+.menu__spacer {
+  flex: 1 1 auto;
+}
+
+
+

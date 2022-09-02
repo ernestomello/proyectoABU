@@ -1,0 +1,9 @@
+asgiref==3.4.1
+Django==3.2.15
+djangorestframework==3.13.1
+pytz==2022.1
+PyYAML==6.0
+simplejson==3.17.6
+sqlparse==0.4.2
+typing-extensions==4.1.1
+uritemplate==4.1.1
