@@ -12,6 +12,7 @@ export class CuotaComponent implements OnInit {
   // public cuotas: CuotaInterface = {} as CuotaInterface;
   public cuotas: any;
   @Input() idSocio: number = 0;
+  public buscar: string = '';
 
   disableSelect = new FormControl(false);
 
@@ -26,6 +27,7 @@ export class CuotaComponent implements OnInit {
     } else {
       this._profileService.getCuotas().subscribe((response) => {
         this.cuotas = Object.values (response);
+        console.log(this.cuotas);
       });
     }
   }
