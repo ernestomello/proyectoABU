@@ -17,7 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 const modules = [
   MatCardModule,
@@ -38,7 +38,8 @@ const modules = [
   MatSelectModule,
   MatCheckboxModule,
   MatRadioModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatDialogModule
 ];
 
 @NgModule({

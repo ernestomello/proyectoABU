@@ -1,3 +1,13 @@
+h1 {
+  display: flex;
+    justify-content: center;
+    color: #127300;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.1em;
+    margin: 0.5em;
+}
 .example-action-buttons {
   padding-bottom: 20px;
 }
