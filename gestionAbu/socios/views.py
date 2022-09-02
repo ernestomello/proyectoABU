@@ -1,15 +1,14 @@
-from datetime import datetime
-from urllib import response
-from django.shortcuts import render
+from datetime import datetime,timedelta
+import json
+from sqlite3 import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework import status
 from socios.models import Cuota, MetodoPago, Persona, Socio
 from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
-from datetime import date
+import pandas as pd 
 
 @csrf_exempt
 @api_view(['GET',])
@@ -96,27 +95,39 @@ def metodo_pago_list(request):
         serializer = MetodoPagoSerializer(metodos, many =True)
         return JsonResponse(serializer.data, safe=False)
 
-
-@api_view(['GET',])
+@csrf_exempt
+@api_view(['POST',])
 def genera_cuotas(request):
     """
     Genera las cuotas de un mes para todos los socios de Alta
     """
-    if request.method == 'GET':
-        socios_alta = Socio.objects.filter(estado='A')
-        if socios_alta:
-            for socio in socios_alta:
-                cuota = Cuota(
-                    id_socio= socio,
-                    mes_anio=date.today(),
-                    fecha_vencimiento=date.today(),
-                    importe=socio.importe_cuota()
-                )
-                cuota.save()
-    content ={'Respuesta':'Generadas las Cuotas'}
-    return Response(content,status=status.HTTP_201_CREATED)
+    cantidad = 0
     
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
-# Create your views here.
+    if request.method == 'POST':
+        socios_alta =[]
+        body = json.loads(request.body)
+        data  = body[0]
+        socios = data['id']
+        fecha_desde = datetime.strptime(data['fecha_desde'],"%Y-%m-%d").date()
+        fecha_hasta = datetime.strptime(data['fecha_hasta'],"%Y-%m-%d").date()
+        
+        rango_fechas = pd.date_range(fecha_desde,fecha_hasta,freq='MS')
+        if socios == 0:
+            socios_alta.append(Socio.objects.filter(estado='A'))
+        else:
+            socios_alta.append(Socio.objects.get(pk=socios))
+        
+        if socios_alta:            
+            for socio in socios_alta:
+                for fecha_valor in rango_fechas:
+                    cuota = Cuota.objects.get_or_create(
+                        id_socio= socio,
+                        mes_anio=fecha_valor,
+                        fecha_vencimiento=fecha_valor + timedelta(days=10),
+                        importe=socio.importe_cuota()
+                    )
+                    if cuota:
+                        cantidad+= 1
+    cantidad = "Se generaron {} cuotas".format(cantidad)
+    content ={"Respuesta":cantidad}
+    return Response(content,status=status.HTTP_201_CREATED)

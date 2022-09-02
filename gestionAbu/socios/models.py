@@ -4,7 +4,7 @@ from re import T
 from tkinter import Widget
 from unittest.mock import DEFAULT
 from django.db import models
-from django import forms
+from django.db.models import UniqueConstraint
 
 # Create your models here.
 
@@ -78,18 +78,21 @@ class Cuota(models.Model):
     id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=1,choices=ESTADO_CUOTA,default='N')
     importe = models.FloatField(default=0.00)
-    mes_anio = models.DateField(verbose_name="Mes-Año",)
+    mes_anio = models.DateField(verbose_name="Mes-Año")
     fecha_generada = models.DateField(auto_now_add=True)
     fecha_vencimiento  = models.DateField()
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT,default=None,blank=True,null=True)
     referencia = models.CharField(max_length=200,default=None,blank=True,null=True)
-
+    
     def anio_mes(self):
         return "{}/{}".format(self.mes_anio.month,self.mes_anio.year)
     def __str__(self):
         return "{}, {}-{}".format(self.id_socio.id_persona.nombre,self.id_socio.id_persona.apellido_paterno,self.anio_mes())
-    
-
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['id_socio','mes_anio'],name='unique_socio_cuota')
+        ]
+        
 class PagoCuota(models.Model):
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
