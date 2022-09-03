@@ -113,7 +113,7 @@ def cuota_list(request):
     """
     if request.method == 'GET':
         socios = Cuota.objects.all()
-        serializer = CuotaSerializer(socios, many =True)
+        serializer = CuotaSolaSerializer(socios, many =True)
         return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET',])
