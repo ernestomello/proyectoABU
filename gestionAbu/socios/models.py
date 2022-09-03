@@ -1,4 +1,4 @@
-from calendar import month, month_name
+from calendar import month
 from random import choices
 from re import T
 from tkinter import Widget

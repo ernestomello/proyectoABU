@@ -62,13 +62,15 @@ class CuotaSerializer(serializers.ModelSerializer):
     
 
 class CuotaSolaSerializer(serializers.ModelSerializer):
-
+    nombre_socio = serializers.SerializerMethodField()
     estado = serializers.SerializerMethodField()
     class Meta:
         model = Cuota
         fields ='__all__'
     def get_estado(self, obj):
         return obj.get_estado_display()
+    def get_nombre_socio(self,obj):
+        return "{}, {}".format(obj.id_socio.id_persona.nombre, obj.id_socio.id_persona.apellido_paterno)
       
 
         
