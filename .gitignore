@@ -45,6 +45,7 @@
 /front-gestionABU/Thumbs.db
 
 # personalizado 
+*.pyc
 /venvABU
 /venvDanilo
 /venv

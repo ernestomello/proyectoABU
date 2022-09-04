@@ -11,6 +11,7 @@ urlpatterns = [
     path('personas',views.persona_list),
     path('personas/<int:pk>',views.persona_detail),
     path('cuotas',views.cuota_list),
+    path('cuotas/<int:id>/pagar',views.cuota_pago),
     path('cuotas/socio',views.genera_cuotas), 
     path('metodospago',views.metodo_pago_list),   
 ]

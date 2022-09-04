@@ -73,6 +73,37 @@ def cuota_detail(request,id):
         serializer = CuotaSerializer(cuota, many =True)
         return JsonResponse(serializer.data, safe=False)
 
+@csrf_exempt
+@api_view(['POST',])
+def cuota_pago(request,id):
+    """
+    Paga una cuota según su id
+    """
+    
+
+    if request.method == 'POST':
+        try:
+            cuota = Cuota.objects.get(pk = id)
+        except Cuota.DoesNotExist:
+            return  HttpResponse(status=404)
+
+        body = json.loads(request.body)
+        data  = body[0]
+        for key,value in data.items():
+            if hasattr(cuota,key):
+                if key == 'metodo_pago':
+                    #print('paso metodo pago')
+                    metodo_pago = MetodoPago.objects.get(pk =value)
+                    setattr(cuota,key,metodo_pago)
+                elif key == 'id_socio':
+                        id_socio = Socio.objects.get(pk =value)
+                        setattr(cuota,key,id_socio)
+                else:
+                    setattr(cuota,key,value)
+        cuota.save()
+        return Response({'Respuesta':'Cuota Actualizada'},status=status.HTTP_200_OK)
+
+
 
 @csrf_exempt
 @api_view(['GET',])

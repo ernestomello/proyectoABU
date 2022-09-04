@@ -2,7 +2,6 @@ import { GenerarCuotaComponent } from './../generar-cuota/generar-cuota.componen
 import { CuotaInterface } from './../../../shared/models/cuota.interface';
 import { Component, Input, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
-import {FormControl} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -19,24 +18,26 @@ export class CuotaComponent implements OnInit {
   public buscar: string = '';
   public generar_cuota_socio: string = 'Todos';
 
-
-  disableSelect = new FormControl(false);
-
-  constructor(private _profileService: ProfileService, public generar_cuota: MatDialog) { }
+  constructor(
+    private _profileService: ProfileService,
+    public generar_cuota: MatDialog
+    ) { }
 
 
   ngOnInit(): void {
-    if (this.idSocio > 0) {
-      this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
-        this.cuotas = Object.values (response);
-        this.resultado_busqueda = this.cuotas;
-      });
-    } else {
-      this._profileService.getCuotas().subscribe((response) => {
-        this.cuotas = Object.values (response);
-        this.resultado_busqueda = this.cuotas;
-      });
-    }
+    Promise.resolve().then(() => {
+      if (this.idSocio > 0) {
+        this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
+          this.cuotas = Object.values (response);
+          this.resultado_busqueda = this.cuotas;
+        });
+      } else {
+        this._profileService.getCuotas().subscribe((response) => {
+          this.cuotas = Object.values (response);
+          this.resultado_busqueda = this.cuotas;
+        });
+      }
+    });
   }
 
   buscador(): void {
@@ -56,7 +57,8 @@ export class CuotaComponent implements OnInit {
     const dialogRef = this.generar_cuota.open(GenerarCuotaComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result.start.value?.format()}`);
+      console.log(`Dialog result: ${result.end.value?.format()}`);
     });
   }
 

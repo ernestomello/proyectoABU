@@ -19,7 +19,7 @@ import { MaterialModule } from '@app/material.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    BrowserModule
+    BrowserModule,
 
   ],
   exports:[
