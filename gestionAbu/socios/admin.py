@@ -38,7 +38,7 @@ class ActaSocioInline(admin.StackedInline):
     extra = 0
 
 class ActaAdmin(admin.ModelAdmin):
-    inlines = ( ActaDescriptorInline,ActaSocioInline,)
+    inlines = (ActaDescriptorInline,ActaSocioInline,)
     list_display =('fecha','asunto','contenido',)
     list_filter = ('actadescriptor__descriptor','actasocio__id_socio')
     search_fields = ('contenido',)

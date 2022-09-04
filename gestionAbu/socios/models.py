@@ -5,6 +5,7 @@ from tkinter import Widget
 from unittest.mock import DEFAULT
 from django.db import models
 from django.db.models import UniqueConstraint
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -111,7 +112,7 @@ class Descriptor(models.Model):
 class Acta(models.Model):
     fecha = models.DateField()
     asunto = models.CharField(max_length=50,default="")
-    contenido = models.TextField(max_length=5000)
+    contenido = RichTextField(max_length=5000)
 
     def __str__(self):
         return "{}".format(self.asunto)
