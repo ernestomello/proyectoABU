@@ -66,7 +66,7 @@ ROOT_URLCONF = 'gestionAbu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ 'gestionAbu/templates'],
+        'DIRS': [ BASE_DIR / 'gestionAbu/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

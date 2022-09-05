@@ -3,9 +3,11 @@ from random import choices
 from re import T
 from tkinter import Widget
 from unittest.mock import DEFAULT
+from urllib import response
 from django.db import models
 from django.db.models import UniqueConstraint
 from ckeditor.fields import RichTextField
+import requests
 
 # Create your models here.
 
@@ -63,6 +65,26 @@ class Socio(models.Model):
     
     def importe_cuota(self):
         return self.categoria_socio.importe_cuota
+    
+    def deuda_socio(self):
+        response = requests.get('http://localhost:8000/socios/'+"{}".format(self.id_socio)+"/cuotas")
+        cuotas = response.json()
+        
+        importe_total = 0
+        for cuota in cuotas:
+            if cuota['estado'] != "PAGA":
+                importe_total  += cuota['importe']
+        return "$ {}".format(importe_total)
+
+    def ultima_cuota_paga(self):
+        response = requests.get('http://localhost:8000/socios/'+"{}".format(self.id_socio)+"/cuotas")
+        cuotas = response.json()
+        mes_anio = ""
+        for cuota in cuotas:
+            if cuota['estado'] == "PAGA":
+                mes_anio = cuota['mes_anio']
+           
+        return "{}".format(mes_anio)
 
 class MetodoPago(models.Model):
     descripcion = models.CharField(max_length=50)
