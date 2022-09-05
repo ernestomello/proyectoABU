@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from socios.models import Cuota, MetodoPago, Persona, Socio
 from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
-import pandas as pd 
+
 
 @csrf_exempt
 @api_view(['GET',])
@@ -74,14 +74,14 @@ def cuota_detail(request,id):
         return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
-@api_view(['POST',])
+@api_view(['PUT',])
 def cuota_pago(request,id):
     """
     Paga una cuota según su id
     """
     
 
-    if request.method == 'POST':
+    if request.method == 'PUT':
         try:
             cuota = Cuota.objects.get(pk = id)
         except Cuota.DoesNotExist:
@@ -101,7 +101,7 @@ def cuota_pago(request,id):
                 else:
                     setattr(cuota,key,value)
         cuota.save()
-        return Response({'Respuesta':'Cuota Actualizada'},status=status.HTTP_200_OK)
+        return Response({'Respuesta':'Cuota Actualizada'},status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -113,7 +113,7 @@ def cuota_list(request):
     """
     if request.method == 'GET':
         socios = Cuota.objects.all()
-        serializer = CuotaSerializer(socios, many =True)
+        serializer = CuotaSolaSerializer(socios, many =True)
         return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET',])
@@ -138,11 +138,11 @@ def genera_cuotas(request):
         socios_alta =[]
         body = json.loads(request.body)
         data  = body[0]
-        socios = data['id']
+        socios = data['id_socio']
         fecha_desde = datetime.strptime(data['fecha_desde'],"%Y-%m-%d").date()
         fecha_hasta = datetime.strptime(data['fecha_hasta'],"%Y-%m-%d").date()
-        
-        rango_fechas = pd.date_range(fecha_desde,fecha_hasta,freq='MS')
+        rango_fechas = range_month(data['fecha_desde'],data['fecha_hasta'])
+       
         if socios == 0:
             socios_alta.append(Socio.objects.filter(estado='A'))
         else:
@@ -162,3 +162,19 @@ def genera_cuotas(request):
     cantidad = "Se generaron {} cuotas".format(cantidad)
     content ={"Respuesta":cantidad}
     return Response(content,status=status.HTTP_201_CREATED)
+
+def range_month(str_date_ini, str_date_end):
+    range_date = []
+    year_ini = int(str_date_ini[:4])
+    year_end = int(str_date_end[:4])
+    dif_year = year_end - year_ini
+    month_ini = int(str_date_ini[5:7])
+    cant_moth = (12 * dif_year) + int(str_date_end[5:7]) - month_ini  + 1
+
+    for i in range(month_ini,(month_ini+cant_moth)):
+        month_end = i-((i//12) * 12)
+        if month_end == 0:
+            month_end = 12
+        date_str = str(year_ini +(i//12))+"-"+str(month_end)+"-01"
+        range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
+    return range_date
