@@ -1,6 +1,6 @@
 export interface CuotaInterface {
   id:                number;
-  id_socio:          IDSocio;
+  id_socio:          number;
   estado:            string;
   importe:           number;
   mes_anio:          Date;
@@ -9,25 +9,5 @@ export interface CuotaInterface {
   referencia:        string;
   metodo_pago:       number;
   nombre_socio:      string;
-}
-
-export interface IDSocio extends CuotaInterface{
-  id_persona:      IDPersona;
-  categoria_socio: CategoriaSocio;
-  frecuencia_pago: string;
-  estado:          string;
-}
-
-export interface CategoriaSocio extends CuotaInterface{
-  descripcion: string;
-}
-
-export interface IDPersona extends CuotaInterface{
-  nombre:           string;
-  apellido_paterno: string;
-  apellido_materno: string;
-  fecha_nacimiento: Date;
-  direccion:        string;
-  telefono:         string;
 }
 

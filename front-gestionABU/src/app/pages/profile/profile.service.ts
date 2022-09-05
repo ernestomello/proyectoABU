@@ -31,15 +31,15 @@ export class ProfileService {
     .pipe(catchError(this.handleError));
   }
 
-  generarCuotaSocio (idSocio: number){
+  generarCuotaSocio (idSocio: number, fecha_desde: Date, fecha_hasta: Date){
     const body = [{
-      id: "2",
-      fecha_desde: "2023-01-01",
-      fecha_hasta: "2023-01-01",
+      id_socio: idSocio,
+      fecha_desde: fecha_desde,
+      fecha_hasta: fecha_hasta,
     }];
 
     return this._http
-    .post<CuotaInterface>(`${environment.API_URL}/cuotas/socio`, body)
+    .post(`${environment.API_URL}/cuotas/socio`, body)
     .pipe(catchError(this.handleError));
   }
 
