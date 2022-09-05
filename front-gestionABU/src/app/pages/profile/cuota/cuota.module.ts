@@ -5,8 +5,6 @@ import { CuotaComponent } from './cuota.component';
 
 import { MaterialModule } from '@app/material.module';
 
-
-
 @NgModule({
   declarations: [
     CuotaComponent

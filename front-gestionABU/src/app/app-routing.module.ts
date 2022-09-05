@@ -12,6 +12,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('@auth/login/login.module').then(m => m.LoginModule)},
   { path: 'perfil', loadChildren: () => import('@profile/profile.module').then(m => m.ProfileModule) },
   { path: 'notFound', loadChildren: () => import('@pages/not-found/not-found.module').then(m => m.NotFoundModule) },
+  { path: 'generar-cuota', loadChildren: () => import('@pages/profile/generar-cuota/generar-cuota.module').then(m => m.GenerarCuotaModule) },
+
   { path: '**', redirectTo:'', pathMatch: 'full' },
 ];
 
