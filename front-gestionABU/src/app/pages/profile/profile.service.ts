@@ -31,6 +31,18 @@ export class ProfileService {
     .pipe(catchError(this.handleError));
   }
 
+  generarCuotaSocio (idSocio: number){
+    const body = [{
+      id: "2",
+      fecha_desde: "2023-01-01",
+      fecha_hasta: "2023-01-01",
+    }];
+
+    return this._http
+    .post<CuotaInterface>(`${environment.API_URL}/cuotas/socio`, body)
+    .pipe(catchError(this.handleError));
+  }
+
 
    // Muestro los errores que surgan
    private handleError(err:any):Observable<never> {

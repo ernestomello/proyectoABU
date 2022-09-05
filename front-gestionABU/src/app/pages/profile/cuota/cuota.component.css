@@ -1,13 +1,14 @@
 h1 {
   display: flex;
-    justify-content: center;
-    color: #127300;
-    font-family: 'Open Sans',sans-serif;
-    font-weight: 600;
-    font-size: 36px;
-    line-height: 1.1em;
-    margin: 0.5em;
+  color: #127300;
+  font-family: 'Open Sans',sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1em;
+  margin: 0.5em;
+  justify-content: center;
 }
+
 .example-action-buttons {
   padding-bottom: 20px;
 }
@@ -39,8 +40,9 @@ h1 {
   width: 90%;
   display: grid;
   justify-content: center;
+  justify-items: center;
   grid-template-rows: auto auto;
-  grid-template-columns: 20vh 60vh;
+  grid-template-columns: 10vw 50vw;
   margin: 1em auto;
 }
 

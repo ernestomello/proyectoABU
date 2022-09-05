@@ -42,24 +42,43 @@ export class CuotaComponent implements OnInit {
 
   buscador(): void {
     this.generar_cuota_socio = "Todos";
-    this.resultado_busqueda  = this.cuotas.filter( cuota => cuota.importe == parseInt(this.buscar) ) ;
-    if (this.resultado_busqueda.length == 0) {
+    // Busco lo que el usuario ingreso
+    this.resultado_busqueda  = this.cuotas.filter(
+      cuota =>
+      cuota.nombre_socio.toLocaleLowerCase().
+      indexOf(this.buscar.toLocaleLowerCase()) > -1
+    ) ;
+    // Me quedo con los ID de los socios encontrados en la busqueda
+    const id_cuotas = this.resultado_busqueda.map(({id_socio}) => id_socio);
+
+    if (this.resultado_busqueda.length === 0) {
       this.resultado_busqueda = this.cuotas;
     }
-    const unico = this.resultado_busqueda.filter((cuota, posicion, cuotas) =>{ return posicion === cuotas.indexOf(cuota)})
-    if (unico.length == 1) {
-      this.generar_cuota_socio = "BIEN";
+    // Compruebo si todsos los ID del resultado de la busqueda son iguales
+    const unico = id_cuotas.filter((id_cuota, posicion, id_cuotas) =>{
+      return posicion === id_cuotas.indexOf(id_cuota)
+    })
+
+    if (unico.length === 1) {
+      this.generar_cuota_socio = this.resultado_busqueda[0].nombre_socio;
     }
-    console.log(this.resultado_busqueda)
   }
 
   generarCuota() {
     const dialogRef = this.generar_cuota.open(GenerarCuotaComponent);
+    let fecha_desde = "";
+    let fecha_hasta = "";
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result.start.value?.format()}`);
-      console.log(`Dialog result: ${result.end.value?.format()}`);
+      fecha_desde = result.start.value?.format();
+      fecha_hasta = result.end.value?.format();
     });
+
+
+    // this._profileService.generarCuotaSocio().subscribe(() => {
+
+    // });
+
   }
 
 

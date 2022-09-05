@@ -8,6 +8,7 @@ export interface CuotaInterface {
   fecha_vencimiento: Date;
   referencia:        string;
   metodo_pago:       number;
+  nombre_socio:      string;
 }
 
 export interface IDSocio extends CuotaInterface{
