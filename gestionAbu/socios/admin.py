@@ -8,7 +8,7 @@ class PersonaAdmin(admin.ModelAdmin):
 admin.site.register(Persona,PersonaAdmin)
 
 class SocioAdmin(admin.ModelAdmin):
-    list_display = ('id_persona','estado','categoria_socio','frecuencia_pago','fecha_ingreso','fecha_baja',)
+    list_display = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','ultima_cuota_paga')
     list_filter = ('categoria_socio','frecuencia_pago','estado')
     search_fields = ('id_persona__nombre','id_persona__apellido_paterno',)
 admin.site.register(Socio,SocioAdmin)
