@@ -131,6 +131,12 @@ def metodo_pago_list(request):
 def genera_cuotas(request):
     """
     Genera las cuotas de un mes para todos los socios de Alta
+    ---
+    list:
+        parameters:  
+            - id_socio: id_socio
+            - fecha_desde: fecha desde
+    
     """
     cantidad = 0
     
@@ -144,18 +150,21 @@ def genera_cuotas(request):
         rango_fechas = range_month(data['fecha_desde'],data['fecha_hasta'])
        
         if socios == 0:
-            socios_alta.append(Socio.objects.filter(estado='A'))
+            socios_alta = Socio.objects.filter(estado='A')
         else:
             socios_alta.append(Socio.objects.get(pk=socios))
         
-        if socios_alta:            
+        if socios_alta:   
+               
             for socio in socios_alta:
+                
                 for fecha_valor in rango_fechas:
+                   
                     cuota = Cuota.objects.get_or_create(
-                        id_socio= socio,
-                        mes_anio=fecha_valor,
-                        fecha_vencimiento=fecha_valor + timedelta(days=10),
-                        importe=socio.importe_cuota()
+                        id_socio = socio,
+                        mes_anio = fecha_valor,
+                        fecha_vencimiento = fecha_valor + timedelta(days=10),
+                        importe = socio.importe_cuota()
                     )
                     if cuota:
                         cantidad+= 1
