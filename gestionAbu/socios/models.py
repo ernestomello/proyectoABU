@@ -13,6 +13,8 @@ from ckeditor.fields import RichTextField
 import requests
 
 # Create your models here.
+class Departamento(models.Model):
+    nombre = models.CharField(max_length=50)
 
 class Persona(models.Model):
     # id_persona = models.AutoField(primary_key=True)
@@ -21,6 +23,7 @@ class Persona(models.Model):
     apellido_paterno = models.CharField(max_length=45)
     apellido_materno = models.CharField(max_length=45)
     fecha_nacimiento = models.DateField()
+    departamento = models.OneToOneField(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True)
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=50)
     celular = models.CharField(max_length=50)
@@ -55,13 +58,13 @@ class Socio(models.Model):
         ('R','REAFILIADO')
     ]
     id_socio = models.AutoField(primary_key=True)
-    id_persona = models.OneToOneField(Persona, on_delete=models.CASCADE,blank=True,null=True)
+    id_persona = models.OneToOneField(Persona, on_delete=models.DO_NOTHING,blank=True,null=True)
     fecha_ingreso = models.DateField(verbose_name="Fecha de Ingreso")
     estado = models.CharField(max_length=1,choices=ESTADO_SOCIO,default='A')
     fecha_baja = models.DateField(verbose_name="Fecha de Baja")
     fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso")
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
-    categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.CASCADE, verbose_name="Categoria Socio")
+    categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.DO_NOTHING, verbose_name="Categoria Socio")
     def __str__(self):
         #return "{}, {}".format(self.id_persona.nombre,self.id_persona.apellido_paterno)
         return "{}".format(self.id_persona)
