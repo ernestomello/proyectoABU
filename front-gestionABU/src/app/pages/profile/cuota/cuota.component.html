@@ -46,29 +46,30 @@
     </mat-expansion-panel-header>
 
     <!-- Si es administrador muestro para registrar pago -->
-    <div *ngIf="true" [ngTemplateOutlet]="registrarPago"></div>
+    <ng-container *ngIf="true" [ngTemplateOutlet]="registrarPago"  [ngTemplateOutletContext]="{cuota:cuota}"></ng-container>
 
   </mat-expansion-panel>
 </mat-accordion>
 
 <!-- Vista para los administradores -->
-<ng-template #registrarPago>
-  <mat-form-field appearance="fill">
-    <mat-label>Metodo de pago</mat-label>
-    <mat-select>
-      <mat-option value="efectivo">Efectivo</mat-option>
-      <mat-option value="credito">Tarjeta credito</mat-option>
-      <mat-option value="debito">Tarjeta debito</mat-option>
-      <mat-option value="deposito">Deposito</mat-option>
-    </mat-select>
-  </mat-form-field>
+<ng-template #registrarPago let-cuota="cuota">
+  <form [formGroup]="datosPago" (submit)="pagar(cuota.id, cuota.id_socio)" >
+    <mat-form-field appearance="fill">
+      <mat-label>Metodo de pago</mat-label>
+      <mat-select formControlName="metodo_pago" required>
+        <mat-option *ngFor="let metodo of metodos; let i=index" [value]="i">
+          {{metodo.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Referencia de pago</mat-label>
-    <input matInput>
-  </mat-form-field>
+    <mat-form-field appearance="fill" >
+      <mat-label>Referencia de pago</mat-label>
+      <input matInput formControlName="descripcion">
+    </mat-form-field>
 
-  <button>PAGO</button>
+    <button type="submit" mat-button matRipple class="buscador_btn">Registrar Pago</button>
+  </form>
 </ng-template>
 
 <!-- FIN Vista para los administradores -->

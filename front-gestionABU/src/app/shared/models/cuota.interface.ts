@@ -11,3 +11,10 @@ export interface CuotaInterface {
   nombre_socio:      string;
 }
 
+export interface RegistroPago{
+  id_cuota: number;
+  id_socio: number;
+  metodo_pago:string;
+  descripcion:string;
+}
+

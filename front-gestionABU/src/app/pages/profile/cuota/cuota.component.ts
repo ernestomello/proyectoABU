@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cuota',
@@ -18,27 +19,30 @@ export class CuotaComponent implements OnInit {
   @Input() idSocio: number = 0;
   public buscar: string = '';
   public generar_cuota_socio: string = 'Todos';
+  public datosPago: UntypedFormGroup;
+  public metodos: any = [];
 
   constructor(
     private _profileService: ProfileService,
     public generar_cuota: MatDialog,
-    private _snackBar: MatSnackBar
-    ) { }
-
+    private _snackBar: MatSnackBar,
+    private _fb: UntypedFormBuilder
+    ) {
+      this.datosPago = this.initFormPago();
+     }
 
   ngOnInit(): void {
     Promise.resolve().then(() => {
-      if (this.idSocio > 0) {
         this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
           this.cuotas = Object.values (response);
           this.resultado_busqueda = this.cuotas;
+          console.log(this.resultado_busqueda);
+
         });
-      } else {
-        this._profileService.getCuotas().subscribe((response) => {
-          this.cuotas = Object.values (response);
-          this.resultado_busqueda = this.cuotas;
-        });
-      }
+        this._profileService.getMetodoPago().subscribe((response) => {
+          console.log(response);
+          this.metodos = response
+        })
     });
   }
 
@@ -81,10 +85,32 @@ export class CuotaComponent implements OnInit {
         });
       });
     // Actualizo las cuotas
-    this._profileService.getCuotas().subscribe((response) => {
+    this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
       this.cuotas = Object.values (response);
       this.resultado_busqueda = this.cuotas;
     });
+    });
+  }
+
+  pagar(id_cuota:number,id_socio:number): void{
+    this.datosPago.get('id_cuota')?.setValue(id_cuota);
+    this.datosPago.get('id_socio')?.setValue(id_socio)
+    const form_datos_pago = this.datosPago.value;
+console.log(form_datos_pago);
+
+    this._profileService.pagarCuota(form_datos_pago).subscribe((response) => {
+      console.log("RESPONSE:");
+      console.log(response);
+    });
+  }
+
+  // Inicializo el formulario de pago
+  initFormPago():UntypedFormGroup {
+    return this._fb.group({
+      metodo_pago : new UntypedFormControl('', [Validators.required]),
+      descripcion:  new UntypedFormControl('',),
+      id_cuota:     new UntypedFormControl('',),
+      id_socio:     new UntypedFormControl('',)
     });
   }
 
