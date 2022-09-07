@@ -32,17 +32,14 @@ export class CuotaComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    // Se ejecuta dentro de una promesa para que se realize luego de que se cree el componente
     Promise.resolve().then(() => {
-        this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
-          this.cuotas = Object.values (response);
-          this.resultado_busqueda = this.cuotas;
-          console.log(this.resultado_busqueda);
+        this.getCuotas();
+        this._profileService.getMetodoPago().subscribe((response) => {
+          this.metodos = response
+          console.log(this.metodos);
 
         });
-        this._profileService.getMetodoPago().subscribe((response) => {
-          console.log(response);
-          this.metodos = response
-        })
     });
   }
 
@@ -85,10 +82,7 @@ export class CuotaComponent implements OnInit {
         });
       });
     // Actualizo las cuotas
-    this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
-      this.cuotas = Object.values (response);
-      this.resultado_busqueda = this.cuotas;
-    });
+      this.getCuotas();
     });
   }
 
@@ -96,7 +90,6 @@ export class CuotaComponent implements OnInit {
     this.datosPago.get('id_cuota')?.setValue(id_cuota);
     this.datosPago.get('id_socio')?.setValue(id_socio)
     const form_datos_pago = this.datosPago.value;
-console.log(form_datos_pago);
 
     this._profileService.pagarCuota(form_datos_pago).subscribe((response) => {
       console.log("RESPONSE:");
@@ -111,6 +104,13 @@ console.log(form_datos_pago);
       descripcion:  new UntypedFormControl('',),
       id_cuota:     new UntypedFormControl('',),
       id_socio:     new UntypedFormControl('',)
+    });
+  }
+
+  getCuotas():void{
+    this._profileService.getCuotasSocio(this.idSocio).subscribe((response) => {
+      this.cuotas = Object.values (response);
+      this.resultado_busqueda = this.cuotas;
     });
   }
 

@@ -1,5 +1,4 @@
 import { PersonalResponse } from '@app/shared/models/persona.interface';
-import { ProfileService } from './../profile.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -9,15 +8,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PersonalDataComponent implements OnInit {
 
-  public person: PersonalResponse = {} as PersonalResponse;
   @Input() idSocio: number = 0;
+  @Input() person: PersonalResponse = {} as PersonalResponse;
 
-  constructor(private _profileService: ProfileService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this._profileService.getPersonalData(this.idSocio).subscribe((response) => {
-      this.person = response;
-    });
+   if (this.person == null) {
+    console.log("BUSCAR UNO");
+
+   }
+
   }
 
 }

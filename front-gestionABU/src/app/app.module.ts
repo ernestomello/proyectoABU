@@ -18,8 +18,7 @@ import { SpinnerInterceptor } from './shared/spinner/spinner.interceptor';
   declarations: [
     AppComponent,
     HomeComponent,
-    SpinnerComponent,
-
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

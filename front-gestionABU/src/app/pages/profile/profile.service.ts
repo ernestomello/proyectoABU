@@ -1,9 +1,9 @@
 import { CuotaInterface, RegistroPago } from './../../shared/models/cuota.interface';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PersonalResponse } from '@app/shared/models/persona.interface';
 
 @Injectable({
@@ -19,12 +19,21 @@ export class ProfileService {
     .pipe(catchError(this.handleError));
   }
 
+  // Devuelve el listado de todos los socios
+  getSocios (){
+    return this._http
+    .get<PersonalResponse []>(`${environment.API_URL}/personas`)
+    .pipe(catchError(this.handleError));
+  }
+
   getCuotasSocio (idSocio: number){
     // Si el ID es cero o menor pide las cuotas de todos los socios
     if (idSocio <= 0) {
       return this._http
       .get<CuotaInterface>(`${environment.API_URL}/cuotas`)
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError)
+        );
     }
     // Si el ID es mayor que cero pide las cuotas de un socios
     return this._http
@@ -48,9 +57,8 @@ export class ProfileService {
   pagarCuota(registro_pago: RegistroPago){
     const id = registro_pago.id_cuota
     const body = [{
-      id_socio:    registro_pago.id_socio,
       metodo_pago: registro_pago.metodo_pago,
-      descripcion: registro_pago.descripcion
+      referencia: registro_pago.descripcion
     }];
     return this._http
     .put(`${environment.API_URL}/cuotas/${id}/pagar`, body)
