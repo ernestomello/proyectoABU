@@ -13,7 +13,7 @@ class Categoria_socioSerializer(serializers.ModelSerializer):
 class MetodoPagoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetodoPago
-        fields = ['descripcion']
+        fields = '__all__'
 
 class PersonaSerializer(serializers.ModelSerializer):
     class Meta:

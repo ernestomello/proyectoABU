@@ -8,7 +8,7 @@ from django.apps import apps
 #from fileinput import filename
 import csv,datetime
 from django.contrib import admin
-from socios.models import Cuota, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
+from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
 
 # Register your models here.
 class PersonaAdmin(admin.ModelAdmin):
@@ -56,6 +56,7 @@ class ActaAdmin(admin.ModelAdmin):
 
 admin.site.register(Acta,ActaAdmin)
 admin.site.register(Descriptor)
+admin.site.register(Departamento)
 
 """ def export_to_csv(modeladmin, request, queryset):
     opts = modeladmin.model._meta

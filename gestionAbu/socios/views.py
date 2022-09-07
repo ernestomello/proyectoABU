@@ -101,6 +101,7 @@ def cuota_pago(request,id):
                         setattr(cuota,key,id_socio)
                 else:
                     setattr(cuota,key,value)
+        setattr(cuota,'estado','P')
         cuota.save()
         return Response({'Respuesta':'Cuota Actualizada'},status=status.HTTP_204_NO_CONTENT)
 
