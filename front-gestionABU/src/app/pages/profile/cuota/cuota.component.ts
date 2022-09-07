@@ -38,7 +38,6 @@ export class CuotaComponent implements OnInit {
         this._profileService.getMetodoPago().subscribe((response) => {
           this.metodos = response
           console.log(this.metodos);
-
         });
     });
   }

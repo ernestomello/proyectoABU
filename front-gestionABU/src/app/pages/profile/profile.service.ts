@@ -57,7 +57,7 @@ export class ProfileService {
   pagarCuota(registro_pago: RegistroPago){
     const id = registro_pago.id_cuota
     const body = [{
-      metodo_pago: registro_pago.metodo_pago,
+      metodo_pago: 1,
       referencia: registro_pago.descripcion
     }];
     return this._http
