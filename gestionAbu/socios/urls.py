@@ -1,5 +1,11 @@
 from django.urls import path
 from socios import views
+from django.contrib import admin
+
+
+admin.site.site_header = 'Administración ABU'
+admin.site.index_title = 'Panel de control de ABU'
+admin.site.site_title = 'Administración ABU'
 
 
 #from . import views

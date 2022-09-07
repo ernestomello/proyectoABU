@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'socios',
     'ckeditor',
-    'rest_framework',
+    'coreapi',
+    'rest_framework',    
+    'rest_framework_swagger',
     'rest_framework.authtoken',
 ]
 
@@ -75,6 +77,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries' : {
+                'staticfiles': 'django.templatetags.static', 
+            }
         },
     },
 ]
@@ -131,7 +136,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/var/www/ernestomello/static/'
+#STATIC_ROOT = '/var/www/ernestomello/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -148,6 +153,7 @@ REST_FRAMEWORK = {
     #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     #'EXCEPTION_HANDLER': 'mtp.apps.common.drf.exception_handler',
     #]
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 CKEDITOR_CONFIGS = {

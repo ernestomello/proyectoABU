@@ -1,9 +1,12 @@
 from calendar import month
+from pickletools import decimalnl_long
 from random import choices
 from re import T
 from tkinter import Widget
+from unicodedata import decimal
 from unittest.mock import DEFAULT
 from urllib import response
+#from socios.views import cuota_detail
 from django.db import models
 from django.db.models import UniqueConstraint
 from ckeditor.fields import RichTextField
@@ -66,6 +69,11 @@ class Socio(models.Model):
     def importe_cuota(self):
         return self.categoria_socio.importe_cuota
     
+    class Meta:
+        pass
+    
+    #@property
+
     def deuda_socio(self):
         response = requests.get('http://localhost:8000/socios/'+"{}".format(self.id_socio)+"/cuotas")
         cuotas = response.json()
@@ -86,6 +94,17 @@ class Socio(models.Model):
            
         return "{}".format(mes_anio)
 
+
+    """ def get_fields(self, request, obj=None):
+        fs = [
+            (self.label,  {'fields': ['id_socio',]}),
+            ('Map', {'fields': [], # required by django admin
+                    'description':obj.ultima_cuota_paga(),
+            }),
+        ]
+        return fs """
+
+        
 class MetodoPago(models.Model):
     descripcion = models.CharField(max_length=50)
     class Meta:
