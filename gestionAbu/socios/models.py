@@ -16,6 +16,9 @@ import requests
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nombre
+        
 class Persona(models.Model):
     # id_persona = models.AutoField(primary_key=True)
     identificacion = models.CharField(max_length=45,unique=True)
