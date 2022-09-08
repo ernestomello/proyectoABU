@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-academic-data',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./academic-data.component.css','../profile.component.css']
 })
 export class AcademicDataComponent implements OnInit {
+
+  @Input() id_socio: number = 0;
 
   constructor() { }
 

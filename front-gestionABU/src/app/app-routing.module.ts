@@ -1,3 +1,4 @@
+import { ListCuotaComponent } from './pages/profile/cuota/list-cuota/list-cuota.component';
 import { ListPersonalDataComponent } from './pages/profile/personal-data/list-personal-data/list-personal-data.component';
 import { CheckLoginGuard } from '@shared/guars/check-login.guard';
 import { NgModule } from '@angular/core';
@@ -8,7 +9,7 @@ const routes: Routes = [
   { path: 'admin', loadChildren: () => import('@admin/admin.module').then(m => m.AdminModule) },
   { path: 'socios', component:ListPersonalDataComponent,  loadChildren: () => import('@profile/personal-data/personal-data.module').then(m => m.PersonalDataModule) },
   // { path: 'socios', loadChildren: () => import('@profile/personal-data/personal-data.module').then(m => m.PersonalDataModule) },
-  { path: 'cuotas', loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
+  { path: 'cuotas', component:ListCuotaComponent, loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
   // { path: 'generar-cuotas', loadChildren: () => import('@profile/cuota/cuota.module').then(m => m.CuotaModule) },
   // { path: 'login', loadChildren: () => import('@auth/login/login.module').then(m => m.LoginModule), canActivate: [CheckLoginGuard] },
   { path: 'login', loadChildren: () => import('@auth/login/login.module').then(m => m.LoginModule)},
