@@ -65,7 +65,7 @@ def cuota_detail(request,id):
     Devuelve las cuotas de un  socio por el id_socio
     """
     try:
-        cuota = Cuota.objects.filter(id_socio = id)
+        cuota = Cuota.objects.filter(id_socio = id).order_by('-mes_anio')
     except Cuota.DoesNotExist:
         return  HttpResponse(status=404)
 
@@ -114,7 +114,7 @@ def cuota_list(request):
     Lista todas las Cuotas 
     """
     if request.method == 'GET':
-        socios = Cuota.objects.all()
+        socios = Cuota.objects.all().order_by('-mes_anio')
         serializer = CuotaSolaSerializer(socios, many =True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -157,19 +157,20 @@ def genera_cuotas(request):
             socios_alta.append(Socio.objects.get(pk=socios))
         
         if socios_alta:   
-               
+            
             for socio in socios_alta:
-                
-                for fecha_valor in rango_fechas:
-                   
-                    cuota = Cuota.objects.get_or_create(
-                        id_socio = socio,
-                        mes_anio = fecha_valor,
-                        fecha_vencimiento = fecha_valor + timedelta(days=10),
-                        importe = socio.importe_cuota()
-                    )
-                    if cuota:
-                        cantidad+= 1
+                if cuota_siguiente(socio,data['fecha_desde']):    
+                    for fecha_valor in rango_fechas:
+                    
+                        cuota = Cuota.objects.get_or_create(
+                            id_socio = socio,
+                            mes_anio = fecha_valor,
+                            fecha_vencimiento = fecha_valor + timedelta(days=10),
+                            importe = socio.importe_cuota()
+                        )
+                        if cuota:
+                            cantidad+= 1
+
     cantidad = "Se generaron {} cuotas".format(cantidad)
     content ={"Respuesta":cantidad}
     return Response(content,status=status.HTTP_201_CREATED)
@@ -189,3 +190,27 @@ def range_month(str_date_ini, str_date_end):
         date_str = str(year_ini +(i//12))+"-"+str(month_end)+"-01"
         range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
     return range_date
+
+def cuota_siguiente(socio,str_date_ini):
+    return True
+    """ 
+    year_ini = int(str_date_ini[:4])
+    month_ini = int(str_date_ini[5:7])
+    str_date_ultima = socio.ultima_cuota_paga()
+    print(str_date_ultima)
+    year_ultima = int(str_date_ultima[:4])
+    month_ultima = int(str_date_ultima[5:7])
+    if month_ultima == 12:
+        if month_ini != 1:
+            return False
+        else:
+            if year_ini != year_ultima +1:
+                return False
+            else:
+                return True
+    else:
+        if year_ini == year_ultima:
+            return True
+        else:
+            return False 
+    """
