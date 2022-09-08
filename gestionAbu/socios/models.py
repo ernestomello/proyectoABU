@@ -1,4 +1,5 @@
 from calendar import month
+from datetime import datetime
 from pickletools import decimalnl_long
 from random import choices
 from re import T
@@ -8,7 +9,7 @@ from unittest.mock import DEFAULT
 from urllib import response
 #from socios.views import cuota_detail
 from django.db import models
-from django.db.models import UniqueConstraint
+from django.conf import settings
 from ckeditor.fields import RichTextField
 import requests
 
@@ -79,19 +80,31 @@ class Socio(models.Model):
         pass
     
     #@property
+    def contacto(self):
+        return "{} - {}".format(self.id_persona.celular, self.id_persona.correo_electronico)
 
     def deuda_socio(self):
-        response = requests.get('http://localhost:8000/socios/'+"{}".format(self.id_socio)+"/cuotas")
+        url_root = settings.ALLOWED_HOSTS
+        port = settings.ALLOWED_PORT
+        response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
         cuotas = response.json()
         
-        importe_total = 0
+        importe_total = 0.00
+        mes_anio = ""
         for cuota in cuotas:
             if cuota['estado'] != "PAGA":
                 importe_total  += cuota['importe']
-        return "$ {}".format(importe_total)
+            else:
+                mes_anio = cuota['mes_anio']
+        if mes_anio != "":
+            mes_anio = datetime.strptime(mes_anio,"%Y-%m-%d").date()
+        return "$ {} ({})".format(importe_total,mes_anio)
 
     def ultima_cuota_paga(self):
-        response = requests.get('http://localhost:8000/socios/'+"{}".format(self.id_socio)+"/cuotas")
+        url_root = settings.ALLOWED_HOSTS
+        port = settings.ALLOWED_PORT
+        print(url_root)
+        response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
         cuotas = response.json()
         mes_anio = ""
         for cuota in cuotas:
