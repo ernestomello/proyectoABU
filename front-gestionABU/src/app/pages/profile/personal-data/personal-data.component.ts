@@ -1,6 +1,6 @@
 import { PersonalResponse } from '@app/shared/models/persona.interface';
-import { ProfileService } from './../profile.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { ProfileService } from '../profile.service';
 
 @Component({
   selector: 'app-personal-data',
@@ -9,15 +9,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PersonalDataComponent implements OnInit {
 
-  public person: PersonalResponse = {} as PersonalResponse;
-  @Input() idSocio: number = 0;
+  @Input() id_socio: number = 0;
+  @Input() person: PersonalResponse = {} as PersonalResponse;
 
   constructor(private _profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this._profileService.getPersonalData(this.idSocio).subscribe((response) => {
-      this.person = response;
-    });
+    // Si no vienen personas que mande el componente padre busco la persona por this.idSocio
+    if ( Object.keys(this.person).length === 0) {
+      this._profileService.getPersonalData(this.id_socio).subscribe((response) => {
+        this.person = response;
+      });
+    }
   }
 
 }

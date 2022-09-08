@@ -89,6 +89,7 @@ def cuota_pago(request,id):
 
         body = json.loads(request.body)
         data  = body[0]
+        print(data)
         for key,value in data.items():
             if hasattr(cuota,key):
                 if key == 'metodo_pago':

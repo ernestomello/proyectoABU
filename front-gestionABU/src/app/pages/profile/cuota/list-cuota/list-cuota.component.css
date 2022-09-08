@@ -1,0 +1,10 @@
+h1 {
+  display: flex;
+  color: #127300;
+  font-family: 'Open Sans',sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1em;
+  margin: 0.5em;
+  justify-content: center;
+}

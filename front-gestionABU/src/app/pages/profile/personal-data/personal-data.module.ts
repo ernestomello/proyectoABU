@@ -5,11 +5,13 @@ import { PersonalDataRoutingModule } from './personal-data-routing.module';
 import { PersonalDataComponent } from './personal-data.component';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
+import { ListPersonalDataComponent } from './list-personal-data/list-personal-data.component';
 
 
 @NgModule({
   declarations: [
-    PersonalDataComponent
+    PersonalDataComponent,
+    ListPersonalDataComponent
   ],
   imports: [
     CommonModule,

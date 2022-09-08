@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { CuotaComponent } from './cuota.component';
 
 import { MaterialModule } from '@app/material.module';
+import { ListCuotaComponent } from './list-cuota/list-cuota.component';
 
 @NgModule({
   declarations: [
-    CuotaComponent
+    CuotaComponent,
+    ListCuotaComponent
   ],
   imports: [
     CommonModule,

@@ -8,14 +8,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  idSocio:number = 2;
+  id_socio:number = 2;
 
   @ViewChild(PersonalDataComponent, {static: true}) personalDataComponent : PersonalDataComponent = {} as PersonalDataComponent;
 
   constructor() { }
 
   ngOnInit() {
-     this.personalDataComponent.idSocio = this.idSocio;
+     this.personalDataComponent.id_socio = this.id_socio;
   }
 
 }

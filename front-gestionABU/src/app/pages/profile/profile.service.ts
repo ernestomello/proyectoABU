@@ -1,9 +1,9 @@
 import { CuotaInterface, RegistroPago } from './../../shared/models/cuota.interface';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PersonalResponse } from '@app/shared/models/persona.interface';
 
 @Injectable({
@@ -11,54 +11,64 @@ import { PersonalResponse } from '@app/shared/models/persona.interface';
 })
 export class ProfileService {
 
+  private readonly API_URL = environment.API_URL;
+
   constructor(private _http: HttpClient) { }
 
-  getPersonalData (idSocio: number){
+  getPersonalData (idSocio: number): Observable<PersonalResponse>{
     return this._http
-    .get<PersonalResponse>(`${environment.API_URL}/personas/${idSocio}`)
+    .get<PersonalResponse>(`${this.API_URL}/personas/${idSocio}`)
     .pipe(catchError(this.handleError));
   }
 
-  getCuotasSocio (idSocio: number){
+  // Devuelve el listado de todos los socios
+  getSocios (): Observable<PersonalResponse []>{
+    return this._http
+    .get<PersonalResponse []>(`${this.API_URL}/personas`)
+    .pipe(catchError(this.handleError));
+  }
+
+  getCuotasSocio (idSocio: number): Observable<CuotaInterface>{
     // Si el ID es cero o menor pide las cuotas de todos los socios
     if (idSocio <= 0) {
       return this._http
-      .get<CuotaInterface>(`${environment.API_URL}/cuotas`)
-      .pipe(catchError(this.handleError));
+      .get<CuotaInterface>(`${this.API_URL}/cuotas`)
+      .pipe(
+        catchError(this.handleError)
+        );
     }
     // Si el ID es mayor que cero pide las cuotas de un socios
     return this._http
-    .get<CuotaInterface>(`${environment.API_URL}/socios/${idSocio}/cuotas`)
+    .get<CuotaInterface>(`${this.API_URL}/socios/${idSocio}/cuotas`)
     .pipe(catchError(this.handleError));
   }
 
   // Genera la o las cuotas de uno o mas socio
-  generarCuotaSocio (id_socio: number, fecha_desde: Date, fecha_hasta: Date){
+  generarCuotaSocio (id_socio: number, fecha_desde: Date, fecha_hasta: Date): Observable<Object>{
     const body = [{
       id_socio: id_socio,
       fecha_desde: fecha_desde,
       fecha_hasta: fecha_hasta,
     }];
     return this._http
-    .post(`${environment.API_URL}/cuotas/socio`, body)
+    .post(`${this.API_URL}/cuotas/socio`, body)
     .pipe(catchError(this.handleError));
   }
 
   // Marca como pagada una cuota
-  pagarCuota(registro_pago: RegistroPago){
+  pagarCuota(registro_pago: RegistroPago): Observable<Object>{
     const id = registro_pago.id_cuota
     const body = [{
-      id_socio:    registro_pago.id_socio,
       metodo_pago: registro_pago.metodo_pago,
-      descripcion: registro_pago.descripcion
+      referencia: registro_pago.descripcion
     }];
     return this._http
-    .put(`${environment.API_URL}/cuotas/${id}/pagar`, body)
+    .put(`${this.API_URL}/cuotas/${id}/pagar`, body)
     .pipe(catchError(this.handleError));
   }
 
   // Retorna todos los metodos de pago que hay en la base
-  getMetodoPago (){
+  getMetodoPago (): Observable<Object>{
     return this._http
     .get(`${environment.API_URL}/metodospago`)
     .pipe(catchError(this.handleError));

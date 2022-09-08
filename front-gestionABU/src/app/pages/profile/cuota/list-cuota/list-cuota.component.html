@@ -1,0 +1,30 @@
+<H1>ÚLTIMAS CUOTAS GENERADAS</H1>
+
+<!-- Buscador y generador de cuotas -->
+<mat-card class="buscador">
+  <mat-card-header>
+      <mat-card-title>BUSCADOR:</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Buscar socio</mat-label>
+      <input matInput type="text" [(ngModel)]="buscar" (keyup)="buscador()"
+      matTooltip="Si se encuentra una sola persona, podra generar la cuota de esta.">
+      <button *ngIf=" buscar !=='' " matSuffix mat-icon-button aria-label="Clear" (click)="buscar=''; buscador()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button (click)="generarCuota()" matTooltip="Le posibilita generar cuotas de una persona o a todos los socios." mat-raised-button class="buscador_btn">
+      Generar cuota a {{generar_cuota_socio}}
+      <mat-icon class="mat-18">payments</mat-icon>
+    </button>
+  </mat-card-content>
+  <mat-card-footer class="buscador_footer">
+      Puede buscar las cuotas de un socio y generar nuevas cuotas para el o para todos los socios.
+  </mat-card-footer>
+</mat-card>
+
+<!-- FIN Buscador y generador de cuotas -->
+
+<app-cuota [resultado_busqueda]="resultado_busqueda" [metodos]="metodos"></app-cuota>
