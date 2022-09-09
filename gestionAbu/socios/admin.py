@@ -1,5 +1,6 @@
 from atexit import register
 from pyexpat import model
+from tkinter.tix import Form
 from django.http import HttpResponse,HttpResponseForbidden
 from django.core import serializers
 from django.template.defaultfilters import slugify
@@ -15,9 +16,24 @@ from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categ
 admin.site.register(Formacion)
 admin.site.register(TipoFormacion)
 admin.site.register(PerfilCargo)
-admin.site.register(LugarTrabajo)
+class LugarTrabajoAdmin(admin.ModelAdmin):
+    filter_horizontal = ['perfil_cargo']
+admin.site.register(LugarTrabajo,LugarTrabajoAdmin)
+
+class FormacionInLine(admin.StackedInline):
+    model = Formacion
+    extra = 0
+    classes = ['collapse']
+class LugarTrabajoInLine(admin.StackedInline):
+    model = LugarTrabajo
+    extra = 0
+    filter_horizontal = ['perfil_cargo']
+    classes = ['collapse']
+
 class PersonaAdmin(admin.ModelAdmin):
-    list_display = ('id','nombre','apellido_paterno','correo_electronico','celular')
+    inlines = (LugarTrabajoInLine,FormacionInLine)
+    list_display = ('nombre','apellido_paterno','correo_electronico','celular')
+    
 admin.site.register(Persona,PersonaAdmin)
 
 class SocioAdmin(admin.ModelAdmin):

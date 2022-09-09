@@ -4,6 +4,7 @@ from pickletools import decimalnl_long
 from pydoc import plain
 from random import choices
 from re import T
+from tabnanny import verbose
 from tkinter import Widget
 from unicodedata import decimal
 from unittest.mock import DEFAULT
@@ -221,6 +222,9 @@ class Formacion(models.Model):
 
     def __str__(self) -> str:
         return "{} - {}".format(self.tipo_formacion.descripcion,self.titulo)
+    
+    class Meta:
+        verbose_name_plural = 'Formaciones'
 
 class PerfilCargo(models.Model):
     descripcion = models.CharField(max_length=200)
@@ -241,3 +245,5 @@ class LugarTrabajo(models.Model):
     def __str__(self) -> str:
         return "{}".format(self.nombre)
 
+    class Meta:
+        verbose_name_plural = 'Lugares de Trabajo'
