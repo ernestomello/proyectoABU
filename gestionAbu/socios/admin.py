@@ -8,9 +8,14 @@ from django.apps import apps
 #from fileinput import filename
 import csv,datetime
 from django.contrib import admin
-from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
+from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
 
 # Register your models here.
+
+admin.site.register(Formacion)
+admin.site.register(TipoFormacion)
+admin.site.register(PerfilCargo)
+admin.site.register(LugarTrabajo)
 class PersonaAdmin(admin.ModelAdmin):
     list_display = ('id','nombre','apellido_paterno','correo_electronico','celular')
 admin.site.register(Persona,PersonaAdmin)

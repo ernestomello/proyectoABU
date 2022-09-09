@@ -1,13 +1,14 @@
 from calendar import month
 from datetime import datetime
 from pickletools import decimalnl_long
+from pydoc import plain
 from random import choices
 from re import T
 from tkinter import Widget
 from unicodedata import decimal
 from unittest.mock import DEFAULT
 from urllib import response
-#from socios.views import cuota_detail
+#from socios.views import cuotas_por_socio
 from django.db import models
 from django.conf import settings
 from ckeditor.fields import RichTextField
@@ -21,13 +22,15 @@ class Departamento(models.Model):
         return self.nombre
         
 class Persona(models.Model):
-    # id_persona = models.AutoField(primary_key=True)
+    """
+    Representa las personas que luego pueden ser Socios o Funcionarios o Proveedores ....
+    """
     identificacion = models.CharField(max_length=45,unique=True)
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45)
     apellido_materno = models.CharField(max_length=45)
     fecha_nacimiento = models.DateField()
-    departamento = models.OneToOneField(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True)
+    departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True)
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=50)
     celular = models.CharField(max_length=50)
@@ -88,7 +91,7 @@ class Socio(models.Model):
         port = settings.ALLOWED_PORT
         response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
         cuotas = response.json()
-        
+        #cuotas = cuotas_por_socio(self.id_socio)
         importe_total = 0.00
         mes_anio = ""
         for cuota in cuotas:
@@ -129,6 +132,9 @@ class Socio(models.Model):
 
         
 class MetodoPago(models.Model):
+    """
+    Forma de pago definida para una cuota
+    """
     descripcion = models.CharField(max_length=50)
     class Meta:
         verbose_name_plural = 'Método de Pago'
@@ -159,6 +165,9 @@ class Cuota(models.Model):
         ]
         
 class PagoCuota(models.Model):
+    """
+    Pensada para cuando la cuota se puede pagar con varios meotodos de pago
+    """
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
     referencia = models.CharField(max_length=200)
@@ -166,6 +175,9 @@ class PagoCuota(models.Model):
         verbose_name_plural = 'Pago de Cuotas'
 
 class Descriptor(models.Model):
+    """
+    Para representar los descriptores que tendrán las Actas
+    """
     palabra_clave = models.CharField(max_length=50)
     class Meta:
         verbose_name_plural = 'Descriptores'
@@ -189,3 +201,43 @@ class ActaDescriptor(models.Model):
 class ActaSocio(models.Model):
     id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
     id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
+
+
+class TipoFormacion(models.Model):
+    descripcion = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return "{}".format(self.descripcion)
+
+class Formacion(models.Model):
+    id_persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)
+    tipo_formacion = models.ForeignKey(TipoFormacion,on_delete=models.RESTRICT)
+    titulo = models.CharField(max_length=100)
+    fecha_titulo = models.DateField(verbose_name= 'Fecha del Titulo')
+    institucion = models.CharField(max_length=100)
+    duracion = models.CharField(max_length=50)
+    plan = models.CharField(max_length=100)
+    fecha_revalida = models.DateField()
+
+    def __str__(self) -> str:
+        return "{} - {}".format(self.tipo_formacion.descripcion,self.titulo)
+
+class PerfilCargo(models.Model):
+    descripcion = models.CharField(max_length=200)
+
+    def __str__(self) -> str:
+        return "{}".format(self.descripcion)
+
+class LugarTrabajo(models.Model):
+    id_persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)
+    nombre = models.CharField(max_length=200)
+    direccion = models.CharField(max_length=200)
+    telefono = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=100)
+    perfil_cargo = models.ManyToManyField(PerfilCargo)
+    fecha_ingreso = models.DateField()
+    fecha_egreso = models.DateField()
+
+    def __str__(self) -> str:
+        return "{}".format(self.nombre)
+

@@ -213,8 +213,14 @@ def cuota_siguiente(socio,str_date_ini):
                     return True
         else:
             if year_ini == year_ultima:
+                
                 return True
             else:
                 return False
     return True
     #"""
+
+
+def cuotas_por_socio(id):
+    cuotas = Cuota.objects.filter(id_socio = id).order_by('-mes_anio')
+    return cuotas
