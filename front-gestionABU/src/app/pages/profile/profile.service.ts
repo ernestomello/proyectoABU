@@ -30,6 +30,8 @@ export class ProfileService {
 
   getCuotasSocio (idSocio: number): Observable<CuotaInterface>{
     // Si el ID es cero o menor pide las cuotas de todos los socios
+    console.log(idSocio);
+
     if (idSocio <= 0) {
       return this._http
       .get<CuotaInterface>(`${this.API_URL}/cuotas`)
@@ -39,7 +41,7 @@ export class ProfileService {
     }
     // Si el ID es mayor que cero pide las cuotas de un socios
     return this._http
-    .get<CuotaInterface>(`${this.API_URL}/socios/${idSocio}/cuotas`)
+    .get<CuotaInterface>(`${this.API_URL}/socios/${idSocio}/cuota`)
     .pipe(catchError(this.handleError));
   }
 

@@ -7,7 +7,7 @@ export interface Socio{
 }
 
 export interface SocioResponse{
-  message: string;
+  id_socio: number;
   token: string;
   name:string;
   rol: Roles;

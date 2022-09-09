@@ -81,7 +81,7 @@ export class ListCuotaComponent implements OnInit {
     this._profileService.getCuotasSocio(this.id_socio).subscribe((cuotas) => {
       this.cuotas = Object.values (cuotas);
       this.resultado_busqueda = this.cuotas;
-      console.log(this.resultado_busqueda );
+      console.log(this.resultado_busqueda);
 
     });
   }
