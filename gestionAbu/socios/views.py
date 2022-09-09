@@ -70,7 +70,7 @@ def cuota_detail(request,id):
         return  HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = CuotaSerializer(cuota, many =True)
+        serializer = CuotaSolaSerializer(cuota, many =True)
         return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
@@ -155,13 +155,14 @@ def genera_cuotas(request):
             socios_alta = Socio.objects.filter(estado='A')
         else:
             socios_alta.append(Socio.objects.get(pk=socios))
+            #print(socios_alta)
         
         if socios_alta:   
             
             for socio in socios_alta:
+                #print(socio)
                 if cuota_siguiente(socio,data['fecha_desde']):    
-                    for fecha_valor in rango_fechas:
-                    
+                    for fecha_valor in rango_fechas:                    
                         cuota = Cuota.objects.get_or_create(
                             id_socio = socio,
                             mes_anio = fecha_valor,
@@ -192,25 +193,28 @@ def range_month(str_date_ini, str_date_end):
     return range_date
 
 def cuota_siguiente(socio,str_date_ini):
-    return True
-    """ 
+    #return True
+    #""" 
     year_ini = int(str_date_ini[:4])
     month_ini = int(str_date_ini[5:7])
-    str_date_ultima = socio.ultima_cuota_paga()
-    print(str_date_ultima)
-    year_ultima = int(str_date_ultima[:4])
-    month_ultima = int(str_date_ultima[5:7])
-    if month_ultima == 12:
-        if month_ini != 1:
-            return False
-        else:
-            if year_ini != year_ultima +1:
+    str_date_ultima = socio.ultima_cuota_generada()
+    print('{} ultima- {}/{}'.format(str_date_ultima,month_ini,year_ini))
+    if str_date_ultima:
+        year_ultima = int(str_date_ultima[:4])
+        month_ultima = int(str_date_ultima[5:7])
+        print('{} ultima- {}/{}'.format(str_date_ultima,month_ultima,year_ultima))
+        if month_ultima == 12:
+            if month_ini != 1:
                 return False
             else:
-                return True
-    else:
-        if year_ini == year_ultima:
-            return True
+                if year_ini != year_ultima +1:
+                    return False
+                else:
+                    return True
         else:
-            return False 
-    """
+            if year_ini == year_ultima:
+                return True
+            else:
+                return False
+    return True
+    #"""

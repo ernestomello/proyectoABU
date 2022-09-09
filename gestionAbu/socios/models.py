@@ -100,17 +100,21 @@ class Socio(models.Model):
             mes_anio = datetime.strptime(mes_anio,"%Y-%m-%d").date()
         return "$ {} ({})".format(importe_total,mes_anio)
 
-    def ultima_cuota_paga(self):
+    def ultima_cuota_generada(self):
         url_root = settings.ALLOWED_HOSTS
         port = settings.ALLOWED_PORT
-        print(url_root)
         response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
         cuotas = response.json()
         mes_anio = ""
-        for cuota in cuotas:
-            if cuota['estado'] == "PAGA":
-                mes_anio = cuota['mes_anio']
-           
+        if cuotas: 
+            mes_anio = cuotas[0]['mes_anio']          
+            """
+            for cuota in cuotas:
+                if cuota['estado'] == "PAGA":
+                    mes_anio = cuota['mes_anio']
+            print(mes_anio)
+            """   
+        
         return "{}".format(mes_anio)
 
 
