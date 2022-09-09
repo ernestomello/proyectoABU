@@ -23,7 +23,10 @@ export class CuotaComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.resultado_busqueda.length === 0 && this.id_socio !== 0) {
-      this._profileService.getCuotasSocio(this.id_socio)
+      this._profileService.getCuotasSocio(this.id_socio).subscribe((cuotas) =>{
+        this.resultado_busqueda = Object.values (cuotas);
+        console.log(this.resultado_busqueda);
+      });
     }
   }
 
