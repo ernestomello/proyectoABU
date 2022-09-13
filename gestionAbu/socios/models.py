@@ -88,27 +88,31 @@ class Socio(models.Model):
         return "{} - {}".format(self.id_persona.celular, self.id_persona.correo_electronico)
 
     def deuda_socio(self):
-        url_root = settings.ALLOWED_HOSTS
+        """ url_root = settings.ALLOWED_HOSTS
         port = settings.ALLOWED_PORT
         response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
         cuotas = response.json()
-        #cuotas = cuotas_por_socio(self.id_socio)
+        #cuotas = cuotas_por_socio(self.id_socio) """
+        cuotas = Cuota.objects.filter(id_socio=self).order_by('-mes_anio')
         importe_total = 0.00
         mes_anio = ""
         for cuota in cuotas:
-            if cuota['estado'] != "PAGA":
-                importe_total  += cuota['importe']
+            if cuota.estado != "P":
+                importe_total  += cuota.importe
             else:
-                mes_anio = cuota['mes_anio']
-        if mes_anio != "":
-            mes_anio = datetime.strptime(mes_anio,"%Y-%m-%d").date()
+                mes_anio = cuota.mes_anio
+        if mes_anio == "":
+            mes_anio = datetime.strftime(mes_anio,"%d-%m-%Y").date()
+        else:
+            mes_anio = mes_anio.strftime("%d/%m/%Y")
         return "$ {} ({})".format(importe_total,mes_anio)
 
     def ultima_cuota_generada(self):
-        url_root = settings.ALLOWED_HOSTS
+        """ url_root = settings.ALLOWED_HOSTS
         port = settings.ALLOWED_PORT
         response = requests.get("http://{}:{}/socios/{}".format(url_root[0],port[0],self.id_socio)+"/cuotas")
-        cuotas = response.json()
+        cuotas = response.json() """
+        cuotas = Cuota.objects.filter(id_socio=self).order_by('-anio_mes')
         mes_anio = ""
         if cuotas: 
             mes_anio = cuotas[0]['mes_anio']          
