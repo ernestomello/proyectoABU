@@ -1,14 +1,15 @@
-from atexit import register
-from pyexpat import model
-from django.http import HttpResponse,HttpResponseForbidden
-from django.core import serializers
-from django.template.defaultfilters import slugify
-from django.apps import apps
-#from django.db.models.loading import get_model
-#from fileinput import filename
-import csv,datetime
+from datetime import timedelta
+from django.contrib import messages
+from os import path
+from django.http import HttpResponse
+import csv
 from django.contrib import admin
+# from .views import range_month
 from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import GenerarCuotaForm, RegistroPagoForm
+
 
 # Register your models here.
 class PersonaAdmin(admin.ModelAdmin):
@@ -19,7 +20,51 @@ class SocioAdmin(admin.ModelAdmin):
     list_display = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter = ('categoria_socio','frecuencia_pago','estado',)
     search_fields = ('id_persona__nombre','id_persona__apellido_paterno',)
-   # raw_id_fields = ['categoria_socio']
+    change_form_template = "generar-cuota/btn_generar_cuota.html"
+    actions = ['generar_cuota']
+
+    @admin.action(description='Generar Cuota')
+    def generar_cuota(self, request, queryset):
+
+        if 'apply' in request.POST:
+            print(queryset)
+            year_init   = request.POST["fecha_desde_year"]
+            year_end    = request.POST["fecha_hasta_year"]
+            month_init  = request.POST["fecha_desde_month"]
+            month_end   = request.POST["fecha_hasta_month"]
+            if Cuota.fecha_inconsistente(year_init, month_init, year_end, month_end):
+                self.message_user(request, "Fechas inconsistente, no se generaron cuotas nuevas.", level=messages.ERROR)
+            else:
+                rango_fechas = Cuota.range_month(year_init, month_init, year_end, month_end)
+                cantidad=0
+                for socio in queryset:
+                    for fecha_valor in rango_fechas:                    
+                        cuota = Cuota.objects.get_or_create(
+                            id_socio = socio,
+                            mes_anio = fecha_valor,
+                            fecha_vencimiento = fecha_valor + timedelta(days=10),
+                            importe = socio.importe_cuota()
+                        )
+                        if cuota:
+                            cantidad+= 1
+                        print(cuota)
+
+                self.message_user(request, "Se generaron {} cuotas".format(cantidad))
+            return HttpResponseRedirect(request.get_full_path())
+
+        form = GenerarCuotaForm(initial={'_selected_action': queryset.values_list('id_socio', flat=True)})
+        return render(request, "generar-cuota/generar_cuota.html", {'items': queryset, 'form': form})
+
+        # if "_generar-cuota" in request.POST:
+        #     form = GenerarCuotaForm(initial={})
+        #     return render(request, "generar-cuota/generar_cuota.html", {'items': obj, 'form': form})
+
+        # if 'apply' in request.POST:
+        #     print(request.POST["descripcion"])
+        #     self.message_user(request, "Se genero cuota")
+        # print("=======>>>>>>ACA")
+    
+
 admin.site.register(Socio,SocioAdmin)
 
 admin.site.register(Categoria_socio)
@@ -29,6 +74,28 @@ class CuotaAdmin(admin.ModelAdmin):
     search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
     list_filter = ('estado',)
     list_per_page = 30
+    actions = ['registro_pago']
+
+    @admin.action(description='Registrar pago')
+    def registro_pago(self, request, queryset):
+
+        if 'apply' in request.POST:
+            for cuota in queryset:
+                descripcion = request.POST["descripcion"]
+                id_metodo = request.POST["metodo_de_pago"]
+                metodo_pago = MetodoPago.objects.get(id=id_metodo)
+                if metodo_pago:
+                    cuota.metodo_pago = metodo_pago
+                    cuota.referencia = descripcion
+                    cuota.estado = 'P'
+                    cuota.save()
+
+            self.message_user(request, "Cambio de estado en {} cuotas".format(queryset.count()))
+            return HttpResponseRedirect(request.get_full_path())
+        
+        form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})
+        
 
 admin.site.register(Cuota,CuotaAdmin)
 
@@ -58,84 +125,6 @@ admin.site.register(Acta,ActaAdmin)
 admin.site.register(Descriptor)
 admin.site.register(Departamento)
 
-""" def export_to_csv(modeladmin, request, queryset):
-    opts = modeladmin.model._meta
-    opt = modeladmin
-    print(modeladmin.model._meta)
-    response = HttpResponse(content_type="text/csv")
-    response['Content-Disposition'] = 'attachment;' 'filename={}.csv'.format(opts.verbose_name)
-    writer = csv.writer(response)
-    #fields = modeladmin.model.objets().filter()
-    fields = [field for field in opt.get_fields(request=request)]
-    print(fields)
-    # Write a first row with header information
-    #writer.writerow([field.verbose_name for field in fields])
-    # Write data rows
-    for obj in queryset:
-        data_row = []
-        for field in fields:
-            value = getattr(obj, field.name)
-            if isinstance(value, datetime.datetime):
-                value = value.strftime('%d/%m/%Y')
-            data_row.append(value)
-        writer.writerow(data_row)
-
-    return response 
-
-def export(qs,request, fields=None):
-    model = qs.model
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=%s.csv' % slugify(model.__name__)
-    writer = csv.writer(response)
-    # Write headers to CSV file
-    if fields:
-        headers = fields
-    else:
-        headers = []
-        for field in model._meta.fields:
-            headers.append(field.name)
-    writer.writerow(headers)
-    # Write data to CSV file
-    for obj in qs:
-        row = []
-        for field in headers:
-            if field in headers:
-                val = getattr(obj, field)
-                if callable(val):
-                    val = val()
-                row.append(val)
-        writer.writerow(row)
-    # Return CSV file to browser as download
-    return response
-"""
-"""
-def admin_list_export(request, model_name, app_label, queryset=None, fields=None, list_display=True):
-    """
-    #Put the following line in your urls.py BEFORE your admin include
-    #(r'^admin/(?P<app_label>[\d\w]+)/(?P<model_name>[\d\w]+)/csv/', 'util.csv_view.admin_list_export'),
-"""
-    if not request.user.is_staff:
-        return HttpResponseForbidden()
-    if not queryset:
-        model = apps.get_model(app_label, model_name)
-        queryset = model.objects.all()
-        filters = dict()
-        for key, value in request.GET.items():
-            if key not in ('ot', 'o'):
-                filters[str(key)] = str(value)
-        if len(filters):
-            queryset = queryset.filter(**filters)
-    if not fields:
-        if list_display and len(queryset.model._meta.admin.list_display) > 1:
-            fields = queryset.model._meta.admin.list_display
-        else:
-            fields = None
-    return export(queryset, fields)
-
-admin_list_export.short_description = 'Export to CSV'  #short description
-    #serializers.serialize('csv', queryset, stream=response)
-    #return response
-"""
 def export_as_csv(self, request, queryset):
 
     meta = self.model._meta
@@ -154,3 +143,4 @@ def export_as_csv(self, request, queryset):
 
 export_as_csv.short_description = "Exportar Seleccionados"
 admin.site.add_action(export_as_csv)
+

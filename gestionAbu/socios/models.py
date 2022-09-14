@@ -157,6 +157,26 @@ class Cuota(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['id_socio','mes_anio'],name='unique_socio_cuota')
         ]
+
+    def range_month(year_ini,month_ini,year_end,month_end):
+        range_date = []
+        dif_year = int(year_end) - int(year_ini)
+        cant_moth = (12 * dif_year) + int(month_end) - int(month_ini)  + 1
+
+        for i in range(int(month_ini),(int(month_ini)+cant_moth)):
+            month_end = i-((i//12) * 12)
+            if month_end == 0:
+                month_end = 12
+            date_str = str(int(year_ini) +(i//12))+"-"+str(month_end)+"-01"
+            range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
+        return range_date
+
+    def fecha_inconsistente(year_ini,month_ini,year_end,month_end):
+        if year_ini > year_end:
+            return True
+        if year_ini == year_end & month_ini > month_end:
+            return True
+        return False
         
 class PagoCuota(models.Model):
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
