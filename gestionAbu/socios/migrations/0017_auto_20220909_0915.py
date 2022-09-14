@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='TipoFromacion',
+            name='TipoFormacion',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('descripcion', models.CharField(max_length=100)),
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('plan', models.CharField(max_length=100)),
                 ('fecha_revalida', models.DateField()),
                 ('id_persona', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='socios.persona')),
-                ('tipo_formacion', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='socios.tipofromacion')),
+                ('tipo_formacion', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='socios.tipoformacion')),
             ],
         ),
     ]
