@@ -1,17 +1,11 @@
 from datetime import timedelta
-from django.contrib import messages
-from os import path
+from django.contrib import messages, admin
 from django.http import HttpResponse
 import csv
-from django.contrib import admin
-# from .views import range_month
 from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
-
-
-# Register your models here.
 
 admin.site.register(Formacion)
 admin.site.register(TipoFormacion)
@@ -21,8 +15,8 @@ class LugarTrabajoAdmin(admin.ModelAdmin):
 admin.site.register(LugarTrabajo,LugarTrabajoAdmin)
 
 class FormacionInLine(admin.StackedInline):
-    model = Formacion
-    extra = 0
+    model   = Formacion
+    extra   = 0
     classes = ['collapse']
 class LugarTrabajoInLine(admin.StackedInline):
     model = LugarTrabajo
@@ -37,11 +31,11 @@ class PersonaAdmin(admin.ModelAdmin):
 admin.site.register(Persona,PersonaAdmin)
 
 class SocioAdmin(admin.ModelAdmin):
-    list_display = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
-    list_filter = ('categoria_socio','frecuencia_pago','estado',)
-    search_fields = ('id_persona__nombre','id_persona__apellido_paterno',)
+    list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
+    list_filter     = ('categoria_socio','frecuencia_pago','estado',)
+    search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
     change_form_template = "generar-cuota/btn_generar_cuota.html"
-    actions = ['generar_cuota']
+    actions         = ['generar_cuota']
 
     @admin.action(description='Generar Cuota')
     def generar_cuota(self, request, queryset):
