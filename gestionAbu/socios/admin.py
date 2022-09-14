@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from datetime import timedelta
 from django.contrib import messages
 from os import path
@@ -6,25 +5,11 @@ from django.http import HttpResponse
 import csv
 from django.contrib import admin
 # from .views import range_month
-from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio,Cuota,MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta
+from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
 
-=======
-from atexit import register
-from pyexpat import model
-from tkinter.tix import Form
-from django.http import HttpResponse,HttpResponseForbidden
-from django.core import serializers
-from django.template.defaultfilters import slugify
-from django.apps import apps
-#from django.db.models.loading import get_model
-#from fileinput import filename
-import csv,datetime
-from django.contrib import admin
-from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
->>>>>>> 7419d962dc07096402df40c9ffde6a2c4d2920da
 
 # Register your models here.
 
@@ -88,17 +73,7 @@ class SocioAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(request.get_full_path())
 
         form = GenerarCuotaForm(initial={'_selected_action': queryset.values_list('id_socio', flat=True)})
-        return render(request, "generar-cuota/generar_cuota.html", {'items': queryset, 'form': form})
-
-        # if "_generar-cuota" in request.POST:
-        #     form = GenerarCuotaForm(initial={})
-        #     return render(request, "generar-cuota/generar_cuota.html", {'items': obj, 'form': form})
-
-        # if 'apply' in request.POST:
-        #     print(request.POST["descripcion"])
-        #     self.message_user(request, "Se genero cuota")
-        # print("=======>>>>>>ACA")
-    
+        return render(request, "generar-cuota/generar_cuota.html", {'items': queryset, 'form': form})    
 
 admin.site.register(Socio,SocioAdmin)
 
