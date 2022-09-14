@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from datetime import timedelta
 from django.contrib import messages
 from os import path
@@ -10,10 +11,44 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
 
+=======
+from atexit import register
+from pyexpat import model
+from tkinter.tix import Form
+from django.http import HttpResponse,HttpResponseForbidden
+from django.core import serializers
+from django.template.defaultfilters import slugify
+from django.apps import apps
+#from django.db.models.loading import get_model
+#from fileinput import filename
+import csv,datetime
+from django.contrib import admin
+from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
+>>>>>>> 7419d962dc07096402df40c9ffde6a2c4d2920da
 
 # Register your models here.
+
+admin.site.register(Formacion)
+admin.site.register(TipoFormacion)
+admin.site.register(PerfilCargo)
+class LugarTrabajoAdmin(admin.ModelAdmin):
+    filter_horizontal = ['perfil_cargo']
+admin.site.register(LugarTrabajo,LugarTrabajoAdmin)
+
+class FormacionInLine(admin.StackedInline):
+    model = Formacion
+    extra = 0
+    classes = ['collapse']
+class LugarTrabajoInLine(admin.StackedInline):
+    model = LugarTrabajo
+    extra = 0
+    filter_horizontal = ['perfil_cargo']
+    classes = ['collapse']
+
 class PersonaAdmin(admin.ModelAdmin):
-    list_display = ('id','nombre','apellido_paterno','correo_electronico','celular')
+    inlines = (LugarTrabajoInLine,FormacionInLine)
+    list_display = ('nombre','apellido_paterno','correo_electronico','celular')
+    
 admin.site.register(Persona,PersonaAdmin)
 
 class SocioAdmin(admin.ModelAdmin):
