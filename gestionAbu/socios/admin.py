@@ -2,10 +2,11 @@ from datetime import timedelta
 from django.contrib import messages, admin
 from django.http import HttpResponse
 import csv
-from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion
+from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion,MovimientoCaja
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
+from daterangefilter.filters import PastDateRangeFilter, FutureDateRangeFilter,DateRangeFilter
 
 admin.site.register(Formacion)
 admin.site.register(TipoFormacion)
@@ -147,7 +148,17 @@ def export_as_csv(self, request, queryset):
 
     return response
 
+class MovimientoCajaAdmin(admin.ModelAdmin):
+    list_display = ('fecha','motivo','importe','tipo_movimiento','tipo_caja')
+    list_filter = (('fecha',FutureDateRangeFilter),'tipo_movimiento','tipo_caja')
+    exclude = ['usuario',]
+    def save_model(self, request, obj, form, change):
+        if not obj.id:
+        # Only set added_by during the first save.
+            obj.usuario = request.user
+        super().save_model(request, obj, form, change)
 
+admin.site.register(MovimientoCaja,MovimientoCajaAdmin)
 export_as_csv.short_description = "Exportar Seleccionados"
 admin.site.add_action(export_as_csv)
 

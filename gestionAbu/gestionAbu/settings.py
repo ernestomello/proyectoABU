@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'socios',
     'ckeditor',
     'coreapi',
+    'daterangefilter',
     'rest_framework',    
     'rest_framework_swagger',
     'rest_framework.authtoken',
@@ -143,9 +144,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# STATICFILES_DIRS=[
-#     os.path.join(BASE_DIR, '../front-gestionABU/dist/front-gestionABU/static/')
-#     ]
+STATICFILES_DIRS=[
+     os.path.join(BASE_DIR, 'gestionAbu/static')
+     ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
