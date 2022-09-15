@@ -1,13 +1,4 @@
-from calendar import month
 from datetime import datetime
-from pickletools import decimalnl_long
-from pydoc import plain
-from random import choices
-from re import T
-from tabnanny import verbose
-from unicodedata import decimal
-from unittest.mock import DEFAULT
-#from socios.views import cuotas_por_socio
 from django.db import models
 from ckeditor.fields import RichTextField
 
@@ -65,8 +56,8 @@ class Socio(models.Model):
     id_persona = models.OneToOneField(Persona, on_delete=models.DO_NOTHING,blank=True,null=True, verbose_name="Nombre")
     fecha_ingreso = models.DateField(verbose_name="Fecha de Ingreso")
     estado = models.CharField(max_length=1,choices=ESTADO_SOCIO,default='A')
-    fecha_baja = models.DateField(verbose_name="Fecha de Baja",default=None,blank=True,null=True)
-    fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",default=None,blank=True,null=True)
+    fecha_baja = models.DateField(verbose_name="Fecha de Baja",default=None,blank=True)
+    fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",default=None,blank=True)
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.DO_NOTHING, verbose_name="Categoria Socio")
     def __str__(self):
