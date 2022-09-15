@@ -35,7 +35,6 @@ class SocioAdmin(admin.ModelAdmin):
     list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
-    change_form_template = "generar-cuota/btn_generar_cuota.html"
     actions         = ['generar_cuota']
 
     @admin.action(description='Generar Cuota')
@@ -68,7 +67,10 @@ class SocioAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(request.get_full_path())
 
         form = GenerarCuotaForm(initial={'_selected_action': queryset.values_list('id_socio', flat=True)})
-        return render(request, "generar-cuota/generar_cuota.html", {'items': queryset, 'form': form})  
+        return render(request, "generar-cuota/generar_cuota.html", {'items': queryset, 'form': form})
+
+    class Media:
+        css = {"all": ("css/style.css",)}
 
 admin.site.register(Socio,SocioAdmin)
 
@@ -80,6 +82,9 @@ class CuotaAdmin(admin.ModelAdmin):
     list_filter = ('estado',)
     list_per_page = 30
     actions = ['registro_pago']
+
+    class Media:
+        css = {"all": ("css/style.css",)}
 
     @admin.action(description='Registrar pago')
     def registro_pago(self, request, queryset):
@@ -99,8 +104,7 @@ class CuotaAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(request.get_full_path())
         
         form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})
-        
+        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})        
 
 admin.site.register(Cuota,CuotaAdmin)
 
@@ -115,6 +119,7 @@ admin.site.register(PagoCuota,PagoCuotaAdmin)
 class ActaDescriptorInline(admin.TabularInline):
     model = ActaDescriptor
     extra = 0
+
 class ActaSocioInline(admin.TabularInline):
     model =ActaSocio
     extra = 0

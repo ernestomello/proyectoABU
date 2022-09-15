@@ -155,6 +155,7 @@ class PagoCuota(models.Model):
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
     referencia = models.CharField(max_length=200)
+    
     class Meta:
         verbose_name_plural = 'Pago de Cuotas'
 
