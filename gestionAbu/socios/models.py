@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your models here.
 class Departamento(models.Model):
@@ -61,6 +62,7 @@ class Socio(models.Model):
     fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",default=None,blank=True)
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.DO_NOTHING, verbose_name="Categoria Socio")
+    
     def __str__(self):
         return "{}".format(self.id_persona)
     
@@ -69,6 +71,17 @@ class Socio(models.Model):
     
     class Meta:
         pass
+
+    # def save(self, *args, **kwargs):
+    #     if self.estado == "B" and self.fecha_baja is None:
+    #         self
+            
+    #     if self.estado != "B":
+    #         print("SE GUARDARON LOS CAMBIOS")
+    #         super().save(*args, **kwargs)
+
+        
+        
     
     #@property
     def contacto(self):
@@ -155,7 +168,7 @@ class PagoCuota(models.Model):
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
     referencia = models.CharField(max_length=200)
-    
+
     class Meta:
         verbose_name_plural = 'Pago de Cuotas'
 
