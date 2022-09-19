@@ -6,7 +6,7 @@ from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categ
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
-from daterangefilter.filters import PastDateRangeFilter, FutureDateRangeFilter,DateRangeFilter
+from daterangefilter.filters import  FutureDateRangeFilter
 
 admin.site.register(Formacion)
 admin.site.register(TipoFormacion)
@@ -144,18 +144,26 @@ def export_as_csv(self, request, queryset):
         row = writer.writerow([getattr(obj, field) for field in field_names])
 
     return response
+export_as_csv.short_description = "Exportar Seleccionados"
+admin.site.add_action(export_as_csv)
 
 class MovimientoCajaAdmin(admin.ModelAdmin):
-    list_display = ('fecha','motivo','importe','tipo_movimiento','tipo_caja')
+    list_display = ('fecha','motivo','importe','tipo_movimiento','tipo_caja','user')
     list_filter = (('fecha',FutureDateRangeFilter),'tipo_movimiento','tipo_caja')
-    exclude = ['usuario',]
+    exclude = ['user',]
+     
     def save_model(self, request, obj, form, change):
         if not obj.id:
         # Only set added_by during the first save.
-            obj.usuario = request.user
-        super().save_model(request, obj, form, change)
-
+            obj.user = request.user
+        if obj.user == request.user or request.user.is_superuser:
+            super(MovimientoCajaAdmin,self).save_model(request, obj, form, change)
+        else:
+            self.message_user(request, 'Solo el usuario "{}" puede modificar este registro'.format(obj.user), level=messages.WARNING)
+    
+            
+        
 admin.site.register(MovimientoCaja,MovimientoCajaAdmin)
-export_as_csv.short_description = "Exportar Seleccionados"
-admin.site.add_action(export_as_csv)
+
+
 

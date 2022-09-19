@@ -9,5 +9,5 @@ class RegistroPagoForm(forms.Form):
 
 class GenerarCuotaForm(forms.Form):
     _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)
-    fecha_desde = forms.DateField(widget = forms.SelectDateWidget)
+    fecha_desde = forms.DateField( widget = forms.SelectDateWidget)
     fecha_hasta = forms.DateField( widget = forms.SelectDateWidget)

@@ -1,5 +1,6 @@
 from calendar import month
 from datetime import datetime
+from email.headerregistry import Group
 from pickletools import decimalnl_long
 from pydoc import plain
 from random import choices
@@ -255,13 +256,13 @@ class MovimientoCaja(models.Model):
     importe = models.DecimalField(decimal_places=2,max_digits=10)
     tipo_movimiento = models.CharField(max_length=1,choices=TIPO_MOVIMIENTO)
     tipo_caja = models.CharField(max_length=1,choices=TIPO_CAJA)
-    usuario = models.ForeignKey(User,null=True, blank=True,on_delete=models.SET_NULL)
-
+    user = models.ForeignKey(User,null=True, blank=True,on_delete=models.SET_NULL)
+    """ 
     def save_model(self, request, obj, form, change):
         #if not obj.pk:
         # Only set added_by during the first save.
-        obj.usuario = request.user
+        obj.user = request.user
         super().save_model(request, obj, form, change)
-    
+    """
     def __str__(self) -> str:
         return "{}".format(self.motivo)
