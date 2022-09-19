@@ -1,5 +1,4 @@
 from datetime import datetime
-<<<<<<< HEAD
 from email.headerregistry import Group
 from pickletools import decimalnl_long
 from pydoc import plain
@@ -9,8 +8,6 @@ from tabnanny import verbose
 from unicodedata import decimal
 from unittest.mock import DEFAULT
 #from socios.views import cuotas_por_socio
-=======
->>>>>>> 7d07552ac7f9ce7a53094e4cadc9dc76ba0bd891
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
