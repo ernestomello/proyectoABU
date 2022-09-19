@@ -1,0 +1,11 @@
+td.field-id_socio a {
+                    display: none;
+                }
+
+.related-widget-wrapper-link:link {
+    display: none;
+}
+
+.dynamic-actadescriptor_set:not(.has_original) a.related-widget-wrapper-link.add-related{
+    display: inline;
+}

@@ -1,5 +1,5 @@
-from calendar import month
 from datetime import datetime
+<<<<<<< HEAD
 from email.headerregistry import Group
 from pickletools import decimalnl_long
 from pydoc import plain
@@ -9,9 +9,12 @@ from tabnanny import verbose
 from unicodedata import decimal
 from unittest.mock import DEFAULT
 #from socios.views import cuotas_por_socio
+=======
+>>>>>>> 7d07552ac7f9ce7a53094e4cadc9dc76ba0bd891
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your models here.
 class Departamento(models.Model):
@@ -67,10 +70,11 @@ class Socio(models.Model):
     id_persona = models.OneToOneField(Persona, on_delete=models.DO_NOTHING,blank=True,null=True, verbose_name="Nombre")
     fecha_ingreso = models.DateField(verbose_name="Fecha de Ingreso")
     estado = models.CharField(max_length=1,choices=ESTADO_SOCIO,default='A')
-    fecha_baja = models.DateField(verbose_name="Fecha de Baja",default=None,blank=True,null=True)
-    fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",default=None,blank=True,null=True)
+    fecha_baja = models.DateField(verbose_name="Fecha de Baja",default=None,blank=True)
+    fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",default=None,blank=True)
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.DO_NOTHING, verbose_name="Categoria Socio")
+    
     def __str__(self):
         return "{}".format(self.id_persona)
     
@@ -79,6 +83,17 @@ class Socio(models.Model):
     
     class Meta:
         pass
+
+    # def save(self, *args, **kwargs):
+    #     if self.estado == "B" and self.fecha_baja is None:
+    #         self
+            
+    #     if self.estado != "B":
+    #         print("SE GUARDARON LOS CAMBIOS")
+    #         super().save(*args, **kwargs)
+
+        
+        
     
     #@property
     def contacto(self):
@@ -165,6 +180,7 @@ class PagoCuota(models.Model):
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
     referencia = models.CharField(max_length=200)
+
     class Meta:
         verbose_name_plural = 'Pago de Cuotas'
 
