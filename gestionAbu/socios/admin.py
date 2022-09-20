@@ -2,34 +2,13 @@ from datetime import timedelta
 from django.contrib import messages, admin
 from django.http import HttpResponse
 import csv
-from socios.models import Cuota, Departamento, Descriptor, Persona, Socio, Categoria_socio, MetodoPago, PagoCuota,ActaDescriptor, ActaSocio,Acta,Formacion,LugarTrabajo,PerfilCargo,TipoFormacion,MovimientoCaja
+from socios.models import Cuota, Descriptor, Socio, Categoria_socio, MetodoPago,ActaDescriptor, ActaSocio,Acta,MovimientoCaja
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import GenerarCuotaForm, RegistroPagoForm
 from daterangefilter.filters import  FutureDateRangeFilter
 
-admin.site.register(Formacion)
-admin.site.register(TipoFormacion)
-admin.site.register(PerfilCargo)
-class LugarTrabajoAdmin(admin.ModelAdmin):
-    filter_horizontal = ['perfil_cargo']
-admin.site.register(LugarTrabajo,LugarTrabajoAdmin)
 
-class FormacionInLine(admin.StackedInline):
-    model   = Formacion
-    extra   = 0
-    classes = ['collapse']
-class LugarTrabajoInLine(admin.StackedInline):
-    model = LugarTrabajo
-    extra = 0
-    filter_horizontal = ['perfil_cargo']
-    classes = ['collapse']
-
-class PersonaAdmin(admin.ModelAdmin):
-    inlines = (LugarTrabajoInLine,FormacionInLine)
-    list_display = ('nombre','apellido_paterno','correo_electronico','celular')
-    
-admin.site.register(Persona,PersonaAdmin)
 
 class SocioAdmin(admin.ModelAdmin):
     list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
@@ -110,11 +89,11 @@ admin.site.register(Cuota,CuotaAdmin)
 
 admin.site.register(MetodoPago)
 
-class PagoCuotaAdmin(admin.ModelAdmin):
+#class PagoCuotaAdmin(admin.ModelAdmin):
     #list_display = ('id_cuota__id_socio__nombre',)
-    pass
+#    pass
 
-admin.site.register(PagoCuota,PagoCuotaAdmin)
+#admin.site.register(PagoCuota,PagoCuotaAdmin)
 
 class ActaDescriptorInline(admin.TabularInline):
     model = ActaDescriptor
@@ -136,7 +115,7 @@ class ActaAdmin(admin.ModelAdmin):
     
 admin.site.register(Acta,ActaAdmin)
 admin.site.register(Descriptor)
-admin.site.register(Departamento)
+
 
 def export_as_csv(self, request, queryset):
 
