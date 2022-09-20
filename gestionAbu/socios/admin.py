@@ -2,14 +2,47 @@ from datetime import timedelta
 from django.contrib import messages, admin
 from django.http import HttpResponse
 import csv
-from socios.models import Cuota, Descriptor, Socio, Categoria_socio, MetodoPago,ActaDescriptor, ActaSocio,Acta,MovimientoCaja
-from django.http import HttpResponseRedirect
+from socios.models import Socio, Categoria_socio,Cuota,MetodoPago
+#from cuotas.models import Cuota
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from .forms import GenerarCuotaForm, RegistroPagoForm
 from daterangefilter.filters import  FutureDateRangeFilter
 
 
+class CuotaAdmin(admin.ModelAdmin):
+    list_display = ('id_socio','estado','anio_mes','fecha_vencimiento',)
+    search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
+    list_filter = ('estado',)
+    list_per_page = 30
+    actions = ['registro_pago']
 
+    class Media:
+        css = {"all": ("css/style.css",)}
+
+    @admin.action(description='Registrar pago')
+    def registro_pago(self, request, queryset):
+
+        if 'apply' in request.POST:
+            for cuota in queryset:
+                descripcion = request.POST["descripcion"]
+                id_metodo = request.POST["metodo_de_pago"]
+                metodo_pago = MetodoPago.objects.get(id=id_metodo)
+                if metodo_pago:
+                    cuota.metodo_pago = metodo_pago
+                    cuota.referencia = descripcion
+                    cuota.estado = 'P'
+                    cuota.save()
+
+            self.message_user(request, "Cambio de estado en {} cuotas".format(queryset.count()))
+            return HttpResponseRedirect(request.get_full_path())
+        
+        form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})        
+
+admin.site.register(Cuota,CuotaAdmin)
+
+admin.site.register(MetodoPago)
 class SocioAdmin(admin.ModelAdmin):
     list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
@@ -55,39 +88,7 @@ admin.site.register(Socio,SocioAdmin)
 
 admin.site.register(Categoria_socio)
 
-class CuotaAdmin(admin.ModelAdmin):
-    list_display = ('id_socio','estado','anio_mes','fecha_vencimiento',)
-    search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
-    list_filter = ('estado',)
-    list_per_page = 30
-    actions = ['registro_pago']
 
-    class Media:
-        css = {"all": ("css/style.css",)}
-
-    @admin.action(description='Registrar pago')
-    def registro_pago(self, request, queryset):
-
-        if 'apply' in request.POST:
-            for cuota in queryset:
-                descripcion = request.POST["descripcion"]
-                id_metodo = request.POST["metodo_de_pago"]
-                metodo_pago = MetodoPago.objects.get(id=id_metodo)
-                if metodo_pago:
-                    cuota.metodo_pago = metodo_pago
-                    cuota.referencia = descripcion
-                    cuota.estado = 'P'
-                    cuota.save()
-
-            self.message_user(request, "Cambio de estado en {} cuotas".format(queryset.count()))
-            return HttpResponseRedirect(request.get_full_path())
-        
-        form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})        
-
-admin.site.register(Cuota,CuotaAdmin)
-
-admin.site.register(MetodoPago)
 
 #class PagoCuotaAdmin(admin.ModelAdmin):
     #list_display = ('id_cuota__id_socio__nombre',)
@@ -95,26 +96,7 @@ admin.site.register(MetodoPago)
 
 #admin.site.register(PagoCuota,PagoCuotaAdmin)
 
-class ActaDescriptorInline(admin.TabularInline):
-    model = ActaDescriptor
-    extra = 0
 
-class ActaSocioInline(admin.TabularInline):
-    model =ActaSocio
-    extra = 0
-    can_delete = False
-
-    class Media:
-        css = {"all": ("css/style.css",)}
-
-class ActaAdmin(admin.ModelAdmin):
-    inlines = (ActaDescriptorInline,ActaSocioInline,)
-    list_display =('fecha','asunto','contenido',)
-    list_filter = ('actadescriptor__descriptor','actasocio__id_socio')
-    search_fields = ('contenido',)
-    
-admin.site.register(Acta,ActaAdmin)
-admin.site.register(Descriptor)
 
 
 def export_as_csv(self, request, queryset):
@@ -134,23 +116,7 @@ def export_as_csv(self, request, queryset):
 export_as_csv.short_description = "Exportar Seleccionados"
 admin.site.add_action(export_as_csv)
 
-class MovimientoCajaAdmin(admin.ModelAdmin):
-    list_display = ('fecha','motivo','importe','tipo_movimiento','tipo_caja','user')
-    list_filter = (('fecha',FutureDateRangeFilter),'tipo_movimiento','tipo_caja')
-    exclude = ['user',]
-     
-    def save_model(self, request, obj, form, change):
-        if not obj.id:
-        # Only set added_by during the first save.
-            obj.user = request.user
-        if obj.user == request.user or request.user.is_superuser:
-            super(MovimientoCajaAdmin,self).save_model(request, obj, form, change)
-        else:
-            self.message_user(request, 'Solo el usuario "{}" puede modificar este registro'.format(obj.user), level=messages.WARNING)
-    
-            
-        
-admin.site.register(MovimientoCaja,MovimientoCajaAdmin)
+
 
 
 

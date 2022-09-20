@@ -15,7 +15,7 @@ admin.site.site_title = 'Administración ABU'
 urlpatterns = [
     #path('', include(router.urls)),
     #path('',include('socios.urls')),
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     #path('api-auth/', include('rest_framework.urls', namespace = 'rest-framework')),
     #path(r'swagger-docs/',schema_view),
     #path(r'docs/', include_docs_urls(title='Proyecto ABU API')),

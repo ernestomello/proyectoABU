@@ -1,4 +1,4 @@
-from datetime import datetime
+
 from email.headerregistry import Group
 from pickletools import decimalnl_long
 from pydoc import plain
@@ -9,14 +9,14 @@ from unicodedata import decimal
 from unittest.mock import DEFAULT
 #from socios.views import cuotas_por_socio
 from django.db import models
-from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.contrib import messages
 from personas.models import Persona
+from datetime import datetime
+#from cuotas.models import Cuota
 
 # Create your models here.
 
-        
 
 
 
@@ -146,12 +146,13 @@ class Cuota(models.Model):
             return True
         if year_ini == year_end and month_ini > month_end:
             return True
-        return False
-        
+        return False       
+
+"""        
 class PagoCuota(models.Model):
-    """
-    Pensada para cuando la cuota se puede pagar con varios meotodos de pago
-    """
+"""
+    #Pensada para cuando la cuota se puede pagar con varios meotodos de pago
+"""
     id_cuota = models.OneToOneField(Cuota,on_delete=models.RESTRICT)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT)
     referencia = models.CharField(max_length=200)
@@ -159,59 +160,8 @@ class PagoCuota(models.Model):
     class Meta:
         verbose_name_plural = 'Pago de Cuotas'
 
-class Descriptor(models.Model):
-    """
-    Para representar los descriptores que tendrán las Actas
-    """
-    palabra_clave = models.CharField(max_length=50)
-    class Meta:
-        verbose_name_plural = 'Descriptores'
-
-    def __str__(self):
-        return "{}".format(self.palabra_clave)
-
-class Acta(models.Model):
-    fecha = models.DateField()
-    asunto = models.CharField(max_length=50,default="")
-    contenido = RichTextField(max_length=5000)
-
-    def __str__(self):
-        return "{}".format(self.asunto)
-
-class ActaDescriptor(models.Model):
-    acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
-    descriptor = models.ForeignKey(Descriptor, on_delete=models.RESTRICT)
-   
-
-class ActaSocio(models.Model):
-    id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
-    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
+"""
 
 
 
 
-class MovimientoCaja(models.Model):
-    TIPO_MOVIMIENTO = [
-        ('E','ENTRADA'),
-        ('S','SALIDA')
-    ]
-    TIPO_CAJA = [
-        ('S','Secretaria'),
-        ('T','Tesoreria')
-    ]
-    
-    fecha = models.DateField()
-    motivo = models.CharField(max_length=200)
-    importe = models.DecimalField(decimal_places=2,max_digits=10)
-    tipo_movimiento = models.CharField(max_length=1,choices=TIPO_MOVIMIENTO)
-    tipo_caja = models.CharField(max_length=1,choices=TIPO_CAJA)
-    user = models.ForeignKey(User,null=True, blank=True,on_delete=models.SET_NULL)
-    """ 
-    def save_model(self, request, obj, form, change):
-        #if not obj.pk:
-        # Only set added_by during the first save.
-        obj.user = request.user
-        super().save_model(request, obj, form, change)
-    """
-    def __str__(self) -> str:
-        return "{}".format(self.motivo)
