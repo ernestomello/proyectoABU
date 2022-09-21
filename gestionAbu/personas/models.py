@@ -71,4 +71,5 @@ class LugarTrabajo(models.Model):
         return "{}".format(self.nombre)
 
     class Meta:
+        verbose_name = 'Lugar de Trabajo'
         verbose_name_plural = 'Lugares de Trabajo'

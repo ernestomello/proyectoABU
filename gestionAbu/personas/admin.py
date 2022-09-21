@@ -4,13 +4,15 @@ from personas.models import Persona,Departamento,TipoFormacion,Formacion,LugarTr
 # Register your models here.
 
 admin.site.register(Departamento)
-admin.site.register(Formacion)
+#admin.site.register(Formacion)
 admin.site.register(TipoFormacion)
 admin.site.register(PerfilCargo)
+
+"""
 class LugarTrabajoAdmin(admin.ModelAdmin):
     filter_horizontal = ['perfil_cargo']
 admin.site.register(LugarTrabajo,LugarTrabajoAdmin)
-
+"""
 class FormacionInLine(admin.StackedInline):
     model   = Formacion
     extra   = 0
