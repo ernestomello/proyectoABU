@@ -1,6 +1,6 @@
 from django.db import models
 from personas.models import Persona
-from actas.models import Acta
+#from actas.models import Acta
 from datetime import datetime
 
 
@@ -147,8 +147,5 @@ class PagoCuota(models.Model):
 """
 
 
-class ActaSocio(models.Model):
-    id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
-    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
 
 

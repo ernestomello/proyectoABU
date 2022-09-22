@@ -14,7 +14,7 @@ class Persona(models.Model):
     """
     Representa las personas que luego pueden ser Socios o Funcionarios o Proveedores ....
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True,on_delete=models.SET_NULL)
     identificacion = models.CharField(max_length=45,unique=True)
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45)

@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from socios.models import Cuota, MetodoPago, Persona, Socio, Formacion, LugarTrabajo
+from socios.models import Cuota, MetodoPago, Persona, Socio
+from personas.models import Formacion,LugarTrabajo
 from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
 
 from django.shortcuts import render
