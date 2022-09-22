@@ -4,8 +4,7 @@ from .views import profile
 
 
 urlpatterns = [
-    # path('', home, name='home'),
-    path('perfil/', profile, name='perfil'),
+    path('', profile, name='perfil'),
 
 ]
 

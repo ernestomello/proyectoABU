@@ -1,11 +1,10 @@
-
 {% extends "admin/base_site.html" %}
 
 {% block extrahead %}
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
-        <link rel="stylesheet" href="../../../socios/static/css/style.css">
+        <link rel="stylesheet" href="../../static/css/styles.css">
 {% endblock %}
 
 {% block title %} Perfil {% endblock title%}
@@ -18,7 +17,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img src="../../static/img_perfil.webp" alt="Admin" class="rounded-circle" width="150">
                     <div class="mt-3">
                       <h4>{{ user.nombre }}, {{ user.apellido_paterno }}</h4>
                       <p class="text-secondary mb-1"> Número de socio: {{ user.id }}</p>
@@ -142,6 +141,9 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Formación Académica</i></h4>
+                      {% if not formaciones %}
+                      <h6>No tenemos datos para mostrar</h6>
+                      {% endif %}
                       {% for formacion in formaciones%}
                       <h6>Tipo de formación</h6>
                         <p class="card-text"> {{formacion.tipo_formacion}}</p>
@@ -171,7 +173,10 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Lugar de trabajo</i></h4>
-                      {% for trabajo in trabajos%}
+                      {% if not trabajos %}
+                      <h6>No tenemos datos para mostrar</h6>
+                      {% endif %}
+                      {% for trabajo in trabajos %}
                       <h6>Lugar</h6>
                         <p class="card-text"> {{trabajo.nombre}}</p>
                       <h6>Dirección</h6>
