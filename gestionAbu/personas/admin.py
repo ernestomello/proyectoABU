@@ -26,5 +26,8 @@ class LugarTrabajoInLine(admin.StackedInline):
 class PersonaAdmin(admin.ModelAdmin):
     inlines = (LugarTrabajoInLine,FormacionInLine)
     list_display = ('nombre','apellido_paterno','correo_electronico','celular')
+    search_fields = ('nombre','apellido_paterno',)
+    #list_filter = ('id_persona',)
+    list_per_page = 30
     
 admin.site.register(Persona,PersonaAdmin)

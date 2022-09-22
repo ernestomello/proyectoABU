@@ -38,7 +38,10 @@ class Socio(models.Model):
         return "{}".format(self.id_persona)
     
     def importe_cuota(self):
-        return self.categoria_socio.importe_cuota
+        if self.categoria_socio == 'Jubilado':
+            return self.importe_cuota_jubilado
+        else:
+            return self.categoria_socio.importe_cuota
     
     class Meta:
         pass
