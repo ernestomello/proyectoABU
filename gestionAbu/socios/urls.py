@@ -1,9 +1,13 @@
-#from django.urls import path
-#from socios import views
-from django.contrib import admin
+
+from django.urls import path
+from .views import profile
 
 
+urlpatterns = [
+    # path('', home, name='home'),
+    path('perfil/', profile, name='perfil'),
 
+]
 
 
 #from . import views

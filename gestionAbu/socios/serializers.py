@@ -1,6 +1,5 @@
 from socios.models import MetodoPago, Socio,Persona,Cuota,Categoria_socio
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView
 from rest_framework import routers,serializers,viewsets
 
 

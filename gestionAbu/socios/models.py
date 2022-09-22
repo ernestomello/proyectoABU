@@ -1,17 +1,10 @@
 from datetime import datetime
-from email.headerregistry import Group
-from pickletools import decimalnl_long
-from pydoc import plain
-from random import choices
-from re import T
-from tabnanny import verbose
-from unicodedata import decimal
-from unittest.mock import DEFAULT
-#from socios.views import cuotas_por_socio
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from django.contrib import messages
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 class Departamento(models.Model):
@@ -24,6 +17,7 @@ class Persona(models.Model):
     """
     Representa las personas que luego pueden ser Socios o Funcionarios o Proveedores ....
     """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     identificacion = models.CharField(max_length=45,unique=True)
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45)
@@ -279,3 +273,14 @@ class MovimientoCaja(models.Model):
     """
     def __str__(self) -> str:
         return "{}".format(self.motivo)
+
+
+# # Cuando inicia sesion guardo los datos de la persona que lo hizo
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Persona.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()

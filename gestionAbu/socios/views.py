@@ -1,14 +1,27 @@
 from datetime import datetime,timedelta
 import json
+from multiprocessing import context
 from sqlite3 import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from socios.models import Cuota, MetodoPago, Persona, Socio
-from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
+from socios.models import Cuota, MetodoPago, Persona, Socio, Formacion, LugarTrabajo
+from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+
+@login_required(login_url='')
+def profile(request):
+    user = request.user.persona
+    formaciones = Formacion.objects.filter(id_persona=user.id)
+    trabajos = LugarTrabajo.objects.filter(id_persona=user.id)
+    print(formaciones)
+    context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos}
+    return render(request, 'perfil/perfil.html', context)
 
 @csrf_exempt
 @api_view(['GET',])

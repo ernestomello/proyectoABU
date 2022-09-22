@@ -1,0 +1,208 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block extrahead %}
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="../../../socios/static/css/style.css">
+{% endblock %}
+
+{% block title %} Perfil {% endblock title%}
+{% block content %}
+<div class="container">
+    <div class="main-body">
+    
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{ user.nombre }}, {{ user.apellido_paterno }}</h4>
+                      <p class="text-secondary mb-1"> Número de socio: {{ user.id }}</p>
+                      <p class="text-muted font-size-sm">{{ user.direccion }}, {{ user.departamento }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<!-------------------------------- Redes sociales -------------------------------->             
+              <div class="card mt-3">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
+                    <!-- <span class="text-secondary">https://bootdey.com</span> -->
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>Twitter</h6>
+                    <!-- <span class="text-secondary">@bootdey</span> -->
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
+                    <!-- <span class="text-secondary">bootdey</span> -->
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
+                    <!-- <span class="text-secondary">bootdey</span> -->
+                  </li>
+                </ul>
+              </div>
+<!-------------------------------- FIN Redes sociales -------------------------------->             
+            </div>
+<!-------------------------------- Datos personales -------------------------------->
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nombres</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.nombre }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Apellidos</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.apellido_paterno}},  {{ user.apellido_materno}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Cédula</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.identificacion }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Fecha de nacimiento</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.fecha_nacimiento }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.correo_electronico }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Teléfono</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.telefono }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Celular</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.celular }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Dirección</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.direccion }}, {{ user.departamento }}
+                    </div>
+                  </div>
+                  <!-- <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+<!-------------------------------- FIN Datos personales -------------------------------->
+
+<!-------------------------------- Datos Formación -------------------------------->
+              <div class="row gutters-sm">
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Formación Académica</i></h4>
+                      {% for formacion in formaciones%}
+                      <h6>Tipo de formación</h6>
+                        <p class="card-text"> {{formacion.tipo_formacion}}</p>
+                      <h6>Título</h6>
+                        <p class="card-text"> {{formacion.titulo}}</p>
+                      <h6>Fecha del título</h6>
+                        <p class="card-text"> {{formacion.fecha_titulo}}</p>
+                      <h6>Duración</h6>
+                        <p class="card-text"> {{formacion.duracion}}</p>
+                      <h6>Institución</h6>
+                        <p class="card-text"> {{formacion.institucion}}</p>
+                      <h6>Plan</h6>
+                        <p class="card-text"> {{formacion.plan}}</p>
+                      <h6>Fecha revalida</h6>
+                        <p class="card-text"> {{formacion.fecha_revalida}}</p>
+                      
+                      <hr>
+                      
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+<!-------------------------------- FIN Datos Formación -------------------------------->
+
+<!-------------------------------- Datos laborales -------------------------------->
+                <div class="col-sm-6 mb-3" >
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Lugar de trabajo</i></h4>
+                      {% for trabajo in trabajos%}
+                      <h6>Lugar</h6>
+                        <p class="card-text"> {{trabajo.nombre}}</p>
+                      <h6>Dirección</h6>
+                        <p class="card-text"> {{trabajo.direccion}}</p>
+                      <h6>Teléfono</h6>
+                        <p class="card-text"> {{trabajo.telefono}}</p>
+                      <h6>Cargo</h6>
+                        <p class="card-text"> {{trabajo.cargo}}</p>
+                      <h6>Perfil del cargo</h6>
+                        <p class="card-text"> {{trabajo.perfil_cargo}}</p>
+                      <h6>Fecha de ingreso</h6>
+                        <p class="card-text"> {{trabajo.fecha_ingreso}}</p>
+                      <h6>Fecha egreso</h6>
+                        <p class="card-text"> {{trabajo.fecha_egreso}}</p>
+                      
+                      <hr>
+                      
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+<!-------------------------------- Datos laborales -------------------------------->
+
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
