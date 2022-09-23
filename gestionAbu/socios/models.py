@@ -8,6 +8,7 @@ class Categoria_socio(models.Model):
     #id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=30)
     importe_cuota = models.IntegerField()
+    voluntad = models.BooleanField(verbose_name='Aporta a Voluntad')
     class Meta:
         verbose_name_plural = 'Categoría de Socios'
 
@@ -38,6 +39,9 @@ class Socio(models.Model):
         return "{}".format(self.id_persona)
     
     def importe_cuota(self):
+        if self.categoria_socio.voluntad:
+            if self.importe_cuota_jubilado != 0:
+                return self.importe_cuota_jubilado        
         return self.categoria_socio.importe_cuota
     
     class Meta:
@@ -60,7 +64,7 @@ class Socio(models.Model):
 
     def deuda_socio(self):
         cuotas = Cuota.objects.filter(id_socio=self).order_by('-mes_anio')
-        importe_total = 0.00
+        importe_total = 0
         mes_anio = ""
         for cuota in cuotas:
             if cuota.estado != "P":
@@ -96,10 +100,11 @@ class Cuota(models.Model):
     ]
     id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=1,choices=ESTADO_CUOTA,default='N')
-    importe = models.FloatField(default=0.00)
+    importe = models.DecimalField(decimal_places=2,max_digits=10)
     mes_anio = models.DateField(verbose_name="Mes-Año")
     fecha_generada = models.DateField(auto_now_add=True)
     fecha_vencimiento  = models.DateField()
+    fecha_pago  = models.DateField(blank=True,null=True)
     metodo_pago = models.ForeignKey(MetodoPago, on_delete=models.RESTRICT,default=None,blank=True,null=True)
     referencia = models.CharField(max_length=200,default=None,blank=True,null=True)
     

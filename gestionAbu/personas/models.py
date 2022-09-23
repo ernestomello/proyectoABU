@@ -46,7 +46,7 @@ class Formacion(models.Model):
     institucion = models.CharField(max_length=100)
     duracion = models.CharField(max_length=50)
     plan = models.CharField(max_length=100)
-    fecha_revalida = models.DateField()
+    fecha_revalida = models.DateField(verbose_name="Fecha de Revalida",null=True,blank=True)
 
     def __str__(self) -> str:
         return "{} - {}".format(self.tipo_formacion.descripcion,self.titulo)
@@ -57,6 +57,10 @@ class Formacion(models.Model):
 class PerfilCargo(models.Model):
     descripcion = models.CharField(max_length=200)
 
+    class Meta:
+        verbose_name='Perfil del Cargo'
+        verbose_name_plural = 'Perfiles del Cargo'
+
     def __str__(self) -> str:
         return "{}".format(self.descripcion)
 
@@ -66,9 +70,9 @@ class LugarTrabajo(models.Model):
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=100)
     cargo = models.CharField(max_length=100)
-    perfil_cargo = models.ManyToManyField(PerfilCargo)
+    perfil_cargo = models.ManyToManyField(PerfilCargo,verbose_name='Perfiles del Cargo')
     fecha_ingreso = models.DateField()
-    fecha_egreso = models.DateField()
+    fecha_egreso = models.DateField(verbose_name="Fecha de Egreso",null=True,blank=True)
 
     def __str__(self) -> str:
         return "{}".format(self.nombre)
