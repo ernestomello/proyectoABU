@@ -1,5 +1,5 @@
 from django.contrib import admin
-from personas.models import Persona,Departamento,TipoFormacion,Formacion,LugarTrabajo,PerfilCargo
+from personas.models import Genero, Persona,Departamento,TipoFormacion,Formacion,LugarTrabajo,PerfilCargo
 
 # Register your models here.
 
@@ -25,9 +25,10 @@ class LugarTrabajoInLine(admin.StackedInline):
 
 class PersonaAdmin(admin.ModelAdmin):
     inlines = (LugarTrabajoInLine,FormacionInLine)
-    list_display = ('nombre','apellido_paterno','correo_electronico','celular')
-    search_fields = ('nombre','apellido_paterno',)
-    #list_filter = ('id_persona',)
+    list_display = ('nombre_completo','departamento','correo_electronico','celular')
+    search_fields = ('nombre','apellido_paterno','apellido_materno')
+    list_filter = ('departamento','formacion__tipo_formacion','lugartrabajo__perfil_cargo')
     list_per_page = 30
     
 admin.site.register(Persona,PersonaAdmin)
+admin.site.register(Genero)

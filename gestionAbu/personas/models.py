@@ -10,12 +10,19 @@ class Departamento(models.Model):
     def __str__(self):
         return self.nombre
 
+class Genero(models.Model):
+    descripcion = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.descripcion
+
 class Persona(models.Model):
     """
     Representa las personas que luego pueden ser Socios o Funcionarios o Proveedores ....
     """
-    user = models.OneToOneField(User, null=True, blank=True,on_delete=models.SET_NULL)
+    
     identificacion = models.CharField(max_length=45,unique=True)
+    genero = models.ForeignKey(Genero, on_delete=models.DO_NOTHING,blank=True,null=True )
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45)
     apellido_materno = models.CharField(max_length=45)
@@ -25,8 +32,10 @@ class Persona(models.Model):
     telefono = models.CharField(max_length=50)
     celular = models.CharField(max_length=50)
     correo_electronico = models.EmailField()
+    user = models.OneToOneField(User, null=True, blank=True,on_delete=models.SET_NULL)
+    
 
-    def descripcion(self):
+    def nombre_completo(self):
         return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
 
     def __str__(self):
@@ -37,16 +46,19 @@ class TipoFormacion(models.Model):
 
     def __str__(self) -> str:
         return "{}".format(self.descripcion)
+    class Meta:
+        verbose_name = 'Tipo de Formación'
+        verbose_name_plural = 'Tipo de Formaciones'
 
 class Formacion(models.Model):
     id_persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)
-    tipo_formacion = models.ForeignKey(TipoFormacion,on_delete=models.RESTRICT)
+    tipo_formacion = models.ForeignKey(TipoFormacion,on_delete=models.RESTRICT,verbose_name='Tipo de Formación')
     titulo = models.CharField(max_length=100)
-    fecha_titulo = models.DateField(verbose_name= 'Fecha del Titulo')
+    fecha_titulo = models.DateField(verbose_name= 'Fecha del Título')
     institucion = models.CharField(max_length=100)
     duracion = models.CharField(max_length=50)
     plan = models.CharField(max_length=100)
-    fecha_revalida = models.DateField(verbose_name="Fecha de Revalida",null=True,blank=True)
+    fecha_revalida = models.DateField(verbose_name="Fecha de Reválida",null=True,blank=True)
 
     def __str__(self) -> str:
         return "{} - {}".format(self.tipo_formacion.descripcion,self.titulo)

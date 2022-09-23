@@ -11,6 +11,7 @@ class Descriptor(models.Model):
     """
     palabra_clave = models.CharField(max_length=50)
     class Meta:
+        verbose_name= 'Descriptor'
         verbose_name_plural = 'Descriptores'
 
     def __str__(self):
@@ -38,7 +39,7 @@ class ActaSocio(models.Model):
     id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
     id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT,verbose_name='Nombre Socio')
     class Meta:
-        verbose_name ='Socio'
+        verbose_name ='Socio Participante'
         verbose_name_plural = 'Socios Participantes'
         constraints = [
                 models.UniqueConstraint(fields=['id_acta','id_socio'],name='unique_acta_socio')
@@ -48,7 +49,7 @@ class ActaPersona(models.Model):
     id_acta = models.ForeignKey(Acta, on_delete=models.RESTRICT)
     id_persona = models.ForeignKey(Persona, on_delete=models.RESTRICT,verbose_name='Nombre Persona')
     class Meta:
-        verbose_name = 'Persona'
+        verbose_name = 'Persona Participante'
         verbose_name_plural = 'Personas Participantes'
         constraints = [
                 models.UniqueConstraint(fields=['id_acta','id_persona'],name='unique_acta_persona')

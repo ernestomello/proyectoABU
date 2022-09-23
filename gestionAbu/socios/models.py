@@ -1,11 +1,9 @@
 from django.db import models
 from personas.models import Persona
-#from actas.models import Acta
 from datetime import datetime
 
 
 class Categoria_socio(models.Model):
-    #id_categoria = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=30)
     importe_cuota = models.IntegerField()
     voluntad = models.BooleanField(verbose_name='Aporta a Voluntad')
@@ -47,23 +45,11 @@ class Socio(models.Model):
     class Meta:
         pass
 
-    # def save(self, *args, **kwargs):
-    #     if self.estado == "B" and self.fecha_baja is None:
-    #         self
-            
-    #     if self.estado != "B":
-    #         print("SE GUARDARON LOS CAMBIOS")
-    #         super().save(*args, **kwargs)
-
-        
-        
-    
-    #@property
     def contacto(self):
         return "{} - {}".format(self.id_persona.celular, self.id_persona.correo_electronico)
 
     def deuda_socio(self):
-        cuotas = Cuota.objects.filter(id_socio=self).order_by('-mes_anio')
+        cuotas = Cuota.objects.filter(id_socio=self).order_by('mes_anio')
         importe_total = 0
         mes_anio = ""
         for cuota in cuotas:
@@ -79,12 +65,12 @@ class Socio(models.Model):
         return "$ {} ({})".format(importe_total,mes_anio)
 
     def ultima_cuota_generada(self):
-        cuotas = Cuota.objects.filter(id_socio=self).order_by('-anio_mes')
-        mes_anio = ""
+        cuotas = Cuota.objects.filter(id_socio=self).order_by('-mes_anio').first()
+        #mes_anio = ""
         if cuotas: 
             mes_anio = cuotas.mes_anio         
-        
-        return "{}".format(mes_anio)
+        #print(mes_anio)
+        return mes_anio
         
 class MetodoPago(models.Model):
     descripcion = models.CharField(max_length=50)
@@ -117,25 +103,7 @@ class Cuota(models.Model):
             models.UniqueConstraint(fields=['id_socio','mes_anio'],name='unique_socio_cuota')
         ]
 
-    def range_month(year_ini,month_ini,year_end,month_end):
-        range_date = []
-        dif_year = int(year_end) - int(year_ini)
-        cant_moth = (12 * dif_year) + int(month_end) - int(month_ini)  + 1
-
-        for i in range(int(month_ini),(int(month_ini)+cant_moth)):
-            month_end = i-((i//12) * 12)
-            if month_end == 0:
-                month_end = 12
-            date_str = str(int(year_ini) +(i//12))+"-"+str(month_end)+"-01"
-            range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
-        return range_date
-
-    def fecha_inconsistente(year_ini,month_ini,year_end,month_end):
-        if year_ini > year_end:
-            return True
-        if year_ini == year_end and month_ini > month_end:
-            return True
-        return False       
+    
 
 """        
 class PagoCuota(models.Model):
