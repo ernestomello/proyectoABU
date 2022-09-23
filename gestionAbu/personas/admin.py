@@ -1,5 +1,5 @@
 from django.contrib import admin
-from personas.models import Persona,Departamento,TipoFormacion,Formacion,LugarTrabajo,PerfilCargo
+from personas.models import Genero, Persona,Departamento,TipoFormacion,Formacion,LugarTrabajo,PerfilCargo
 
 # Register your models here.
 
@@ -31,3 +31,4 @@ class PersonaAdmin(admin.ModelAdmin):
     list_per_page = 30
     
 admin.site.register(Persona,PersonaAdmin)
+admin.site.register(Genero)

@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 from django.contrib import messages, admin
 from django.http import HttpResponse
 import csv
+import calendar
+
 from socios.models import Socio, Categoria_socio,Cuota,MetodoPago
 #from cuotas.models import Cuota
 from django.shortcuts import render
@@ -50,31 +52,36 @@ class SocioAdmin(admin.ModelAdmin):
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
     actions         = ['generar_cuota']
     list_per_page   = 30
+
     @admin.action(description='Generar Cuota')
     def generar_cuota(self, request, queryset):
 
         if 'apply' in request.POST:
-            print(queryset)
+            #print(queryset)
             year_init   = request.POST["fecha_desde_year"]
             year_end    = request.POST["fecha_hasta_year"]
             month_init  = request.POST["fecha_desde_month"]
             month_end   = request.POST["fecha_hasta_month"]
-            if Cuota.fecha_inconsistente(year_init, month_init, year_end, month_end):
+            if fecha_inconsistente(year_init, month_init, year_end, month_end):
                 self.message_user(request, "Fechas inconsistente, no se generaron cuotas nuevas.", level=messages.ERROR)
             else:
-                rango_fechas = Cuota.range_month(year_init, month_init, year_end, month_end)
+                rango_fechas = range_month(year_init, month_init, year_end, month_end)
                 cantidad=0
                 for socio in queryset:
-                    for fecha_valor in rango_fechas:                    
-                        cuota = Cuota.objects.get_or_create(
-                            id_socio = socio,
-                            mes_anio = fecha_valor,
-                            fecha_vencimiento = fecha_valor + timedelta(days=10),
-                            importe = socio.importe_cuota()
-                        )
-                        if cuota:
-                            cantidad+= 1
-                        print(cuota)
+                    
+                    for fecha_valor in rango_fechas:
+                        #print('fecha_valor',fecha_valor)
+                        #print('ultima_paga',socio.ultima_cuota_generada)
+                        if fecha_valor == add_months(socio.ultima_cuota_generada(),1):                     
+                            cuota = Cuota.objects.get_or_create(
+                                id_socio = socio,
+                                mes_anio = fecha_valor,
+                                fecha_vencimiento = fecha_valor + timedelta(days=10),
+                                importe = socio.importe_cuota()
+                            )
+                            if cuota:
+                                cantidad+= 1
+                        #print(cuota)
 
                 self.message_user(request, "Se generaron {} cuotas".format(cantidad))
             return HttpResponseRedirect(request.get_full_path())
@@ -84,7 +91,35 @@ class SocioAdmin(admin.ModelAdmin):
 
     class Media:
         css = {"all": ("css/style.css",)}
+def range_month(year_ini,month_ini,year_end,month_end):
+    range_date = []
+    dif_year = int(year_end) - int(year_ini)
+    cant_moth = (12 * dif_year) + int(month_end) - int(month_ini)  + 1
 
+    for i in range(int(month_ini),(int(month_ini)+cant_moth)):
+        month_end = i-((i//12) * 12)
+        if month_end == 0:
+            month_end = 12
+        date_str = str(int(year_ini) +(i//12))+"-"+str(month_end)+"-01"
+        range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
+    return range_date
+
+def fecha_inconsistente(year_ini,month_ini,year_end,month_end):
+    if year_ini > year_end:
+        return True
+    if year_ini == year_end and month_ini > month_end:
+        return True
+    return False       
+
+def add_months(sourcedate, months):
+    import datetime
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    return datetime.date(year, month, day)
+
+    
 admin.site.register(Socio,SocioAdmin)
 
 class CategoriaSocioAdmin(admin.ModelAdmin):
