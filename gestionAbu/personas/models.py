@@ -26,7 +26,7 @@ class Persona(models.Model):
     celular = models.CharField(max_length=50)
     correo_electronico = models.EmailField()
 
-    def descripcion(self):
+    def nombre_completo(self):
         return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
 
     def __str__(self):
@@ -37,6 +37,8 @@ class TipoFormacion(models.Model):
 
     def __str__(self) -> str:
         return "{}".format(self.descripcion)
+    class Meta:
+        verbose_name_plural = 'Tipo de Formaciones'
 
 class Formacion(models.Model):
     id_persona = models.ForeignKey(Persona,on_delete=models.RESTRICT)

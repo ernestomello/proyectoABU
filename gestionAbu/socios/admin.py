@@ -49,7 +49,7 @@ class SocioAdmin(admin.ModelAdmin):
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
     actions         = ['generar_cuota']
-
+    list_per_page   = 30
     @admin.action(description='Generar Cuota')
     def generar_cuota(self, request, queryset):
 
@@ -86,6 +86,7 @@ class SocioAdmin(admin.ModelAdmin):
         css = {"all": ("css/style.css",)}
 
 admin.site.register(Socio,SocioAdmin)
+
 class CategoriaSocioAdmin(admin.ModelAdmin):
     list_display = ('descripcion','importe_cuota','voluntad')
 admin.site.register(Categoria_socio,CategoriaSocioAdmin)
