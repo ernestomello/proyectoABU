@@ -1,28 +1,30 @@
-from datetime import datetime,timedelta
-import json
-from multiprocessing import context
-from sqlite3 import IntegrityError
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from socios.models import Cuota, MetodoPago, Persona, Socio
-from personas.models import Formacion,LugarTrabajo
-from socios.serializers import SocioSerializer,PersonaSerializer,CuotaSolaSerializer, MetodoPagoSerializer
 
+from personas.models import Formacion,LugarTrabajo
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url='admin/login/')
 def profile(request):
-    user = request.user.persona
-    formaciones = Formacion.objects.filter(id_persona=user.id)
-    trabajos = LugarTrabajo.objects.filter(id_persona=user.id)
-    print(formaciones)
-    context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos}
-    return render(request, 'perfil/perfil.html', context)
+    try:
+        user = request.user.persona
+        formaciones = Formacion.objects.filter(id_persona=user.id)
+        trabajos = LugarTrabajo.objects.filter(id_persona=user.id)
+        print(formaciones)
+        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos}
+        return render(request, 'perfil/perfil.html', context)
+    except:
+        return render(request, 'error/404.html')
+
+def error_404(request):
+    return render(request, 'error/404.html')
+
+def handler404(request, exception):
+    context = {}
+    print("ERROR")
+    response = render(request, "error/404.html", context=context)
+    response.status_code = 404
+    return response
 
 # @csrf_exempt
 # @api_view(['GET',])

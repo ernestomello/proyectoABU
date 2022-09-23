@@ -36,10 +36,13 @@
         <div id="user-tools">
             {% block welcome-msg %}
                 {% translate 'Welcome,' %}
+                <!-- Edite acá para que muestre el nombre de la persona-usuario -->
                 <strong>{% firstof user %}</strong>.
             {% endblock %}
             {% block userlinks %}
-                {% if site_url %}
+            <!-- Compruebo si el usuario tiene una persona asociada -->
+                {% if site_url and user.persona %}
+                <!-- Edite acá para que muestre ver perfil -->
                     <a href="{{ site_url }}">{% translate 'Ver el perfil' %}</a> /
                 {% endif %}
                 {% if user.is_active and user.is_staff %}

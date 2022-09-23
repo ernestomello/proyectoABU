@@ -1,10 +1,11 @@
 
 from django.urls import path
-from .views import profile
+from .views import profile, error_404
 
 
 urlpatterns = [
     path('', profile, name='perfil'),
+    path('404/', error_404, name='404'),
 
 ]
 
