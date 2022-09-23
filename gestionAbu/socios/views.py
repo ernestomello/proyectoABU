@@ -21,7 +21,6 @@ def error_404(request):
 
 def handler404(request, exception):
     context = {}
-    print("ERROR")
     response = render(request, "error/404.html", context=context)
     response.status_code = 404
     return response
