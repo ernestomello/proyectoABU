@@ -66,7 +66,7 @@ class Socio(models.Model):
 
     def ultima_cuota_generada(self):
         cuotas = Cuota.objects.filter(id_socio=self).order_by('-mes_anio').first()
-        #mes_anio = ""
+        mes_anio = ""
         if cuotas: 
             mes_anio = cuotas.mes_anio         
         #print(mes_anio)

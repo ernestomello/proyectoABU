@@ -1,5 +1,6 @@
 
 from personas.models import Formacion,LugarTrabajo
+from socios.models import Cuota,Socio
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -10,8 +11,11 @@ def profile(request):
         user = request.user.persona
         formaciones = Formacion.objects.filter(id_persona=user.id)
         trabajos = LugarTrabajo.objects.filter(id_persona=user.id)
-        print(formaciones)
-        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos}
+        socio = Socio.objects.get(id_persona = user.id)
+        print(socio)
+        cuotas = Cuota.objects.filter(id_socio=socio).order_by('-mes_anio')
+        #print(formaciones)
+        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos,'cuotas':cuotas}
         return render(request, 'perfil/perfil.html', context)
     except:
         return render(request, 'error/404.html')
