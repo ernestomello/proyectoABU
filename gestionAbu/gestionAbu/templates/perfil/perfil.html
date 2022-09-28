@@ -159,7 +159,7 @@
               {% for cuota in cuotas %}
               <tr>
                 <td>{{cuota.estado}}</td>
-                <td>{{cuota.mes_anio }}</td>
+                <td>{{cuota.mes_anio | date:"M Y"}}</td>
                 <td>{{cuota.importe}}</td>
                 <td>{{cuota.fecha_pago}}</td>
                 <td>{{cuota.metodo_pago}}</td>
@@ -168,7 +168,7 @@
               {% endfor %}
             </tbody>
           </table>
-        
+          <h6>No tenemos datos para mostrar</h6>
       </div>
     </div>
   </div>
