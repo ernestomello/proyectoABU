@@ -25,7 +25,7 @@ USE_THOUSAND_SEPARATOR = True
 SECRET_KEY = 'django-insecure-&#n0$$+87s8^b1@y37*=!jfx=fj19-2gh+yia0fx&dq!4_4nl$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ('localhost',)
 #ALLOWED_HOSTS = ['ernestomello.pythonanywhere.com']
@@ -142,7 +142,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#STATIC_ROOT = '/var/www/ernestomello/static/'
+# STATIC_ROOT = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
