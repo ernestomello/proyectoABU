@@ -72,7 +72,14 @@ class SocioAdmin(admin.ModelAdmin):
                     for fecha_valor in rango_fechas:
                         #print('fecha_valor',fecha_valor)
                         #print('ultima_paga',socio.ultima_cuota_generada)
-                        if fecha_valor == add_months(socio.ultima_cuota_generada(),1):                     
+                        mes_ultima_cuota = socio.ultima_cuota_generada()
+                        if mes_ultima_cuota == "":
+                            mes_ultima_cuota = fecha_valor
+                        else:
+                            mes_ultima_cuota = add_months(mes_ultima_cuota,1)
+                        
+
+                        if fecha_valor == mes_ultima_cuota:                     
                             cuota = Cuota.objects.get_or_create(
                                 id_socio = socio,
                                 mes_anio = fecha_valor,
