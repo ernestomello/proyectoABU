@@ -1,4 +1,5 @@
 
+from webbrowser import get
 from personas.models import Formacion,LugarTrabajo
 from socios.models import Cuota,Socio
 from django.shortcuts import render
@@ -12,10 +13,12 @@ def profile(request):
         formaciones = Formacion.objects.filter(id_persona=user.id)
         trabajos = LugarTrabajo.objects.filter(id_persona=user.id)
         socio = Socio.objects.get(id_persona = user.id)
-        print(socio)
         cuotas = Cuota.objects.filter(id_socio=socio).order_by('-mes_anio')
-        #print(formaciones)
-        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos,'cuotas':cuotas}
+        total_pagar = 0
+        for cuota in cuotas:
+            if cuota.estado == 'N':
+                total_pagar += cuota.importe
+        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos,'cuotas':cuotas, 'total_pagar': total_pagar}
         return render(request, 'perfil/perfil.html', context)
     except:
         return render(request, 'error/404.html')

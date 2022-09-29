@@ -2,8 +2,10 @@
 
 {% block extrahead %}
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">  
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <!-- CSS propio -->
         <link rel="stylesheet" href="../../static/css/styles.css">
 {% endblock %}
 
@@ -50,164 +52,193 @@
               </div>
 <!-------------------------------- FIN Redes sociales -------------------------------->             
             </div>
+
+            <section class="col-md-8">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" href="#nav-home">Perfil</button>
+                  <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" href="#nav-profile">Cuotas</button>
+                  <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" href="#nav-contact">Academico</button>
+                  <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" href="#nav-disabled">Trabajos</button>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 <!-------------------------------- Datos personales -------------------------------->
-            <div class="col-md-8">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Nombres</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.nombre }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Apellidos</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.apellido_paterno}},  {{ user.apellido_materno}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Cédula</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.identificacion }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Fecha de nacimiento</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.fecha_nacimiento }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.correo_electronico }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Teléfono</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.telefono }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Celular</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.celular }}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Dirección</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{ user.direccion }}, {{ user.departamento }}
-                    </div>
-                  </div>
-                  <!-- <hr>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                    </div>
-                  </div> -->
-                </div>
-              </div>
-<!-------------------------------- FIN Datos personales -------------------------------->
-
-<!-------------------------------- Datos Cuotas -------------------------------->
-<div class="row gutters-sm">
-  <div class="col-sm-6 mb-3">
-    <div class="card h-100">
-      <div class="card-body">
-        <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">HIstorico de Cuotas</i></h4>
-        {% if not cuotas %}
-        <h6>No tenemos datos para mostrar</h6>
-        {% endif %}
-        
-          <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th scope="col">Paga</th>
-                <th scope="col">Mes Corresponde</th>
-                <th scope="col">Importe</th>
-                <th scope="col">Fecha Pago</th>
-                <th scope="col">Metodo Pago</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for cuota in cuotas %}
-              <tr>
-                <td>{{cuota.estado}}</td>
-                <td>{{cuota.mes_anio | date:"M Y"}}</td>
-                <td>{{cuota.importe}}</td>
-                <td>{{cuota.fecha_pago}}</td>
-                <td>{{cuota.metodo_pago}}</td>
-                
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          <h6>No tenemos datos para mostrar</h6>
-      </div>
-    </div>
-  </div>
-<!-------------------------------- FIN Cuotas -------------------------------->
-<!-------------------------------- Datos Formación -------------------------------->
-              <div class="row gutters-sm">
-                <div class="col-sm-6 mb-3">
-                  <div class="card h-100">
+                  <div class="card mb-3">
                     <div class="card-body">
-                      <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Formación Académica</i></h4>
-                      {% if not formaciones %}
-                      <h6>No tenemos datos para mostrar</h6>
-                      {% endif %}
-                      {% for formacion in formaciones%}
-                      <h6 class="font-weight-bold">Tipo de formación</h6>
-                        <p class="card-text"> {{formacion.tipo_formacion}}</p>
-                      <h6 class="font-weight-bold">Título</h6>
-                        <p class="card-text"> {{formacion.titulo}}</p>
-                      <h6 class="font-weight-bold">Fecha del título</h6>
-                        <p class="card-text"> {{formacion.fecha_titulo}}</p>
-                      <h6 class="font-weight-bold">Duración</h6>
-                        <p class="card-text"> {{formacion.duracion}}</p>
-                      <h6 class="font-weight-bold">Institución</h6>
-                        <p class="card-text"> {{formacion.institucion}}</p>
-                      <h6 class="font-weight-bold">Plan</h6>
-                        <p class="card-text"> {{formacion.plan}}</p>
-                      <h6 class="font-weight-bold">Fecha revalida</h6>
-                        <p class="card-text"> {{formacion.fecha_revalida}}</p>
-                      
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Nombres</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.nombre }}
+                        </div>
+                      </div>
                       <hr>
-                      
-                      {% endfor %}
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Apellidos</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.apellido_paterno}},  {{ user.apellido_materno}}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Cédula</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.identificacion }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Fecha de nacimiento</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.fecha_nacimiento }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.correo_electronico }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Teléfono</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.telefono }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Celular</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.celular }}
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Dirección</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          {{ user.direccion }}, {{ user.departamento }}
+                        </div>
+                      </div>
+                      <!-- <hr>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                        </div>
+                      </div> -->
                     </div>
                   </div>
+<!-------------------------------- FIN Datos personales -------------------------------->
                 </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+<!-------------------------------- Datos Cuotas -------------------------------->
+                  <div class="card mb-3">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">HIstorico de Cuotas</i></h4>
+                        {% if not cuotas %}
+                        <h6>No tenemos datos para mostrar</h6>
+                        {% endif %}
+                        
+                          <table class="table" cellspacing="0" width="100%">
+                            <thead>
+                              <tr>
+                                <th scope="col" class="h6">Paga</th>
+                                <th scope="col" class="h6">Mes Corresponde</th>
+                                <th scope="col" class="h6">Importe</th>
+                                <th scope="col" class="h6">Fecha Pago</th>
+                                <th scope="col" class="h6">Metodo Pago</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                              {% for cuota in cuotas %}
+                              <tr>
+                                <!-- Fila pago -->
+                                {% if cuota.estado == 'P' %}
+                                    <td>Pago</td>
+                                {% else %}
+                                  <td>NO pago</td>
+                                {% endif %}
+                                <!-- FIN Fila pago -->
+                                <td>{{cuota.mes_anio | date:"M Y"}}</td>
+                                <td> &#36 {{cuota.importe}}</td>
+                                <!-- Fila mes pago -->
+                                {% if cuota.fecha_pago is None %}
+                                    <td></td>
+                                {% else %}
+                                  <td>{{cuota.fecha_pago}}</td>
+                                {% endif %}
+                                <!-- FIN Fila mes pago -->
+                                <!-- Fila Metodo pago -->
+                                {% if cuota.fecha_pago is None %}
+                                    <td></td>
+                                {% else %}
+                                  <td>{{cuota.metodo_pago}}</td>
+                                {% endif %}
+                                <!-- FIN Fila Metodo pago -->
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                          <h6>Total adeudado: &#36 {{ total_pagar }}</h6>
+                      </div>
+                    </div>
+                  </div>
+<!-------------------------------- FIN Datos Cuotas -------------------------------->
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+<!-------------------------------- Datos Formación -------------------------------->
+                  <div class="col-sm-6 mb-3">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Formación Académica</i></h4>
+                        {% if not formaciones %}
+                        <h6>No tenemos datos para mostrar</h6>
+                        {% endif %}
+                        {% for formacion in formaciones%}
+                        <h6 class="font-weight-bold">Tipo de formación</h6>
+                          <p class="card-text"> {{formacion.tipo_formacion}}</p>
+                        <h6 class="font-weight-bold">Título</h6>
+                          <p class="card-text"> {{formacion.titulo}}</p>
+                        <h6 class="font-weight-bold">Fecha del título</h6>
+                          <p class="card-text"> {{formacion.fecha_titulo}}</p>
+                        <h6 class="font-weight-bold">Duración</h6>
+                          <p class="card-text"> {{formacion.duracion}}</p>
+                        <h6 class="font-weight-bold">Institución</h6>
+                          <p class="card-text"> {{formacion.institucion}}</p>
+                        <h6 class="font-weight-bold">Plan</h6>
+                          <p class="card-text"> {{formacion.plan}}</p>
+                        <h6 class="font-weight-bold">Fecha revalida</h6>
+                          <p class="card-text"> {{formacion.fecha_revalida}}</p>
+                        
+                        <hr>
+                        
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
 <!-------------------------------- FIN Datos Formación -------------------------------->
-
+                </div>
+                <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
 <!-------------------------------- Datos laborales -------------------------------->
-                <div class="col-sm-6 mb-3" >
                   <div class="card h-100">
                     <div class="card-body">
                       <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Lugar de trabajo</i></h4>
@@ -235,17 +266,12 @@
                       {% endfor %}
                     </div>
                   </div>
+<!-------------------------------- FIN Datos laborales -------------------------------->
                 </div>
-<!-------------------------------- Datos laborales -------------------------------->
-
               </div>
-            </div>
-          </div>
+            </section>
+
         </div>
     </div>
 
 {% endblock content %}
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
