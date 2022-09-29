@@ -68,17 +68,12 @@ class SocioAdmin(admin.ModelAdmin):
                 rango_fechas = range_month(year_init, month_init, year_end, month_end)
                 cantidad=0
                 for socio in queryset:
-                    
                     for fecha_valor in rango_fechas:
-                        #print('fecha_valor',fecha_valor)
-                        #print('ultima_paga',socio.ultima_cuota_generada)
                         mes_ultima_cuota = socio.ultima_cuota_generada()
                         if mes_ultima_cuota == "":
                             mes_ultima_cuota = fecha_valor
                         else:
                             mes_ultima_cuota = add_months(mes_ultima_cuota,1)
-                        
-
                         if fecha_valor == mes_ultima_cuota:                     
                             cuota = Cuota.objects.get_or_create(
                                 id_socio = socio,
@@ -104,10 +99,13 @@ def range_month(year_ini,month_ini,year_end,month_end):
     cant_moth = (12 * dif_year) + int(month_end) - int(month_ini)  + 1
 
     for i in range(int(month_ini),(int(month_ini)+cant_moth)):
-        month_end = i-((i//12) * 12)
+        month_end = i % 12 #i-((i//12) * 12)
         if month_end == 0:
             month_end = 12
-        date_str = str(int(year_ini) +(i//12))+"-"+str(month_end)+"-01"
+            j = 0
+        else:
+            j = i//12
+        date_str = str(int(year_ini) +(j))+"-"+str(month_end)+"-01"
         range_date.append(datetime.strptime(date_str,"%Y-%m-%d").date())
     return range_date
 
