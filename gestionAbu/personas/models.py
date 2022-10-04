@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 
 class Departamento(models.Model):
     nombre = models.CharField(max_length=50)
+    class Meta:
+        verbose_name = 'Ubicación'
+        verbose_name_plural = 'Ubicaciones'
 
     def __str__(self):
         return self.nombre
@@ -24,10 +27,10 @@ class Persona(models.Model):
     identificacion = models.CharField(max_length=45,unique=True)
     genero = models.ForeignKey(Genero, on_delete=models.DO_NOTHING,blank=True,null=True )
     nombre = models.CharField(max_length=45)
-    apellido_paterno = models.CharField(max_length=45)
-    apellido_materno = models.CharField(max_length=45)
+    apellido_paterno = models.CharField(max_length=45,verbose_name='Primer Apellido')
+    apellido_materno = models.CharField(max_length=45,verbose_name='Segundo Apellido')
     fecha_nacimiento = models.DateField()
-    departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True)
+    departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='Lugar de Residencia')
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=50)
     celular = models.CharField(max_length=50)
