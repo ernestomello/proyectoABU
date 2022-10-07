@@ -206,7 +206,7 @@
                 </div>
                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
 <!-------------------------------- Datos Formación -------------------------------->
-                  <div class="col-sm-6 mb-3">
+                  
                     <div class="card h-100">
                       <div class="card-body">
                         <h4 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Formación Académica</i></h4>
@@ -214,27 +214,77 @@
                         <h6>No tenemos datos para mostrar</h6>
                         {% endif %}
                         {% for formacion in formaciones%}
-                        <h6 class="font-weight-bold">Tipo de formación</h6>
-                          <p class="card-text"> {{formacion.tipo_formacion}}</p>
-                        <h6 class="font-weight-bold">Título</h6>
-                          <p class="card-text"> {{formacion.titulo}}</p>
-                        <h6 class="font-weight-bold">Fecha del título</h6>
-                          <p class="card-text"> {{formacion.fecha_titulo}}</p>
-                        <h6 class="font-weight-bold">Duración</h6>
-                          <p class="card-text"> {{formacion.duracion}}</p>
-                        <h6 class="font-weight-bold">Institución</h6>
-                          <p class="card-text"> {{formacion.institucion}}</p>
-                        <h6 class="font-weight-bold">Plan</h6>
-                          <p class="card-text"> {{formacion.plan}}</p>
-                        <h6 class="font-weight-bold">Fecha revalida</h6>
-                          <p class="card-text"> {{formacion.fecha_revalida}}</p>
-                        
-                        <hr>
-                        
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Tipo de formación</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.tipo_formacion}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Título</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.titulo}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Fecha del Título</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.fecha_titulo}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Duración</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.duracion}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Institución</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.institucion}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Plan</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{formacion.plan}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Fecha revalida</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {% if formacion.fecha_revalida %}
+                                {{formacion.fecha_revalida }}
+                              {% endif %}
+                            </div>
+                          </div>
+                          <hr>
+                  
                         {% endfor %}
                       </div>
                     </div>
-                  </div>
+                  
 <!-------------------------------- FIN Datos Formación -------------------------------->
                 </div>
                 <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
@@ -246,22 +296,73 @@
                       <h6>No tenemos datos para mostrar</h6>
                       {% endif %}
                       {% for trabajo in trabajos %}
-                      <h6 class="font-weight-bold">Lugar</h6>
-                        <p class="card-text"> {{trabajo.nombre}}</p>
-                      <h6 class="font-weight-bold">Dirección</h6>
-                        <p class="card-text"> {{trabajo.direccion}}</p>
-                      <h6 class="font-weight-bold">Teléfono</h6>
-                        <p class="card-text"> {{trabajo.telefono}}</p>
-                      <h6 class="font-weight-bold">Cargo</h6>
-                        <p class="card-text"> {{trabajo.cargo}}</p>
-                      <h6 class="font-weight-bold">Perfil del cargo</h6>
-                        <p class="card-text"> {{trabajo.perfil_cargo}}</p>
-                      <h6>Fecha de ingreso</h6>
-                        <p class="card-text"> {{trabajo.fecha_ingreso}}</p>
-                      <h6 class="font-weight-bold">Fecha egreso</h6>
-                        <p class="card-text"> {{trabajo.fecha_egreso}}</p>
-                      
-                      <hr>
+
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Lugar</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.nombre }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Dirección</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.direccion }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Teléfono</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.telefono }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Cargo</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.cargo }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Perfil del Cargo</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.perfil_cargo.all|join:", " }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Fecha de ingreso</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{trabajo.fecha_ingreso }}
+                            </div>
+                          </div>
+                        <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Fecha de egreso</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {% if trabajo.fecha_egreso %}
+                                {{trabajo.fecha_egreso }}
+                              {% endif %}
+                            </div>
+                          </div>
+                        <hr>
                       
                       {% endfor %}
                     </div>

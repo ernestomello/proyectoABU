@@ -39,4 +39,7 @@ class ActaAdmin(admin.ModelAdmin):
     fields = (('asunto','fecha'),'contenido')
     
 admin.site.register(Acta,ActaAdmin)
-admin.site.register(Descriptor)
+
+class DescriptorAdmin(admin.ModelAdmin):
+    search_fields = ('palabra_clave',)
+admin.site.register(Descriptor,DescriptorAdmin)

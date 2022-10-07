@@ -18,7 +18,7 @@ def profile(request):
         for cuota in cuotas:
             if cuota.estado == 'N':
                 total_pagar += cuota.importe
-        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos,'cuotas':cuotas, 'total_pagar': total_pagar}
+        context = {'user': user, 'formaciones': formaciones, 'trabajos': trabajos,'cuotas':cuotas[:10], 'total_pagar': total_pagar}
         return render(request, 'perfil/perfil.html', context)
     except:
         return render(request, 'error/404.html')
