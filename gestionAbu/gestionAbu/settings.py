@@ -16,7 +16,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+#LOGIN_REDIRECT_URL = '/perfil/'
+USE_THOUSAND_SEPARATOR = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -26,8 +27,9 @@ SECRET_KEY = 'django-insecure-&#n0$$+87s8^b1@y37*=!jfx=fj19-2gh+yia0fx&dq!4_4nl$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ('localhost',)
+#ALLOWED_HOSTS = ['ernestomello.pythonanywhere.com']
+ALLOWED_PORT = ['8000']
 
 # Application definition
 
@@ -39,8 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'socios',
-    'rest_framework',
+    'actas',
+    'cajas',
+    'personas',
+    'socios',    
+    'ckeditor',
+    'coreapi',
+    'daterangefilter',
+    'rest_framework',    
+    'rest_framework_swagger',
     'rest_framework.authtoken',
 ]
 
@@ -65,7 +74,7 @@ ROOT_URLCONF = 'gestionAbu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['gestionAbu/templates'],
+        'DIRS': [ BASE_DIR / 'gestionAbu/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +83,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries' : {
+                'staticfiles': 'django.templatetags.static', 
+            }
         },
     },
 ]
@@ -130,14 +142,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# STATIC_ROOT = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# STATICFILES_DIRS=[
-#     os.path.join(BASE_DIR, '../front-gestionABU/dist/front-gestionABU/static/')
-#     ]
+STATICFILES_DIRS=[
+     os.path.join(BASE_DIR, 'gestionAbu/static')
+     ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -146,4 +159,72 @@ REST_FRAMEWORK = {
     #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     #'EXCEPTION_HANDLER': 'mtp.apps.common.drf.exception_handler',
     #]
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',
+        'uiColor': '#CCEAEE',
+        'language': 'es',
+        'toolbarCanCollapse': True,
+        'extraPlugins': 'editorplaceholder',
+        'editorplaceholder': 'Comience escribiendo aquí...',
+        #'skin': 'moono',
+        # 'skin': 'office2013',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_YourCustomToolbarConfig': [
+           
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 
+            {'name': 'document', 'items': ['ExportPdf','Spreadsheet', '-', 'Save', 'Preview', 'Print']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll','Maximize']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
+            #{'name': 'forms',
+            # 'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+            #           'HiddenField']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+             '/',
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+  
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        #'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        # 'height': 291,
+        # 'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
+    }
+}
+

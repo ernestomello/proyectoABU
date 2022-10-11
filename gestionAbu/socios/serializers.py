@@ -1,6 +1,5 @@
 from socios.models import MetodoPago, Socio,Persona,Cuota,Categoria_socio
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView
 from rest_framework import routers,serializers,viewsets
 
 
@@ -13,7 +12,7 @@ class Categoria_socioSerializer(serializers.ModelSerializer):
 class MetodoPagoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetodoPago
-        fields = ['descripcion']
+        fields = '__all__'
 
 class PersonaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,13 +61,15 @@ class CuotaSerializer(serializers.ModelSerializer):
     
 
 class CuotaSolaSerializer(serializers.ModelSerializer):
-
+    nombre_socio = serializers.SerializerMethodField()
     estado = serializers.SerializerMethodField()
     class Meta:
         model = Cuota
         fields ='__all__'
     def get_estado(self, obj):
         return obj.get_estado_display()
+    def get_nombre_socio(self,obj):
+        return "{}, {}".format(obj.id_socio.id_persona.nombre, obj.id_socio.id_persona.apellido_paterno)
       
 
         

@@ -1,9 +1,15 @@
 {% extends "admin/base.html" %}
-
-{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
-
+{% load staticfiles %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('ABU administrativo') }}{% endblock %}
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+{% endblock %}
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('ABU administration') }}</a></h1>
+<h1 id="site-name">
+        <img src="{% static 'logo-abu-512.png' %}" height="40px" />
+        <a href="{% url 'admin:index' %}">{{ site_header|default:_('Administración ABU') }}
+    </a>
+</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
