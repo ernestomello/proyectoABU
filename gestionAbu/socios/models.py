@@ -31,7 +31,7 @@ class Socio(models.Model):
     fecha_reingreso = models.DateField(verbose_name="Fecha de Reingreso",null=True,blank=True)
     frecuencia_pago = models.CharField(max_length=2, choices=FRECUENCIA_PAGOS,default='ME')
     categoria_socio = models.ForeignKey(Categoria_socio,on_delete=models.DO_NOTHING, verbose_name="Categoria Socio")
-    importe_cuota_jubilado = models.DecimalField(decimal_places=2,max_digits=10,blank=True,default=0.00)
+    importe_cuota_jubilado = models.DecimalField(decimal_places=2,max_digits=10,blank=True,default=0.00,verbose_name="Importe cuota voluntaria")
     
     def __str__(self):
         return "{}".format(self.id_persona)

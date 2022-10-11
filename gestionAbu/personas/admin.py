@@ -28,6 +28,7 @@ class PersonaAdmin(admin.ModelAdmin):
     list_display = ('nombre_completo','departamento','correo_electronico','celular')
     search_fields = ('nombre','apellido_paterno','apellido_materno')
     list_filter = ('departamento','formacion__tipo_formacion','lugartrabajo__perfil_cargo')
+    fields = ('identificacion',('nombre','genero'),'apellido_paterno','apellido_materno','fecha_nacimiento',('direccion','departamento'),'celular','telefono',('correo_electronico','user'))
     list_per_page = 30
     
 admin.site.register(Persona,PersonaAdmin)

@@ -51,6 +51,7 @@ class SocioAdmin(admin.ModelAdmin):
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
     actions         = ['generar_cuota']
+    fields          = ('id_persona',('estado','fecha_ingreso'), 'fecha_baja','fecha_reingreso','frecuencia_pago',('categoria_socio','importe_cuota_jubilado'))
     list_per_page   = 30
 
     @admin.action(description='Generar Cuota')

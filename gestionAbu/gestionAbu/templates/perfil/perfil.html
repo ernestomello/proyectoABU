@@ -23,7 +23,7 @@
                     <div class="mt-3">
                       <h4>{{ user.nombre }}, {{ user.apellido_paterno }}</h4>
                       <p class="text-secondary mb-1"> Número de socio: {{ user.id }}</p>
-                      <p class="text-muted font-size-sm">{{ user.direccion }}, {{ user.departamento }}</p>
+                      <p class="text-muted font-size-sm">{{ user.direccion }} {% if user.departamento %}, {{ user.departamento }} {% endif %}</p>
                     </div>
                   </div>
                 </div>
@@ -135,7 +135,10 @@
                           <h6 class="mb-0">Dirección</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          {{ user.direccion }}, {{ user.departamento }}
+                          {{ user.direccion }}
+                          {% if user.departamento %}
+                            , {{ user.departamento }}
+                          {% endif %}
                         </div>
                       </div>
                       <!-- <hr>
