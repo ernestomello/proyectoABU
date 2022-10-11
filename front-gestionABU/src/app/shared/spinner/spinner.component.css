@@ -1,8 +1,0 @@
-.overlay{
-  height: 100%;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(60, 70, 60);
-}
