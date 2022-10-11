@@ -16,7 +16,7 @@ git version 2.7.4
 * Dentro de la carpeta que elija, clonar el proyecto con Git:
 
 ```bash
- git clone <https://github.com/ernestomello/proyectoABU.git>
+ git clone https://github.com/ernestomello/proyectoABU.git
 ```
 
 * Dentro de la carpeta proyectoABU ejecutar los siguientes comandos para crear el entorno virtual y para activarlo:
