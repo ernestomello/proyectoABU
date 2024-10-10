@@ -51,3 +51,4 @@
 /venv
 /front-gestionABU/.angular
 gestionAbu/gestionAbu/settings.py
+*__pycache*
