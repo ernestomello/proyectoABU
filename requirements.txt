@@ -5,7 +5,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 defusedxml==0.7.1
 diff-match-patch==20200713
-Django==3.2.15
+Django==4.2.16
 django-ckeditor==6.3.2
 django-cors-headers==3.10.1
 django-daterangefilter==1.0.0
