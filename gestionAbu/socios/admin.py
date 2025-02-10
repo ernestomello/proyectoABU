@@ -15,7 +15,7 @@ from daterangefilter.filters import  FutureDateRangeFilter
 class CuotaAdmin(admin.ModelAdmin):
     list_display = ('id_socio','estado','anio_mes','importe','fecha_pago','metodo_pago')
     search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
-    list_filter = (('fecha_pago',FutureDateRangeFilter),'estado','metodo_pago')
+    list_filter = (('fecha_pago',FutureDateRangeFilter),'estado','metodo_pago','mes_cuota','anio_cuota')
     list_per_page = 30
     actions = ['registro_pago']
 

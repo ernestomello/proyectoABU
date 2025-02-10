@@ -4,8 +4,8 @@ from cajas.models import MovimientoCaja
 # Register your models here.
 
 class MovimientoCajaAdmin(admin.ModelAdmin):
-    list_display = ('fecha','motivo','importe','tipo_movimiento','tipo_caja','user')
-    list_filter = (('fecha',FutureDateRangeFilter),'tipo_movimiento','tipo_caja')
+    list_display = ('fecha','motivo','importe','tipo_movimiento','user')
+    list_filter = (('fecha',FutureDateRangeFilter),'tipo_movimiento')
     exclude = ['user',]
      
     def save_model(self, request, obj, form, change):

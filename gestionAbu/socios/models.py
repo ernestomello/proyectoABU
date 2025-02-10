@@ -1,6 +1,7 @@
 from django.db import models
 from personas.models import Persona
 from datetime import datetime
+from django.core.validators import MaxValueValidator,MinValueValidator
 
 
 class Categoria_socio(models.Model):
@@ -87,6 +88,8 @@ class Cuota(models.Model):
     id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=1,choices=ESTADO_CUOTA,default='N')
     importe = models.DecimalField(decimal_places=2,max_digits=10)
+    mes_cuota = models.IntegerField(validators=[MaxValueValidator(12), MinValueValidator(1)],verbose_name="Mes",default=None,null=True)
+    anio_cuota = models.IntegerField(validators=[MaxValueValidator(2050), MinValueValidator(2000)], verbose_name="Año",default=None,null=True)
     mes_anio = models.DateField(verbose_name="Mes-Año")
     fecha_generada = models.DateField(auto_now_add=True)
     fecha_vencimiento  = models.DateField()
@@ -95,7 +98,7 @@ class Cuota(models.Model):
     referencia = models.CharField(max_length=200,default=None,blank=True,null=True)
     
     def anio_mes(self):
-        return "{}/{}".format(self.mes_anio.month,self.mes_anio.year)
+        return "{}/{}".format(self.anio_cuota,self.mes_cuota)
     def __str__(self):
         return "{}, {}-{}".format(self.id_socio.id_persona.nombre,self.id_socio.id_persona.apellido_paterno,self.anio_mes())
     class Meta:

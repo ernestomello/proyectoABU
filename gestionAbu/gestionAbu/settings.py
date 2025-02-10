@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'actas',
+    #'actas',
     'cajas',
     'personas',
     'socios',    
-    'ckeditor',
+    #'ckeditor',
     'daterangefilter',
    
 ]
