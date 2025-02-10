@@ -25,11 +25,11 @@ USE_THOUSAND_SEPARATOR = True
 SECRET_KEY = 'django-insecure-&#n0$$+87s8^b1@y37*=!jfx=fj19-2gh+yia0fx&dq!4_4nl$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ('localhost',)
-#ALLOWED_HOSTS = ['ernestomello.pythonanywhere.com']
-ALLOWED_PORT = ['8000']
+#ALLOWED_HOSTS = ('localhost',)
+ALLOWED_HOSTS = ['ernestomello.pythonanywhere.com']
+#ALLOWED_PORT = ['8000']
 
 # Application definition
 
@@ -98,8 +98,15 @@ WSGI_APPLICATION = 'gestionAbu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+   #     'ENGINE': 'django.db.backends.sqlite3',
+   #     'NAME': BASE_DIR / 'db.sqlite3',
+   # }
+   # 'proyectoabu': {
+        'NAME': 'ernestomello$proyectoABU',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'ernestomello',
+        'HOST':'ernestomello.mysql.pythonanywhere-services.com',
+        'PASSWORD': 'Eq$Lf5mSkwg3'
     }
 }
 
@@ -142,7 +149,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = '/static/'
+STATIC_ROOT = '/var/www/ernestomello/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

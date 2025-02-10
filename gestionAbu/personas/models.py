@@ -28,21 +28,21 @@ class Persona(models.Model):
     genero = models.ForeignKey(Genero, on_delete=models.DO_NOTHING,blank=True,null=True )
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45,verbose_name='Primer Apellido')
-    apellido_materno = models.CharField(max_length=45,verbose_name='Segundo Apellido')
+    apellido_materno = models.CharField(max_length=45,verbose_name='Segundo Apellido',blank=True,null=True,default= "")
     fecha_nacimiento = models.DateField()
     departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='Lugar de Residencia')
     direccion = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=50,blank=True,null=True)
     celular = models.CharField(max_length=50)
     correo_electronico = models.EmailField()
     user = models.OneToOneField(User, null=True, blank=True,on_delete=models.SET_NULL)
     
 
     def nombre_completo(self):
-        return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
+        return "{}, {} ".format(self.nombre,self.apellido_paterno)
 
     def __str__(self):
-        return "{}, {} {}".format(self.nombre,self.apellido_paterno,self.apellido_materno)
+        return "{}, {} ".format(self.nombre,self.apellido_paterno)
 
 class TipoFormacion(models.Model):
     descripcion = models.CharField(max_length=100)

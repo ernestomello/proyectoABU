@@ -47,11 +47,11 @@ admin.site.register(Cuota,CuotaAdmin)
 
 admin.site.register(MetodoPago)
 class SocioAdmin(admin.ModelAdmin):
-    list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
+    list_display    = ('numero_socio','id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
     actions         = ['generar_cuota']
-    fields          = ('id_persona',('estado','fecha_ingreso'), 'fecha_baja','fecha_reingreso','frecuencia_pago',('categoria_socio','importe_cuota_jubilado'))
+    fields          = (('numero_socio','id_persona'),('estado','fecha_ingreso'), 'fecha_baja','fecha_reingreso','frecuencia_pago',('categoria_socio','importe_cuota_jubilado'))
     list_per_page   = 30
 
     @admin.action(description='Generar Cuota')
