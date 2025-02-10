@@ -24,7 +24,7 @@ class LugarTrabajoInLine(admin.StackedInline):
     classes = ['collapse']
 
 class PersonaAdmin(admin.ModelAdmin):
-    #inlines = (LugarTrabajoInLine,FormacionInLine)
+    inlines = (LugarTrabajoInLine,FormacionInLine)
     list_display = ('nombre_completo','departamento','correo_electronico','celular')
     search_fields = ('nombre','apellido_paterno','apellido_materno')
     list_filter = ('departamento','formacion__tipo_formacion','lugartrabajo__perfil_cargo')

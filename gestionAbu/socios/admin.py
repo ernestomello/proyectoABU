@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import csv
 import calendar
 
-from socios.models import Socio, Categoria_socio,Cuota,MetodoPago
+from socios.models import Socio, Categoria_socio,Cuota,MetodoPago, Curso,CursoSocio
 #from cuotas.models import Cuota
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -15,7 +15,7 @@ from daterangefilter.filters import  FutureDateRangeFilter
 class CuotaAdmin(admin.ModelAdmin):
     list_display = ('id_socio','estado','anio_mes','importe','fecha_pago','metodo_pago')
     search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
-    list_filter = (('fecha_pago',FutureDateRangeFilter),'estado','metodo_pago','mes_cuota','anio_cuota')
+    list_filter = (('fecha_pago',FutureDateRangeFilter),'estado','anio_cuota','mes_cuota','metodo_pago',)
     list_per_page = 30
     actions = ['registro_pago']
 
@@ -45,8 +45,19 @@ class CuotaAdmin(admin.ModelAdmin):
 
 admin.site.register(Cuota,CuotaAdmin)
 
+class CursoAdmin(admin.ModelAdmin):
+    list_display = ('nombre','anio')
+
+admin.site.register(Curso,CursoAdmin)
 admin.site.register(MetodoPago)
+
+class CursoInLine(admin.StackedInline):
+    model   = CursoSocio
+    extra   = 0
+    classes = ['collapse']
+
 class SocioAdmin(admin.ModelAdmin):
+    inlines = (CursoInLine,)
     list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
