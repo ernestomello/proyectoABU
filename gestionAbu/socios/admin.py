@@ -78,6 +78,8 @@ class SocioAdmin(admin.ModelAdmin):
                         if fecha_valor == mes_ultima_cuota:                     
                             cuota = Cuota.objects.get_or_create(
                                 id_socio = socio,
+                                mes_cuota =fecha_valor.month,
+                                anio_cuota = fecha_valor.year,
                                 mes_anio = fecha_valor,
                                 fecha_vencimiento = fecha_valor + timedelta(days=10),
                                 importe = socio.importe_cuota()
