@@ -11,8 +11,8 @@ class Curso(models.Model):
         return "{}".format(self.nombre)
 
 class CursoSocio(models.Model):
-    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
-    id_curso = models.ForeignKey(Curso, on_delete=models.RESTRICT)
+    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT, verbose_name="Nombre Socio")
+    id_curso = models.ForeignKey(Curso, on_delete=models.RESTRICT,verbose_name="Materia que Cursa")
     anio = models.IntegerField(validators=[MaxValueValidator(2050), MinValueValidator(2000)], verbose_name="Año del Curso")
     importe_matricula = models.DecimalField(verbose_name="Cuota Inscripción",decimal_places=2,max_digits=10)
     pago_inscripcion = models.BooleanField(verbose_name="Pagó Inscripcion")
@@ -23,3 +23,4 @@ class CursoSocio(models.Model):
             models.UniqueConstraint(fields=['id_socio','id_curso','anio'],name='unique_socio_curso')
         ]
         verbose_name_plural = 'Matricula de Socios'
+        verbose_name = "Matricula de Socio"
