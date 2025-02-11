@@ -17,7 +17,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #LOGIN_REDIRECT_URL = '/perfil/'
-USE_THOUSAND_SEPARATOR = True
+DECIMAL_SEPARATOR = ','
+THOUSAND_SEPARATOR = '.'
+USE_THOUSAND_SEPARATOR = False
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'cajas',
     'personas',
     'socios',    
-    #'ckeditor',
+    'curso',
     'daterangefilter',
    
 ]

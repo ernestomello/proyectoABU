@@ -106,18 +106,6 @@ class Cuota(models.Model):
             models.UniqueConstraint(fields=['id_socio','mes_anio'],name='unique_socio_cuota')
         ]
 
-class Curso(models.Model):
-    nombre = models.CharField(max_length=200,verbose_name="Nombre del Curso")
-    anio = models.IntegerField(validators=[MaxValueValidator(2050), MinValueValidator(2000)], verbose_name="Año del Curso")
-    def __str__(self):
-        return "{}-{}".format(self.nombre, self.anio)
-
-class CursoSocio(models.Model):
-    id_socio = models.ForeignKey(Socio, on_delete=models.RESTRICT)
-    id_curso = models.ForeignKey(Curso, on_delete=models.RESTRICT)
-    pago_inscripcion = models.BooleanField(verbose_name="Pagó Inscripcion")
-    def __str__(self):
-        return "{}".format(self.id_curso)
 
 """        
 class PagoCuota(models.Model):

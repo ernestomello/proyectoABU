@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import csv
 import calendar
 
-from socios.models import Socio, Categoria_socio,Cuota,MetodoPago, Curso,CursoSocio
+from socios.models import Socio, Categoria_socio,Cuota,MetodoPago
 #from cuotas.models import Cuota
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -45,19 +45,12 @@ class CuotaAdmin(admin.ModelAdmin):
 
 admin.site.register(Cuota,CuotaAdmin)
 
-class CursoAdmin(admin.ModelAdmin):
-    list_display = ('nombre','anio')
 
-admin.site.register(Curso,CursoAdmin)
 admin.site.register(MetodoPago)
 
-class CursoInLine(admin.StackedInline):
-    model   = CursoSocio
-    extra   = 0
-    classes = ['collapse']
 
 class SocioAdmin(admin.ModelAdmin):
-    inlines = (CursoInLine,)
+    #inlines = (CursoInLine,)
     list_display    = ('id_persona','estado','categoria_socio','frecuencia_pago','deuda_socio','contacto')
     list_filter     = ('categoria_socio','frecuencia_pago','estado',)
     search_fields   = ('id_persona__nombre','id_persona__apellido_paterno',)
