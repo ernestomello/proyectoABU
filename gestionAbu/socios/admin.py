@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from django.contrib import messages, admin
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 import csv
 import calendar
 
@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import GenerarCuotaForm, RegistroPagoForm
 from daterangefilter.filters import  FutureDateRangeFilter
+from reportlab.pdfgen import canvas
 
 
 class CuotaAdmin(admin.ModelAdmin):
@@ -17,7 +18,7 @@ class CuotaAdmin(admin.ModelAdmin):
     search_fields = ('id_socio__id_persona__nombre','id_socio__id_persona__apellido_paterno',)
     list_filter = (('fecha_pago',FutureDateRangeFilter),'estado','anio_cuota','mes_cuota','metodo_pago',)
     list_per_page = 30
-    actions = ['registro_pago']
+    actions = ['registro_pago','imprimir_pago']
 
     class Media:
         css = {"all": ("css/style.css",)}
@@ -41,7 +42,53 @@ class CuotaAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(request.get_full_path())
         
         form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
-        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})        
+        return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})       
+
+    @admin.action(description='Imprimir Reporte')
+    def imprimir_pago(self, request, queryset):
+        from io import BytesIO
+ 
+        buffer = BytesIO()
+        p = canvas.Canvas(buffer)
+    
+        # Create a PDF document
+        # books = Book.objects.all()
+        p.drawString(100, 750, "Prueba de Cuotas")
+    
+        y = 700
+        # for book in books:
+            
+    
+        
+        #return buffer
+        #if 'apply' in request.POST:
+        for cuota in queryset:
+            print(cuota.id_socio)
+            #descripcion = request.POST["descripcion"]
+            #id_metodo = request.POST["metodo_de_pago"]
+            #metodo_pago = MetodoPago.objects.get(id=id_metodo)
+            p.line(0,y +12,1000,y +12)
+            p.drawString(100, y, f"Socio: {cuota.id_socio}")
+            p.drawString(100, y - 20, f"Importe: {cuota.importe}")
+            p.drawString(100, y - 40, f"Cuota: {cuota.anio_cuota}/{cuota.mes_cuota}")
+            y -= 60
+            """ if metodo_pago:
+                cuota.metodo_pago = metodo_pago
+                cuota.referencia = descripcion
+                cuota.estado = 'P'
+                cuota.fecha_pago = datetime.today()
+                cuota.save() """
+            
+        p.showPage()
+        p.save()
+    
+        buffer.seek(0)
+        #self.message_user(request, "Cambio de estado en {} cuotas".format(queryset.count()))
+        #return HttpResponseRedirect(request.get_full_path())
+        return FileResponse(buffer, as_attachment=True, filename="hello.pdf")
+    
+        # form = RegistroPagoForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
+        # return render(request, "cuota/pagocuota.html", {'items': queryset, 'form': form})        
 
 admin.site.register(Cuota,CuotaAdmin)
 
