@@ -32,9 +32,9 @@ class Persona(models.Model):
     fecha_nacimiento = models.DateField()
     departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='Lugar de Residencia')
     direccion = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=50,blank=True,null=True)
     celular = models.CharField(max_length=50)
-    correo_electronico = models.EmailField()
+    correo_electronico = models.EmailField(blank=True,null=True)
     user = models.OneToOneField(User, null=True, blank=True,on_delete=models.SET_NULL)
     
 
