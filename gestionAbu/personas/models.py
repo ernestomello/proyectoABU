@@ -28,7 +28,7 @@ class Persona(models.Model):
     genero = models.ForeignKey(Genero, on_delete=models.DO_NOTHING,blank=True,null=True )
     nombre = models.CharField(max_length=45)
     apellido_paterno = models.CharField(max_length=45,verbose_name='Primer Apellido')
-    apellido_materno = models.CharField(max_length=45,verbose_name='Segundo Apellido')
+    apellido_materno = models.CharField(max_length=45,verbose_name='Segundo Apellido',blank=True,null=True)
     fecha_nacimiento = models.DateField()
     departamento = models.ForeignKey(Departamento, on_delete=models.DO_NOTHING,blank=True,null=True,verbose_name='Lugar de Residencia')
     direccion = models.CharField(max_length=200)

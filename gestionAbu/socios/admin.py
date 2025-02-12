@@ -11,7 +11,8 @@ from django.http import HttpResponseRedirect
 from .forms import GenerarCuotaForm, RegistroPagoForm
 from daterangefilter.filters import  FutureDateRangeFilter
 from reportlab.pdfgen import canvas
-
+from reportlab.graphics.barcode import createBarcodeDrawing
+from reportlab.graphics.shapes import Drawing
 
 class CuotaAdmin(admin.ModelAdmin):
     list_display = ('id_socio','estado','anio_mes','importe','fecha_pago','metodo_pago')
@@ -47,7 +48,7 @@ class CuotaAdmin(admin.ModelAdmin):
     @admin.action(description='Imprimir Reporte')
     def imprimir_pago(self, request, queryset):
         from io import BytesIO
- 
+        
         buffer = BytesIO()
         p = canvas.Canvas(buffer)
     
@@ -64,21 +65,15 @@ class CuotaAdmin(admin.ModelAdmin):
         #if 'apply' in request.POST:
         for cuota in queryset:
             print(cuota.id_socio)
-            #descripcion = request.POST["descripcion"]
-            #id_metodo = request.POST["metodo_de_pago"]
-            #metodo_pago = MetodoPago.objects.get(id=id_metodo)
+           
             p.line(0,y +12,1000,y +12)
             p.drawString(100, y, f"Socio: {cuota.id_socio}")
             p.drawString(100, y - 20, f"Importe: {cuota.importe}")
-            p.drawString(100, y - 40, f"Cuota: {cuota.anio_cuota}/{cuota.mes_cuota}")
-            y -= 60
-            """ if metodo_pago:
-                cuota.metodo_pago = metodo_pago
-                cuota.referencia = descripcion
-                cuota.estado = 'P'
-                cuota.fecha_pago = datetime.today()
-                cuota.save() """
-            
+            p.drawString(100, y - 40, f"Año/Mes: {cuota.anio_cuota}/{cuota.mes_cuota}")
+            barcode = createBarcodeDrawing('Code128', value = cuota.id, barWidth = 0.05, fontSize = 30, humanReadable = True)
+            drawing = Drawing(20, 50)
+            drawing.add(barcode,name='barcode')
+            y -= 60                       
         p.showPage()
         p.save()
     
